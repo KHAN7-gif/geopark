@@ -1,6 +1,6 @@
-import {journeyAt} from './travel-engine.mjs?v=boats-20261126';
-import {navigationHUD} from './navigation-hud.mjs?v=boats-20261126';
-import {CAMERA_MODES,cameraPose} from './advanced-map.mjs?v=boats-20261126';
+import {journeyAt} from './travel-engine.mjs?v=island-jetties-20261126';
+import {navigationHUD} from './navigation-hud.mjs?v=island-jetties-20261126';
+import {CAMERA_MODES,cameraPose} from './advanced-map.mjs?v=island-jetties-20261126';
 
 export function createCameraDirector(map,{getState,isReady,reducedMotion=false,frameRate=30}){
  let enabled=false,disposed=false,frame=null,last=0,angle=0,mode='close',fallbackPosition=null,fallbackHeading=0,fps=frameRate;

@@ -1,4 +1,4 @@
-import {SCENE_LOOKS} from './scenery.mjs?v=boats-20261126';
+import {SCENE_LOOKS} from './scenery.mjs?v=island-jetties-20261126';
 function blend(a,b,amount){const parts=hex=>hex.slice(1).match(/../g).map(v=>parseInt(v,16));const x=parts(a),y=parts(b);return '#'+x.map((v,i)=>Math.round(v+(y[i]-v)*amount).toString(16).padStart(2,'0')).join('')}
 export function applyWeatherScene(map,lookId,weather){
  if(!weather||weather.condition==='unknown')return;

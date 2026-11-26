@@ -37,8 +37,8 @@ test('3D view preserves route coordinates, destination pins and teardown',async(
     assert.equal(nodes[0].element.textContent,'G1 ✓');
     assert.ok(nodes[1].element.className.includes('target'));
     nodes[1].element.onclick();assert.equal(selected.id,'G2');
-    assert.deepEqual(nodes[5].point,[115.23,5.32]);
-    assert.equal(nodes[2].element.textContent,'⚓ J1');nodes[2].element.onclick();assert.equal(selected.id,'J1');assert.equal(map.sources['virtual-jetties'].data.features.length,6);view.follow(path[1],true);assert.equal(map.camera.duration,0);
+    assert.deepEqual(nodes[11].point,[115.23,5.32]);
+    assert.equal(nodes[2].element.textContent,'⚓ J1');nodes[2].element.onclick();assert.equal(selected.id,'J1');assert.equal(map.sources['virtual-jetties'].data.features.length,18);view.follow(path[1],true);assert.equal(map.camera.duration,0);
     assert.deepEqual(map.camera.center,[115.23,5.32]);
     for(let i=0;i<3;i++)map.events.error({sourceId:'satellite'});assert.deepEqual(basemapChanges,['street']);assert.equal(map.layers.base.visibility,'visible');assert.equal(map.layers['base-satellite'].visibility,'none');map.contextLost();assert.ok(failed.includes('2D'));
     assert.equal(JSON.stringify(path),snapshot);
