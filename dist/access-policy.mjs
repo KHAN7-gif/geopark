@@ -1,0 +1,8 @@
+const LAND=['walk','bus','motor','car'],BOATS=['boat','boat_vip'];
+export function travelOptions(from,to){
+ const a=from?.access,b=to?.access;
+ if(a?.island||b?.island)return a?.island&&a.island===b?.island?['walk']:[...BOATS];
+ return [...LAND];
+}
+export function requiresWalkingApproach(site,mode){return site?.access?.walkingApproach===true&&['bus','motor','car'].includes(mode)}
+export function accessDescription(site){return site?.access?.island?'Akses pulau: bot dari pulau lain; berjalan kaki di pulau yang sama.':site?.access?.walkingApproach?'Akses hutan / denai: kenderaan ke akses jalan, kemudian berjalan kaki.':'Akses darat: jalan kaki, bas, motor atau kereta. Bot tidak digunakan.'}

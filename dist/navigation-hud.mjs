@@ -16,6 +16,8 @@ export function navigationHUD(journey,state){
   let target=index+1;while(target<path.length-1&&metres(state.position,path[target])<1)target++;
   const heading=metres(state.position,path[target])>=1?compassHeading(state.position,path[target]):null;
   const stopped=journey.pausedAt!==null||state.waiting||state.arrived;
-  const speed=route.mode==='walk'?5:route.mode==='bus'?25:route.mode==='motor'?35:route.distanceMetres/route.durationSeconds*3.6;
-  return {remainingMetres:cache[0]>0?remaining/cache[0]*route.distanceMetres:0,speedKmh:stopped?0:speed,heading};
+  const mode=state.mode||route.mode,active=route.legs?.[state.legIndex||0]||route;const speed=mode==='walk'?5:mode==='bus'?25:mode==='motor'?35:active.distanceMetres/active.durationSeconds*3.6;
+  let remainingMetres=cache[0]>0?remaining/cache[0]*route.distanceMetres:0;
+  if(route.legs){let offset=0;for(let i=0;i<route.legs.length;i++){const leg=route.legs[i],count=leg.path.length-1;if(index<offset+count||i===route.legs.length-1){const local=Math.max(0,Math.min(count-1,index-offset));let total=0,tail=metres(state.position,leg.path[local+1]);for(let n=0;n<count;n++){const d=metres(leg.path[n],leg.path[n+1]);total+=d;if(n>local)tail+=d}remainingMetres=(total?Math.min(1,tail/total)*leg.distanceMetres:0)+route.legs.slice(i+1).reduce((sum,l)=>sum+l.distanceMetres,0);break}offset+=count}if(state.arrived)remainingMetres=0}
+  return {remainingMetres,speedKmh:stopped?0:speed,heading};
 }

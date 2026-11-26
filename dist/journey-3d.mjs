@@ -1,5 +1,5 @@
-import {navigationHUD} from './navigation-hud.mjs';
-import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs';
+import {navigationHUD} from './navigation-hud.mjs?v=game-20261126';
+import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=game-20261126';
 // All geographic data uses WGS84 coordinates. No invented coastlines or roads.
 export const TERRAIN_TILES='https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png';
 export const BASEMAP_TILES='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -50,7 +50,7 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
     const {sites,records,journey,position,profile,vehicle}=state;
     const metrics=journey?navigationHUD(journey,{position,index:state.index||0,waiting:!!state.waiting,arrived:!!state.arrived}):null;
     if(metrics?.heading)heading=metrics.heading.degrees;
-    explorer?.sync({position,heading,mode:journey?.route.mode||state.mode||'walk',avatar:profile?.avatar||'rimba',journey,moving:!!journey&&journey.pausedAt===null&&!state.waiting&&!state.arrived});
+    explorer?.sync({position,heading,mode:state.mode||journey?.route.mode||'walk',avatar:profile?.avatar||'rimba',journey,moving:!!journey&&journey.pausedAt===null&&!state.waiting&&!state.arrived});
     if(following&&position)chase(position);
     const key=sites.map(s=>`${s.id}:${!!records[s.id]?.done}:${journey?.toId===s.id}`).join('|');
     if(key!==lastDone){
@@ -85,7 +85,7 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
     }catch(error){if(!destroyed&&error.name!=='AbortError')onEnvironment('Bangunan dan tumbuhan belum dimuatkan. Peta dan perjalanan kekal tersedia.')}
   }
   async function loadExplorer(){
-    try{const {createExplorerLayer}=await import('./explorer-model.mjs');if(destroyed)return;
+    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=game-20261126');if(destroyed)return;
       explorer=createExplorerLayer(gl,{reducedMotion,onFailure:()=>{element.classList.remove('has-explorer-model');onNotice('Model penjelajah tidak tersedia. Penanda avatar digunakan.') }});
       map.addLayer(explorer.layer);element.classList.add('has-explorer-model');if(pending)sync(pending);
     }catch{if(!destroyed){explorer=null;element.classList.remove('has-explorer-model');onNotice('Penanda avatar digunakan pada peranti ini.')}}

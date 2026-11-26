@@ -29,7 +29,7 @@ test('road travel uses the 3:1 ratio and preserves paused progress',()=>{
   assert.equal(journeyAt(j,startedAt+duration).arrived,true);
   assert.deepEqual(journeyAt(j,startedAt+duration).position,route.path.at(-1));
   const paused={...j,pausedAt:startedAt+10000};
-  assert.equal(journeyAt(paused,startedAt+600000).fraction,journeyAt(j,startedAt+10000).fraction);
+  assert.equal(journeyAt(paused,startedAt+300000).fraction,journeyAt(j,startedAt+10000).fraction);
   assert.throws(()=>validateJourney({...j,toId:'C6'},sites,startedAt));
 });
 
@@ -41,13 +41,13 @@ test('walking follows the foot route and bus waits before moving',()=>{
   assert.equal(journeyAt(bus,startedAt+40001).waiting,false);
 });
 
-test('travel rewards accumulate every ten minutes without duplicate credit',()=>{
+test('travel rewards accumulate every five minutes without duplicate credit',()=>{
   const j={...journey,route:normaliseRoadResponse(foot,'walk')};
-  const ledger=creditRewards(defaultRewards(),j,startedAt+600000);
+  const ledger=creditRewards(defaultRewards(),j,startedAt+300000);
   assert.equal(rewardTotals(ledger).xp,10);
-  assert.equal(rewardTotals(creditRewards(ledger,j,startedAt+600000)).xp,10);
+  assert.equal(rewardTotals(creditRewards(ledger,j,startedAt+300000)).xp,10);
   assert.equal(rewardTotals(mergeRewards(ledger,ledger,sites)).xp,10);
-  assert.equal(rewardTotals(creditRewards(defaultRewards(),{...j,pausedAt:startedAt+300000},startedAt+900000)).xp,0);
+  assert.equal(rewardTotals(creditRewards(defaultRewards(),{...j,pausedAt:startedAt+150000},startedAt+900000)).xp,0);
 });
 
 test('transport purchases respect XP balance and cannot be charged twice',()=>{

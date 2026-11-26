@@ -47,7 +47,13 @@
       "answer": 1,
       "explanation": "Foto ini menunjukkan batu arang dalam batu pasir, salah satu ciri geologi di Tanjung Kubong."
     },
-    "discoveryTitle": "Cerita Batu Pasir"
+    "discoveryTitle": "Cerita Batu Pasir",
+    "access": {
+      "type": "land",
+      "island": null,
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "G2",
@@ -97,7 +103,13 @@
       "answer": 0,
       "explanation": "Rongga pelapukan ini dikenali sebagai tafoni. Ia antara tarikan geologi Tanjung Batu."
     },
-    "discoveryTitle": "Seni Tafoni"
+    "discoveryTitle": "Seni Tafoni",
+    "access": {
+      "type": "land",
+      "island": null,
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "G3",
@@ -146,7 +158,13 @@
       "answer": 2,
       "explanation": "Lapisan silang di Tanjung Layang-Layangan menunjukkan bagaimana sedimen disusun oleh aliran purba."
     },
-    "discoveryTitle": "Jejak Lapisan Silang"
+    "discoveryTitle": "Jejak Lapisan Silang",
+    "access": {
+      "type": "land",
+      "island": null,
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "G4",
@@ -208,7 +226,13 @@
       ],
       "explanation": "Bebuloh Darat menghubungkan batuan sedimen, jejak organisma dan sejarah persekitaran laut dalam."
     },
-    "discoveryTitle": "Memori Laut Dalam"
+    "discoveryTitle": "Memori Laut Dalam",
+    "access": {
+      "type": "land",
+      "island": null,
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "G5",
@@ -270,7 +294,13 @@
       ],
       "explanation": "Batuan reservoir menyimpan minyak dalam ruang di dalamnya; singkapan membantu kita mengenalinya di permukaan."
     },
-    "discoveryTitle": "Rahsia Batuan Penakung"
+    "discoveryTitle": "Rahsia Batuan Penakung",
+    "access": {
+      "type": "land",
+      "island": null,
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "G6",
@@ -320,7 +350,13 @@
       "answer": 2,
       "explanation": "Arus pesisir mengangkut dan memendapkan pasir sehingga membentuk lidah pasir Pulau Kuraman."
     },
-    "discoveryTitle": "Lidah Pasir Kuraman"
+    "discoveryTitle": "Lidah Pasir Kuraman",
+    "access": {
+      "type": "island",
+      "island": "kuraman",
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "G7",
@@ -369,7 +405,13 @@
       "answer": 0,
       "explanation": "Batuan Pulau Rusukan Besar memperlihatkan rekahan dan sesar yang berkait dengan pergerakan kerak bumi."
     },
-    "discoveryTitle": "Corak Kekar Kotak"
+    "discoveryTitle": "Corak Kekar Kotak",
+    "access": {
+      "type": "island",
+      "island": "rusukan-besar",
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "G8",
@@ -419,7 +461,13 @@
       "answer": 1,
       "explanation": "Bukaan terowong ini berkaitan tinggalan perlombongan batu arang di Lubok Temiang."
     },
-    "discoveryTitle": "Jejak Batu Arang"
+    "discoveryTitle": "Jejak Batu Arang",
+    "access": {
+      "type": "land",
+      "island": null,
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "G9",
@@ -481,7 +529,13 @@
       ],
       "explanation": "Tektonik, lipatan dan pengangkatan membantu menjelaskan pembentukan bukit serta permatang Labuan."
     },
-    "discoveryTitle": "Bumi yang Terangkat"
+    "discoveryTitle": "Bumi yang Terangkat",
+    "access": {
+      "type": "forest",
+      "island": null,
+      "walkingApproach": true,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "G10",
@@ -530,7 +584,13 @@
       "answer": 0,
       "explanation": "Enapan di Simpang Sweetman merekodkan pembentukan batuan dalam persekitaran pesisir purba."
     },
-    "discoveryTitle": "Rekod Pesisir Purba"
+    "discoveryTitle": "Rekod Pesisir Purba",
+    "access": {
+      "type": "land",
+      "island": null,
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "G11",
@@ -592,7 +652,13 @@
       ],
       "explanation": "Tanjung Punei memperlihatkan Paleodictyon dalam lapisan batuan yang tersingkap pada pentas hakisan."
     },
-    "discoveryTitle": "Sarang Lebah Purba"
+    "discoveryTitle": "Sarang Lebah Purba",
+    "access": {
+      "type": "land",
+      "island": null,
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "B1",
@@ -642,7 +708,13 @@
       "answer": 0,
       "explanation": "Kinabenuwa ialah kawasan hutan paya bakau yang penting untuk kepelbagaian flora pesisir Labuan."
     },
-    "discoveryTitle": "Dunia Paya Bakau"
+    "discoveryTitle": "Dunia Paya Bakau",
+    "access": {
+      "type": "forest",
+      "island": null,
+      "walkingApproach": true,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "B2",
@@ -692,7 +764,13 @@
       "answer": 2,
       "explanation": "Pantai berbatu dan berpasir Tanjung Kubong berkait rapat dengan ekosistem hutan pantainya."
     },
-    "discoveryTitle": "Kehidupan Hutan Pantai"
+    "discoveryTitle": "Kehidupan Hutan Pantai",
+    "access": {
+      "type": "land",
+      "island": null,
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "B3",
@@ -736,7 +814,13 @@
       "answer": 1,
       "explanation": "Pulau Layang-layangan, turut dikenali sebagai Pulau Ular, penting sebagai habitat burung."
     },
-    "discoveryTitle": "Persinggahan Burung"
+    "discoveryTitle": "Persinggahan Burung",
+    "access": {
+      "type": "island",
+      "island": "ular",
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "B4",
@@ -798,7 +882,13 @@
       ],
       "explanation": "Kuraman, Rusukan Besar dan Rusukan Kecil dikelilingi habitat terumbu yang kaya dengan hidupan marin."
     },
-    "discoveryTitle": "Khazanah Terumbu"
+    "discoveryTitle": "Khazanah Terumbu",
+    "access": {
+      "type": "island",
+      "island": "rusukan-besar",
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "C1",
@@ -860,7 +950,13 @@
       ],
       "explanation": "Patau-Patau menghubungkan seni bina atas air, kehidupan nelayan dan sejarah komuniti yang panjang."
     },
-    "discoveryTitle": "Kehidupan Atas Air"
+    "discoveryTitle": "Kehidupan Atas Air",
+    "access": {
+      "type": "land",
+      "island": null,
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "C2",
@@ -909,7 +1005,13 @@
       "answer": 1,
       "explanation": "Kampung Bebuloh Laut mengekalkan ciri perkampungan nelayan tradisional Labuan."
     },
-    "discoveryTitle": "Tradisi Maritim"
+    "discoveryTitle": "Tradisi Maritim",
+    "access": {
+      "type": "land",
+      "island": null,
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "C3",
@@ -949,7 +1051,13 @@
       "answer": 1,
       "explanation": "Menara Chimney merupakan mercu tanda kawasan muzium yang memperkenalkan sejarah perlombongan Labuan."
     },
-    "discoveryTitle": "Menara Pencerita"
+    "discoveryTitle": "Menara Pencerita",
+    "access": {
+      "type": "land",
+      "island": null,
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "C4",
@@ -1011,7 +1119,13 @@
       ],
       "explanation": "Surrender Point memperingati penyerahan tentera Jepun kepada pihak Bersekutu pada tahun 1945."
     },
-    "discoveryTitle": "Memori 1945"
+    "discoveryTitle": "Memori 1945",
+    "access": {
+      "type": "land",
+      "island": null,
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "C5",
@@ -1060,7 +1174,13 @@
       "answer": 1,
       "explanation": "Muzium Labuan memperkenalkan perjalanan sejarah dan kepelbagaian budaya masyarakat pulau."
     },
-    "discoveryTitle": "Kisah Masyarakat Labuan"
+    "discoveryTitle": "Kisah Masyarakat Labuan",
+    "access": {
+      "type": "land",
+      "island": null,
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "C6",
@@ -1117,7 +1237,13 @@
       ],
       "explanation": "Rumah Api Pulau Papan menunjukkan hubungan antara warisan era British dengan sejarah pelayaran Selat Labuan."
     },
-    "discoveryTitle": "Cahaya Pulau Papan"
+    "discoveryTitle": "Cahaya Pulau Papan",
+    "access": {
+      "type": "island",
+      "island": "papan",
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "C7",
@@ -1166,7 +1292,13 @@
       "answer": 0,
       "explanation": "Pulau Rusukan Kecil menggabungkan landskap pulau dengan jejak sejarah manusia di pesisirnya."
     },
-    "discoveryTitle": "Jejak Pelaut Lama"
+    "discoveryTitle": "Jejak Pelaut Lama",
+    "access": {
+      "type": "island",
+      "island": "rusukan-kecil",
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "C8",
@@ -1215,7 +1347,13 @@
       "answer": 1,
       "explanation": "Pulau Rusukan Besar mempunyai nilai budaya di samping landskap dan terumbu karangnya."
     },
-    "discoveryTitle": "Warisan Rusukan Besar"
+    "discoveryTitle": "Warisan Rusukan Besar",
+    "access": {
+      "type": "island",
+      "island": "rusukan-besar",
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "C9",
@@ -1260,7 +1398,13 @@
       "answer": 0,
       "explanation": "Rumah Api Pulau Kuraman membantu navigasi kapal di perairan selatan Labuan."
     },
-    "discoveryTitle": "Cahaya Pulau Kuraman"
+    "discoveryTitle": "Cahaya Pulau Kuraman",
+    "access": {
+      "type": "island",
+      "island": "kuraman",
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   },
   {
     "id": "C10",
@@ -1309,6 +1453,12 @@
       "answer": 0,
       "explanation": "Pulau Burong memperlihatkan batu kapur yang berasal daripada pembentukan terumbu karang."
     },
-    "discoveryTitle": "Pulau Batu Kapur"
+    "discoveryTitle": "Pulau Batu Kapur",
+    "access": {
+      "type": "island",
+      "island": "burong",
+      "walkingApproach": false,
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+    }
   }
 ]

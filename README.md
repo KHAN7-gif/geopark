@@ -6,6 +6,7 @@ Nama repositori: **geopark**. Cadangan nama produk: **Jejak Geopark Labuan**.
 
 ## Ciri
 
+- Skrin utama permainan memenuhi pelayar: dunia peta, HUD pemain dan dock Misi / 3D / Pasport / Kedai. Menu dibuka sebagai lapisan; tiada dashboard panjang untuk ditatal.
 - Satu peta Leaflet: 11 Geotapak (pink), 4 Biotapak (biru), 10 Tapak Budaya (hijau).
 - Antara muka sinematik berwarna arang, hijau mineral dan emas, dengan foto lokasi sebenar.
 - Mod Jelajah 2D memenuhi ruang pelayar, avatar, penanda destinasi dan kawalan ikut penjelajah.
@@ -17,7 +18,9 @@ Nama repositori: **geopark**. Cadangan nama produk: **Jejak Geopark Labuan**.
 - Laluan pejalan kaki dan kenderaan daripada OSRM / OpenStreetMap.
 - Nisbah masa 3:1; 60 minit anggaran perjalanan menjadi 20 minit permainan.
 - Perjalanan berterusan selepas halaman ditutup, dengan jeda, sambung dan batal.
-- Ganjaran 10 XP bagi setiap 10 minit masa permainan yang bergerak; masa dijeda atau menunggu bas tidak dikira.
+- Ganjaran 10 XP bagi setiap 5 minit masa permainan yang bergerak; masa dijeda atau menunggu bas tidak dikira.
+- Log jarak kilometer mengikut jalan kaki, bas, motor, kereta dan bot. Perjalanan berbilang mod dikira berasingan, termasuk bahagian berjalan kaki; data lama tanpa laluan tidak dianggarkan semula. Log disertakan dalam eksport/import pasport tanpa pendua.
+- Pilihan destinasi: darat menyokong jalan kaki / bas / motor / kereta; bot untuk antara pulau, jalan kaki di pulau yang sama. Hutan Kinabenuwa (B1) dan Permatang Labuan (G9) menggunakan aturan laluan berjalan kaki masuk/keluar sebelum atau selepas kenderaan. Laluan pindahan mesti disahkan oleh OSRM; jika tiada, gabungan kenderaan tidak dimulakan.
 - Kedai XP: berjalan kaki percuma, bas 150 XP, motor 300 XP, kereta 500 XP.
 - Bot biasa (cadangan 400 XP) dan VIP (700 XP) dipaparkan tetapi belum boleh dibeli kerana laluan laut belum tersedia.
 - 25 misi: 8 cabaran foto, 8 padanan petunjuk dan 9 kuiz; ganjaran 100 XP sekali bagi setiap lokasi.
