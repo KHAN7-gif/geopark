@@ -79,7 +79,7 @@ async function set3DMode(enabled){
  if(!enabled){view3D?.destroy();view3D=null;$('map3d').replaceChildren();$('threeDHint').hidden=true;map?.invalidateSize();return}
  threeDNotice('Memuatkan peta 3D…');
  try{
-  const {createJourney3D}=await import('./journey-3d.mjs?v=advanced3d-20261126');if(request!==threeDRequest)return;
+  const {createJourney3D}=await import('./journey-3d.mjs?v=advanced3d-20261126b');if(request!==threeDRequest)return;
   const controller=await createJourney3D({element:$('map3d'),look:sceneLook,cameraMode,basemap:mapBase,quality:graphicsQuality,onBasemapChange:id=>{mapBase=id;reflectAdvancedMap()},onSelect:openSite,onInteract:()=>setStageFollow(false),onNotice:threeDNotice,onEnvironment:message=>{if(request===threeDRequest)$('environmentStatus').textContent=message+' Cahaya ialah suasana visual pilihan pemain, bukan cuaca semasa.'},reducedMotion,onFailure:message=>{if(request!==threeDRequest)return;set3DMode(false);threeDNotice(message);toast(message)}});
   if(request!==threeDRequest){controller.destroy();return}view3D=controller;sync3D();controller.resize();controller.setSurroundings?.(surroundingsEnabled);if(journey||gameHome&&currentSite()){const here=currentSite(),point=journey?journeyAt(journey).position:[here.lat,here.lng];setStageFollow(true);controller.follow(point,true)}
   threeDNotice('3D lanjutan: pilih kamera Dekat, Dron atau Orbit. Latar satelit dan kualiti grafik tersedia dalam Kawalan peta.');

@@ -53,7 +53,7 @@ export function createExplorerLayer(glLibrary,{reducedMotion=false,onFailure=()=
         const projection=new THREE.Matrix4().fromArray(args.defaultProjectionData?.mainMatrix||args);
         camera.projectionMatrix.copy(projection.multiply(local));
         model.root.rotation.y=-(state.heading||0)*Math.PI/180;model.animate(performance.now()/1000,state.moving&&!live?.arrived&&!reducedMotion);
-        renderer.resetState();renderer.render(scene,camera);
+        renderer.resetState();renderer.setViewport(0,0,map.getCanvas().width,map.getCanvas().height);renderer.render(scene,camera);
         if(state.moving&&!live?.arrived&&!reducedMotion&&repaintTimer===null)repaintTimer=setTimeout(()=>{repaintTimer=null;if(!disposed&&state?.moving)map.triggerRepaint()},1000/frameRate);
       }catch(error){disposed=true;onFailure(error)}
     },
