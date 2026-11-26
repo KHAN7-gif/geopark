@@ -1,3 +1,4 @@
+export {compassHeading,navigationHUD} from './navigation-hud.mjs';
 export {certificateState,certificateSVG} from './certificate-engine.mjs';
 export {GUIDE_TOPICS,guideAdvice} from './guide-engine.mjs';
 export {achievementState} from './achievements.mjs';
