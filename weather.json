@@ -2,7 +2,7 @@
   "version": 1,
   "provider": "metar",
   "observedAt": 1795708800000,
-  "fetchedAt": 1795710132493,
+  "fetchedAt": 1795710531033,
   "condition": "cloudy",
   "raining": false,
   "cloudCover": 20,
