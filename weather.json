@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "provider": "metar",
+  "observedAt": 1795708800000,
+  "fetchedAt": 1795710132493,
+  "condition": "cloudy",
+  "raining": false,
+  "cloudCover": 20,
+  "temperatureC": 26,
+  "windKmh": 0
+}
