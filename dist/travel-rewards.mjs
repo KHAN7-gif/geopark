@@ -1,4 +1,4 @@
-import {movementTimes,routeMileage,validateMileage,distanceTotals} from './mileage-engine.mjs?v=scenery-20261126';
+import {movementTimes,routeMileage,validateMileage,distanceTotals} from './mileage-engine.mjs?v=advanced3d-20261126';
 export {distanceTotals};
 export const REWARD_INTERVAL_MS=300000,REWARD_XP=10;
 export function defaultRewards(){return{version:1,entries:{}}}

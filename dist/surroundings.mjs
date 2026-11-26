@@ -1,4 +1,4 @@
-import {scenicDetails} from './scenery.mjs?v=scenery-20261126';
+import {scenicDetails} from './scenery.mjs?v=advanced3d-20261126';
 export const SURROUNDING_LAYERS=['labuan-green','labuan-buildings','labuan-trunks','labuan-canopies','labuan-roofs','labuan-crown-tops','labuan-sea','labuan-shore','labuan-waves','labuan-mission-beacons'];
 export function addSurroundingLayers(map,data){
   map.addSource('labuan-surroundings',{type:'geojson',data,attribution:'Environment © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL)'});

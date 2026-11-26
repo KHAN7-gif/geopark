@@ -1,4 +1,4 @@
-import {journeyAt} from './travel-engine.mjs?v=scenery-20261126';
+import {journeyAt} from './travel-engine.mjs?v=advanced3d-20261126';
 import * as THREE from './vendor/three.module.js';
 
 export function buildExplorerModel(mode='walk',avatar='rimba'){
@@ -33,6 +33,7 @@ export function buildExplorerModel(mode='walk',avatar='rimba'){
 }
 
 export function createExplorerLayer(glLibrary,{reducedMotion=false,onFailure=()=>{}}={}){
+  let repaintTimer=null,frameRate=30;
   let map,renderer,scene,camera,model,ambient,sun,state=null,key='',disposed=false;
   const layer={id:'labuan-explorer-model',type:'custom',renderingMode:'3d',
     onAdd(owner,context){
@@ -53,10 +54,10 @@ export function createExplorerLayer(glLibrary,{reducedMotion=false,onFailure=()=
         camera.projectionMatrix.copy(projection.multiply(local));
         model.root.rotation.y=-(state.heading||0)*Math.PI/180;model.animate(performance.now()/1000,state.moving&&!live?.arrived&&!reducedMotion);
         renderer.resetState();renderer.render(scene,camera);
-        if(state.moving&&!live?.arrived&&!reducedMotion)map.triggerRepaint();
+        if(state.moving&&!live?.arrived&&!reducedMotion&&repaintTimer===null)repaintTimer=setTimeout(()=>{repaintTimer=null;if(!disposed&&state?.moving)map.triggerRepaint()},1000/frameRate);
       }catch(error){disposed=true;onFailure(error)}
     },
-    onRemove(){disposed=true;model?.dispose();renderer?.dispose();renderer=null;scene=null;state=null}
+    onRemove(){disposed=true;clearTimeout(repaintTimer);model?.dispose();renderer?.dispose();renderer=null;scene=null;state=null}
   };
-  return {layer,setMood(id){if(!ambient||!sun)return;ambient.intensity=id==='night'?.9:id==='dusk'?1.2:1.5;sun.intensity=id==='night'?.8:2.2;sun.color.set(id==='night'?0xa6c5e9:id==='dusk'?0xffc17d:0xffedcf)},sync(next){state=next;if(map&&!disposed)map.triggerRepaint()}};
+  return {layer,setFrameRate(rate){frameRate=Math.max(15,Math.min(60,rate))},setMood(id){if(!ambient||!sun)return;ambient.intensity=id==='night'?.9:id==='dusk'?1.2:1.5;sun.intensity=id==='night'?.8:2.2;sun.color.set(id==='night'?0xa6c5e9:id==='dusk'?0xffc17d:0xffedcf)},sync(next){state=next;if(!state?.moving){clearTimeout(repaintTimer);repaintTimer=null}if(map&&!disposed)map.triggerRepaint()}};
 }

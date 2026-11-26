@@ -7,6 +7,7 @@
 - **Three.js 0.180.0** — https://threejs.org/ — MIT. Salinan lesen: `third-party/three-LICENSE.txt`. Model penjelajah/kenderaan dibina khas daripada geometri asas; tiada model Sketchbook disalin.
 - **Garis pantai** — `dist/environment/shoreline.geojson`, terbitan © OpenStreetMap contributors, ODbL 1.0. Garis asal diambil melalui API OSM pada 26 November 2026. Metadata dalam `shoreline-metadata.json`; warna air dan ombak ialah ilustrasi aplikasi.
 - **Pangkalan data suasana Labuan** — `dist/environment/labuan.geojson`, terbitan © OpenStreetMap contributors, berlesen [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). Metadata, cap masa, ID sumber dan nota anggaran dibundel bersama data.
+- **Esri World Imagery** — https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer — latar satelit dimuatkan daripada perkhidmatan asal. Kredit perkhidmatan: Esri, Vantor, Earthstar Geographics, and the GIS User Community. Atribusi dipaparkan dalam peta; imejan tidak dibundel atau dilesenkan semula oleh aplikasi.
 - **OpenStreetMap** — https://www.openstreetmap.org/copyright — data peta dan laluan tertakluk kepada atribusi serta syarat penggunaan penyedianya. Atribusi dipaparkan pada peta.
 - **OSRM** — https://project-osrm.org/ — perkhidmatan pengiraan laluan. Perkhidmatan awam tidak menjamin ketersediaan atau trafik langsung.
 - **Routing kaki** — https://routing.openstreetmap.de/ — digunakan untuk laluan pejalan kaki.

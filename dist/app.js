@@ -1,4 +1,4 @@
-import {travelOptions,requiresWalkingApproach,accessDescription,combineRouteLegs,distanceTotals,navigationHUD,certificateState,certificateSVG,GUIDE_TOPICS,guideAdvice,achievementState,challengeSpec,challengeLabel,scoreChallenge,defaultRewards,rewardTotals,validateRewards,creditRewards,mergeRewards,TRANSPORTS,defaultShop,earnedXP,spentXP,availableXP,validateShop,purchaseTransport,mergeShop,TIME_RATIO,ISLAND_SITES,distanceMetres,normaliseRoadResponse,validateJourney,journeyAt,formatClock,routeURL} from './travel-engine.mjs?v=scenery-20261126';
+import {travelOptions,requiresWalkingApproach,accessDescription,combineRouteLegs,distanceTotals,navigationHUD,certificateState,certificateSVG,GUIDE_TOPICS,guideAdvice,achievementState,challengeSpec,challengeLabel,scoreChallenge,defaultRewards,rewardTotals,validateRewards,creditRewards,mergeRewards,TRANSPORTS,defaultShop,earnedXP,spentXP,availableXP,validateShop,purchaseTransport,mergeShop,TIME_RATIO,ISLAND_SITES,distanceMetres,normaliseRoadResponse,validateJourney,journeyAt,formatClock,routeURL} from './travel-engine.mjs?v=advanced3d-20261126';
 const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const cats={G:{name:'Geotapak',color:'#b8427a',icon:'◆',total:11},B:{name:'Biotapak',color:'#226da8',icon:'❋',total:4},C:{name:'Tapak Budaya',color:'#237b54',icon:'⌂',total:10}};
 const KEY='jelajah-labuan-v1',PLAYER='jelajah-labuan-player',PROFILE='jelajah-labuan-profile-v1';
@@ -13,6 +13,7 @@ let mileageViewKey=null;
 let destinationFlag=null;
 let hudMiniMap=null,hudMiniPlayer=null,hudMiniRoute=null,hudMiniPath=null,hudIdentityKey=null;
 let view3D=null,threeDActive=false,threeDRequest=0,surroundingsEnabled=true;let sceneLook='dusk';try{const saved=localStorage.getItem('jelajah-labuan-look');if(['day','dusk','night'].includes(saved))sceneLook=saved}catch{}
+let cameraMode='close',mapBase='satellite',graphicsQuality='auto';try{const saved=JSON.parse(localStorage.getItem('jelajah-labuan-advanced-map')||'{}');if(['close','drone','orbit'].includes(saved.camera))cameraMode=saved.camera;if(['street','satellite'].includes(saved.basemap))mapBase=saved.basemap;if(['auto','eco','high'].includes(saved.quality))graphicsQuality=saved.quality}catch{}
 let journey2D=false,stageTargetId=null,stageFollow=false,lastStagePan=0,stageFocus=null,stageScroll=0;const stageBackgroundState=[];
 const routeCache=new Map(),challengeDrafts=new Map();
 let practiceSiteId=null,practiceDone=false,passportView='stamps',guideReturnFocus=null,certificateReturnFocus=null;
@@ -74,14 +75,14 @@ async function set3DMode(enabled){
  const request=++threeDRequest;threeDActive=enabled;
  $('toggleJourney3D').setAttribute('aria-pressed',String(enabled));$('toggleJourney3D').textContent=enabled?'Buka peta 2D':'Cuba mod 3D';
  $('stageTitle').textContent=gameHome?'JELAJAH LABUAN':enabled?'Mod Jelajah 3D':'Mod Jelajah 2D';$('gameWorld').setAttribute('aria-pressed',String(enabled));$('gameWorld').innerHTML=enabled?'<span aria-hidden="true">◇</span>Dunia 2D':'<span aria-hidden="true">◇</span>Dunia 3D';
- $('mapWrap').classList.toggle('is-3d',enabled);$('map3d').hidden=!enabled;$('toggleSurroundings').hidden=!enabled;$('environmentInfo').hidden=!enabled;$('worldLookCycle').hidden=!enabled;$('worldGlow').hidden=!enabled;$('sceneLooks').hidden=!enabled;
+ $('mapWrap').classList.toggle('is-3d',enabled);$('map3d').hidden=!enabled;$('toggleSurroundings').hidden=!enabled;$('environmentInfo').hidden=!enabled;$('worldLookCycle').hidden=!enabled;$('worldGlow').hidden=!enabled;$('sceneLooks').hidden=!enabled;$('advancedMapTools').hidden=!enabled;$('cameraCycle').hidden=!enabled;
  if(!enabled){view3D?.destroy();view3D=null;$('map3d').replaceChildren();$('threeDHint').hidden=true;map?.invalidateSize();return}
  threeDNotice('Memuatkan peta 3D…');
  try{
-  const {createJourney3D}=await import('./journey-3d.mjs?v=scenery-20261126');if(request!==threeDRequest)return;
-  const controller=await createJourney3D({element:$('map3d'),look:sceneLook,onSelect:openSite,onInteract:()=>setStageFollow(false),onNotice:threeDNotice,onEnvironment:message=>{if(request===threeDRequest)$('environmentStatus').textContent=message+' Cahaya ialah suasana visual pilihan pemain, bukan cuaca semasa.'},reducedMotion,onFailure:message=>{if(request!==threeDRequest)return;set3DMode(false);threeDNotice(message);toast(message)}});
+  const {createJourney3D}=await import('./journey-3d.mjs?v=advanced3d-20261126');if(request!==threeDRequest)return;
+  const controller=await createJourney3D({element:$('map3d'),look:sceneLook,cameraMode,basemap:mapBase,quality:graphicsQuality,onBasemapChange:id=>{mapBase=id;reflectAdvancedMap()},onSelect:openSite,onInteract:()=>setStageFollow(false),onNotice:threeDNotice,onEnvironment:message=>{if(request===threeDRequest)$('environmentStatus').textContent=message+' Cahaya ialah suasana visual pilihan pemain, bukan cuaca semasa.'},reducedMotion,onFailure:message=>{if(request!==threeDRequest)return;set3DMode(false);threeDNotice(message);toast(message)}});
   if(request!==threeDRequest){controller.destroy();return}view3D=controller;sync3D();controller.resize();controller.setSurroundings?.(surroundingsEnabled);if(journey||gameHome&&currentSite()){const here=currentSite(),point=journey?journeyAt(journey).position:[here.lat,here.lng];setStageFollow(true);controller.follow(point,true)}
-  threeDNotice('Kamera dekat: Ikut penjelajah. Dua jari untuk putar / condong. Suasana boleh dimatikan untuk paparan ringan.');
+  threeDNotice('3D lanjutan: pilih kamera Dekat, Dron atau Orbit. Latar satelit dan kualiti grafik tersedia dalam Kawalan peta.');
  }catch{if(request!==threeDRequest)return;set3DMode(false);const message='Mod 3D tidak tersedia pada peranti ini. Anda boleh terus menjelajah dengan peta 2D.';threeDNotice(message);toast(message)}
 }
 $('enterJourney3D').onclick=()=>{selectPage('map');setView('map');enterJourney2D();if(journey2D)set3DMode(true)};
@@ -97,6 +98,18 @@ function chooseSceneLook(id,persist=true){
 }
 $('worldLookCycle').onclick=()=>{const ids=['day','dusk','night'];chooseSceneLook(ids[(ids.indexOf(sceneLook)+1)%3])};
 document.querySelectorAll('[data-scene-look]').forEach(b=>b.onclick=()=>chooseSceneLook(b.dataset.sceneLook));chooseSceneLook(sceneLook,false);
+
+
+function reflectAdvancedMap(){
+ const names={close:'Dekat',drone:'Dron',orbit:'Orbit'};$('cameraCycle').innerHTML=`<span aria-hidden="true">${cameraMode==='drone'?'⌖':cameraMode==='orbit'?'◉':'▧'}</span><b>${names[cameraMode]}</b>`;$('cameraCycle').setAttribute('aria-label',`Kamera ${names[cameraMode]}. Tekan untuk menukar pandangan.`);
+ for(const [selector,value,key]of [['[data-camera]',cameraMode,'camera'],['[data-basemap]',mapBase,'basemap'],['[data-quality]',graphicsQuality,'quality']])document.querySelectorAll(selector).forEach(button=>button.setAttribute('aria-pressed',String(button.dataset[key]===value)));
+}
+function saveAdvancedMap(){try{localStorage.setItem('jelajah-labuan-advanced-map',JSON.stringify({camera:cameraMode,basemap:mapBase,quality:graphicsQuality}))}catch{}}
+function chooseCamera(id){cameraMode=['close','drone','orbit'].includes(id)?id:'close';view3D?.setCameraMode?.(cameraMode);setStageFollow(true);const here=currentSite(),point=journey?journeyAt(journey).position:here?[here.lat,here.lng]:null;if(point)view3D?.follow(point,true);reflectAdvancedMap();saveAdvancedMap()}
+$('cameraCycle').onclick=()=>{const ids=['close','drone','orbit'];chooseCamera(ids[(ids.indexOf(cameraMode)+1)%3])};
+document.querySelectorAll('[data-camera]').forEach(button=>button.onclick=()=>chooseCamera(button.dataset.camera));
+document.querySelectorAll('[data-basemap]').forEach(button=>button.onclick=()=>{mapBase=button.dataset.basemap;view3D?.setBasemap?.(mapBase);reflectAdvancedMap();saveAdvancedMap()});
+document.querySelectorAll('[data-quality]').forEach(button=>button.onclick=()=>{graphicsQuality=button.dataset.quality;view3D?.setQuality?.(graphicsQuality);reflectAdvancedMap();saveAdvancedMap()});reflectAdvancedMap();
 
 function startHUD(){
  if(!hudMiniMap&&window.L){

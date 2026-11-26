@@ -10,7 +10,7 @@ export function applySceneLook(map,id){
  map.setSky?.({'sky-color':look.sky,'horizon-color':look.horizon,'fog-color':look.fog,'sky-horizon-blend':.65,'horizon-fog-blend':.6,'fog-ground-blend':.3});
  map.setLight?.({anchor:'map',color:look.light,intensity:look.intensity,position:look.sun});
  const paint=(layer,key,value)=>{if(map.getLayer(layer))map.setPaintProperty?.(layer,key,value)};
- paint('base','raster-brightness-max',look.brightness);paint('base','raster-saturation',look.saturation);
+ paint('base','raster-brightness-max',look.brightness);paint('base-satellite','raster-brightness-max',look.brightness);paint('base-satellite','raster-saturation',look.saturation);paint('base','raster-saturation',look.saturation);
  paint('labuan-sea','fill-color',look.water);paint('labuan-shore','line-color',look.shore);
  paint('labuan-green','fill-color',look.green);
  paint('labuan-canopies','fill-extrusion-color',id==='night'?'#365649':'#578a49');

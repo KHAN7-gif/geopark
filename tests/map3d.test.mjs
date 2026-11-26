@@ -8,9 +8,9 @@ test('3D view preserves route coordinates, destination pins and teardown',async(
   const nodes=[];
   const element=()=>({classList:{add(){},remove(){}},dataset:{},style:{setProperty(){}},children:[],setAttribute(){},append(n){this.children.push(n)},replaceChildren(){this.children=[]}});
   const document={createElement:element,head:{append(){}}};
-  let map,selected,failed;const previousFetch=globalThis.fetch;globalThis.fetch=async()=>({ok:true,json:async()=>({type:"FeatureCollection",features:[]})});
+  let map,selected,failed;const basemapChanges=[];const previousFetch=globalThis.fetch;globalThis.fetch=async()=>({ok:true,json:async()=>({type:"FeatureCollection",features:[]})});
   class FakeMap{
-    constructor(options){this.options=options;this.events={};this.sources={};map=this}
+    constructor(options){this.options=options;this.layers=Object.fromEntries(options.style.layers.map(l=>[l.id,l]));this.events={};this.sources={};map=this}
     on(event,callback){this.events[event]=callback}
     addControl(){} getCanvas(){return {addEventListener:(name,cb)=>{this.contextLost=cb}}}
     getLayer(id){return this.layers?.[id]} setLayoutProperty(id,key,value){this.layers[id][key]=value}
@@ -24,7 +24,7 @@ test('3D view preserves route coordinates, destination pins and teardown',async(
   }
   const window={innerWidth:390,maplibregl:{Map:FakeMap,Marker:FakeMarker,NavigationControl:class{},LngLatBounds:class{constructor(){this.points=[]}extend(point){this.points.push(point)}}}};
   globalThis.window=window;globalThis.document=document;
-  const view=await createJourney3D({element:element(),onSelect:s=>selected=s,onInteract(){},onNotice(){},onFailure:msg=>failed=msg,reducedMotion:true});
+  const view=await createJourney3D({element:element(),onSelect:s=>selected=s,onInteract(){},onNotice(){},onFailure:msg=>failed=msg,onBasemapChange:id=>basemapChanges.push(id),reducedMotion:true});
   try{
     const sites=[{id:'G1',name:'Mula',lat:path[0][0],lng:path[0][1]},{id:'G2',name:'Destinasi',lat:path[2][0],lng:path[2][1]}];
     view.sync({sites,records:{G1:{done:1}},journey:{toId:'G2',route:{path}},position:path[1],index:1,profile:{name:'Aiman',avatar:'rimba'},vehicle:'🚶'});
@@ -40,7 +40,7 @@ test('3D view preserves route coordinates, destination pins and teardown',async(
     assert.deepEqual(nodes[2].point,[115.23,5.32]);
     view.follow(path[1],true);assert.equal(map.camera.duration,0);
     assert.deepEqual(map.camera.center,[115.23,5.32]);
-    map.contextLost();assert.ok(failed.includes('2D'));
+    for(let i=0;i<3;i++)map.events.error({sourceId:'satellite'});assert.deepEqual(basemapChanges,['street']);assert.equal(map.layers.base.visibility,'visible');assert.equal(map.layers['base-satellite'].visibility,'none');map.contextLost();assert.ok(failed.includes('2D'));
     assert.equal(JSON.stringify(path),snapshot);
   }finally{view.destroy();delete globalThis.window;delete globalThis.document;globalThis.fetch=previousFetch}
   assert.equal(map.removed,true);
