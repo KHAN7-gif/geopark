@@ -1,4 +1,4 @@
-import {buildingPalette,treeVariant,treeCentre,shade} from './world-palette.mjs?v=weather-20261126';
+import {buildingPalette,treeVariant,treeCentre,shade} from './world-palette.mjs?v=boats-20261126';
 // Visual presets, not live weather or time of day.
 export const SCENE_LOOKS={
  day:{name:'Siang',sky:'#78bce8',horizon:'#e0eee1',fog:'#d4e4d3',light:'#fff4d6',intensity:.48,sun:[1.5,170,48],water:'#27c4be',shore:'#d4f6dd',green:'#789b55',brightness:1,saturation:.08},

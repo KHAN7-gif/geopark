@@ -98,3 +98,13 @@ Penukar snapshot: `python3 scripts/prepare-environment.py /path/to/overpass.json
 `.github/workflows/weather.yml` mengambil laporan WBKL setiap 15 minit (jadual GitHub boleh lewat) dan menerbitkan `weather.json` pada cabang berasingan `weather-data`. Kod aplikasi serta rekod pemain tidak diubah. Klien membaca snapshot itu dengan CORS dan mencuba API Open-Meteo jika snapshot tiada / lewat. Cache cuaca dikemas kini berkala; laporan lama tidak dipaparkan sebagai hujan atau ribut semasa.
 
 Skrip pengumpul menggunakan Python urllib untuk sambungan HTTP dan modul JavaScript yang sama untuk pengesahan laporan. Keadaan stesen mewakili lapangan terbang / kawasan Labuan; ia tidak menjamin cuaca seragam di setiap tapak. Ombak, warna laut, spesies pokok dan kilatan visual ialah ilustrasi permainan, bukan ukuran laut atau pengesan petir.
+
+### Jeti dan perjalanan laut (26 November 2026)
+
+Tiga pin Google Maps yang diberikan pemilik digunakan sebagai jeti permainan: J1 Kampung Bebuloh Laut (Perahu, 200 XP, 15 km/j), J2 Terminal Feri Antarabangsa (Bot ekspres, 400 XP, 40 km/j), J3 Marina Labuan (VIP, 700 XP, 60 km/j). Deck dan sambungan pantai 3D ialah aset maya. Misi kekal 25; jeti tidak memberi cop misi tambahan.
+
+Akses dari darat menggunakan pengiraan OSRM berjalan kaki ke jeti dan sambungan maya pendek; perjalanan pulau menggabungkan berjalan kaki → laut → akses pantai. Masa simulasi dibahagi tiga, jarak direkodkan mengikut mod, 10 XP diberikan setiap lima minit bergerak. Perahu/bot dibuka sekali dan boleh digunakan berulang kali. Tiada jadual operator disimulasikan.
+
+`marine-data.mjs` mengandungi 63 koridor geometri yang mengelak poligon darat OSM yang dipetakan, serta dua sambungan berjalan kaki pulau. **Ini bukan laluan bot sebenar yang disahkan atau panduan navigasi**: kedalaman, terumbu, pasang surut, sekatan dan trek operator tidak dinilai. Denai pulau serta akses pantai bersifat ilustrasi. Pulau Ular tidak mempunyai poligon dalam snapshot; titiknya dianggap perhentian pemerhatian laut. B4 juga ialah pemerhatian luar pantai dan memerlukan bot. Peringatan simulasi dipaparkan sebelum berlepas.
+
+Jana semula koridor dengan `node scripts/prepare-marine.mjs` menggunakan `scripts/marine-ports.json`, pantai beratribusi OSM dan snapshot pendekatan OSRM dalam `tests/fixtures/port-J*.json`. Uji melalui `npm test`. Sebarang perubahan pantai atau jalan perlu menjana semula data dan menyemak sambungan jeti.

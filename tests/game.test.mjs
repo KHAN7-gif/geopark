@@ -55,7 +55,7 @@ test('transport purchases respect XP balance and cannot be charged twice',()=>{
   assert.equal(availableXP(shop,200),50);
   assert.deepEqual(purchaseTransport(shop,'bus',200),shop);
   assert.throws(()=>purchaseTransport(shop,'car',200));
-  assert.throws(()=>purchaseTransport(shop,'boat',1000));
+  assert.throws(()=>purchaseTransport(shop,'boat',100));
 });
 
 test('certificate requires all missions and escapes the player name',()=>{

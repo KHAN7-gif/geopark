@@ -1,4 +1,4 @@
-import {journeyAt} from './travel-engine.mjs?v=weather-20261126';
+import {journeyAt} from './travel-engine.mjs?v=boats-20261126';
 import * as THREE from './vendor/three.module.js';
 
 export function buildExplorerModel(mode='walk',avatar='rimba'){
@@ -18,6 +18,12 @@ export function buildExplorerModel(mode='walk',avatar='rimba'){
       const leg=new THREE.Group();leg.position.set(sign*.17,.9,0);root.add(leg);box(.23,.65,.25,0x354c42,0,-.33,0,leg);box(.26,.16,.4,0x32322a,0,-.72,-.07,leg);animated.push({object:leg,phase:sign});
       const arm=new THREE.Group();arm.position.set(sign*.4,1.45,0);root.add(arm);box(.19,.54,.2,colours[avatar]||colours.rimba,0,-.24,0,arm);mesh(new THREE.IcosahedronGeometry(.11,0),0xd9ae80,0,-.58,0,arm);animated.push({object:arm,phase:-sign});
     }
+  }else if(['perahu','boat','boat_vip'].includes(mode)){
+    const small=mode==='perahu',vip=mode==='boat_vip',length=small?4:vip?9:7,width=small?1.2:vip?3:2.4;
+    const hull=mesh(new THREE.SphereGeometry(1,12,6),small?0x925d33:0xf5f0d9,0,.35,0);hull.scale.set(width/2,.65,length/2);
+    box(width*.85,.16,length*.8,small?0xc28b50:vip?0xc5a458:0x287da0,0,.65,0);
+    if(small){for(const z of [-1,0,1])box(1,.12,.3,0xe7bc7d,0,.85,z);for(const sign of [-1,1]){const oar=box(.09,.09,3,0x74512f,sign*.9,.9,0);oar.rotation.y=sign*.7;animated.push({object:oar,phase:sign})}}
+    else{box(width*.7,1.2,length*.45,0x5ba8b9,0,1.3,-.3);box(width*.85,.15,length*.5,vip?0xd9b55d:0xfaf5dc,0,1.95,-.3);if(vip)box(width*.5,.8,length*.23,0xf5efda,0,2.4,.2)}
   }else{
     const bus=mode==='bus',motor=mode==='motor';const width=motor ? .6 : bus ? 2.25 : 1.8,length=motor?1.8:bus?7:4;
     box(width,motor ? .45 : bus ? 2.15 : .85,length,motor?0xa66e3d:bus?0x406950:0xd7b97c,0,bus?1.6:.85,0);
@@ -47,7 +53,7 @@ export function createExplorerLayer(glLibrary,{reducedMotion=false,onFailure=()=
         const identity=`${state.mode}:${state.avatar}`;
         if(identity!==key){key=identity;if(model){scene.remove(model.root);model.dispose()}model=buildExplorerModel(state.mode,state.avatar);scene.add(model.root)}
         const live=state.journey?journeyAt(state.journey):null,position=live?.position||state.position;
-        const point=[position[1],position[0]],altitude=map.queryTerrainElevation?.(point)||0;
+        const point=[position[1],position[0]],altitude=['perahu','boat','boat_vip'].includes(live?.mode||state.mode)?0:map.queryTerrainElevation?.(point)||0;
         const origin=glLibrary.MercatorCoordinate.fromLngLat(point,altitude+.3),scale=origin.meterInMercatorCoordinateUnits()*(state.mode==='walk'?2.8:1.5);
         const local=new THREE.Matrix4().makeTranslation(origin.x,origin.y,origin.z).scale(new THREE.Vector3(scale,-scale,scale)).multiply(new THREE.Matrix4().makeRotationX(Math.PI/2));
         const projection=new THREE.Matrix4().fromArray(args.defaultProjectionData?.mainMatrix||args);

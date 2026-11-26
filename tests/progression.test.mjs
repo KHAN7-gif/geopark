@@ -54,7 +54,7 @@ test('destination options distinguish mainland, forest approaches and island tra
  assert.deepEqual(travelOptions(by('C5'),by('G2')),['walk','bus','motor','car']);
  assert.equal(requiresWalkingApproach(by('B1'),'car'),true);
  assert.equal(requiresWalkingApproach(by('G9'),'walk'),false);
- assert.deepEqual(travelOptions(by('C5'),by('G6')),['boat','boat_vip']);
+ assert.deepEqual(travelOptions(by('C5'),by('G6')),['perahu','boat','boat_vip']);
  assert.deepEqual(travelOptions(by('G6'),by('C9')),['walk']);
- assert.deepEqual(travelOptions(by('G6'),by('G7')),['boat','boat_vip']);
+ assert.deepEqual(travelOptions(by('G6'),by('G7')),['perahu','boat','boat_vip']);
 });

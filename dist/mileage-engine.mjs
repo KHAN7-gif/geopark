@@ -1,4 +1,4 @@
-const MODES=['walk','bus','motor','car','boat','boat_vip'];
+const MODES=['walk','bus','motor','car','perahu','boat','boat_vip'];
 const cache=new WeakMap();
 const rad=n=>n*Math.PI/180;
 function metres(a,b){const d=Math.sin(rad(b[0]-a[0])/2)**2+Math.cos(rad(a[0]))*Math.cos(rad(b[0]))*Math.sin(rad(b[1]-a[1])/2)**2;return 6371000*2*Math.atan2(Math.sqrt(d),Math.sqrt(Math.max(0,1-d)))}
@@ -23,7 +23,7 @@ export function validateMileage(entry){
 export function distanceTotals(ledger){
  const byMode=Object.fromEntries(MODES.map(m=>[m,0]));let trackedJourneys=0;
  for(const entry of Object.values(ledger?.entries||{})){if(!entry.distanceByMode)continue;trackedJourneys++;for(const mode of MODES)byMode[mode]+=entry.distanceByMode[mode]||0}
- return {byMode,totalMetres:Object.values(byMode).reduce((a,b)=>a+b,0),vehicleMetres:byMode.bus+byMode.motor+byMode.car,boatMetres:byMode.boat+byMode.boat_vip,trackedJourneys};
+ return {byMode,totalMetres:Object.values(byMode).reduce((a,b)=>a+b,0),vehicleMetres:byMode.bus+byMode.motor+byMode.car,boatMetres:byMode.perahu+byMode.boat+byMode.boat_vip,trackedJourneys};
 }
 
 export function movementTimes(route,elapsed){let maxMs=0,creditedMs=0,before=0;for(const leg of route.legs||[route]){const gameMs=Math.ceil(leg.durationSeconds/3*1000),wait=leg.mode==='bus'?40000:0;maxMs+=Math.max(0,gameMs-wait);creditedMs+=Math.floor(Math.max(0,Math.min(gameMs,elapsed-before)-wait));before+=gameMs}return {maxMs,creditedMs,gameMs:before}}

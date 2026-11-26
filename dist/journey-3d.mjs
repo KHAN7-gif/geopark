@@ -1,9 +1,11 @@
-import {applyWeatherScene} from './weather-scene.mjs?v=weather-20261126';
-import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=weather-20261126';
-import {createCameraDirector} from './camera-director.mjs?v=weather-20261126';
-import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=weather-20261126';
-import {navigationHUD} from './navigation-hud.mjs?v=weather-20261126';
-import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=weather-20261126';
+import {MARINE_DATA} from './marine-data.mjs?v=boats-20261126';
+import {jettyFeatures} from './jetty-scene.mjs?v=boats-20261126';
+import {applyWeatherScene} from './weather-scene.mjs?v=boats-20261126';
+import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=boats-20261126';
+import {createCameraDirector} from './camera-director.mjs?v=boats-20261126';
+import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=boats-20261126';
+import {navigationHUD} from './navigation-hud.mjs?v=boats-20261126';
+import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=boats-20261126';
 // All geographic data uses WGS84 coordinates. No invented coastlines or roads.
 export const TERRAIN_TILES='https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png';
 export const BASEMAP_TILES='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -46,7 +48,7 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
   });
   map.getCanvas().addEventListener('webglcontextlost',()=>{if(!destroyed)onFailure('Sokongan grafik 3D terhenti. Peta 2D dipulihkan.')});
   map.on('load',()=>{
-    if(destroyed)return;loaded=true;clearTimeout(timeout);
+    if(destroyed)return;loaded=true;clearTimeout(timeout);map.addSource('virtual-jetties',{type:'geojson',data:jettyFeatures()});map.addLayer({id:'virtual-jetty-decks',type:'fill-extrusion',source:'virtual-jetties',paint:{'fill-extrusion-color':['get','color'],'fill-extrusion-height':['get','height'],'fill-extrusion-base':0,'fill-extrusion-opacity':1}});
     paintWorldLook();applyAdvancedQuality(map,graphics,surroundings);switchBasemap(map,basemapId);
     map.addSource('mission-beacons',{type:'geojson',data:{type:'FeatureCollection',features:[]}});map.addLayer({id:'labuan-mission-beacons',type:'fill-extrusion',source:'mission-beacons',minzoom:15,paint:{'fill-extrusion-height':['get','height'],'fill-extrusion-base':0,'fill-extrusion-color':['get','color'],'fill-extrusion-opacity':.4}});
     for(const id of ['route','travelled'])map.addSource(id,{type:'geojson',data:{type:'FeatureCollection',features:[]}});
@@ -66,10 +68,10 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
     const key=sites.map(s=>`${s.id}:${!!records[s.id]?.done}:${journey?.toId===s.id}`).join('|');
     if(key!==lastDone){
       lastDone=key;map.getSource('mission-beacons').setData(missionBeacons(sites,records,journey?.toId));for(const marker of markers.values())marker.remove();markers.clear();
-      for(const site of sites){
+      for(const site of [...sites,...MARINE_DATA.ports]){
         const button=document.createElement('button');button.type='button';button.className='geo3d-pin'+(journey?.toId===site.id?' target':'');
-        button.style.setProperty('--pin-color',{G:'#b8427a',B:'#226da8',C:'#237b54'}[site.id[0]]);
-        button.textContent=site.id+(records[site.id]?.done?' ✓':'');button.setAttribute('aria-label',`${site.id} · ${site.name}`);button.title=site.name;button.onclick=()=>onSelect(site);
+        button.style.setProperty('--pin-color',{G:'#b8427a',B:'#226da8',C:'#237b54'}[site.id[0]]||'#795733');
+        button.textContent=(site.id.startsWith('J')?'⚓ ':'')+site.id+(records[site.id]?.done?' ✓':'');button.setAttribute('aria-label',`${site.id} · ${site.name}`);button.title=site.name;button.onclick=()=>onSelect(site);
         markers.set(site.id,new gl.Marker({element:button,anchor:'bottom'}).setLngLat([site.lng,site.lat]).addTo(map));
       }
     }
@@ -96,7 +98,7 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
     }catch(error){if(!destroyed&&error.name!=='AbortError')onEnvironment('Bangunan dan tumbuhan belum dimuatkan. Peta dan perjalanan kekal tersedia.')}
   }
   async function loadExplorer(){
-    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=weather-20261126');if(destroyed)return;
+    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=boats-20261126');if(destroyed)return;
       explorer=createExplorerLayer(gl,{reducedMotion,onFailure:()=>{element.classList.remove('has-explorer-model');onNotice('Model penjelajah tidak tersedia. Penanda avatar digunakan.') }});
       map.addLayer(explorer.layer);explorer.setMood?.(lookId);explorer.setFrameRate?.(graphics.fps);element.classList.add('has-explorer-model');if(pending)sync(pending);
     }catch{if(!destroyed){explorer=null;element.classList.remove('has-explorer-model');onNotice('Penanda avatar digunakan pada peranti ini.')}}

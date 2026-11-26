@@ -887,7 +887,8 @@
       "type": "island",
       "island": "rusukan-besar",
       "walkingApproach": false,
-      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats."
+      "ruleSource": "User: land modes except boats; forest access on foot beyond road; islands require boats.",
+      "marineObservation": true
     }
   },
   {
