@@ -1,7 +1,7 @@
-import {MARINE_DATA} from './marine-data.mjs?v=island-jetties-20261126';
-import {pathMetres,metres} from './marine-geometry.mjs?v=island-jetties-20261126';
-import {modeDuration} from './transport-shop.mjs?v=island-jetties-20261126';
-import {validateRoute,combineRouteLegs,normaliseRoadResponse,routeURL} from './travel-engine.mjs?v=island-jetties-20261126';
+import {MARINE_DATA} from './marine-data.mjs?v=map-viewer-20261126';
+import {pathMetres,metres} from './marine-geometry.mjs?v=map-viewer-20261126';
+import {modeDuration} from './transport-shop.mjs?v=map-viewer-20261126';
+import {validateRoute,combineRouteLegs,normaliseRoadResponse,routeURL} from './travel-engine.mjs?v=map-viewer-20261126';
 export {MARINE_DATA};
 const key=(a,b)=>[a,b].sort().join(':');
 function corridor(a,b,collection){const r=collection[key(a,b)];if(!r)throw Error('Corridor unavailable');return r.from===a?r.path:[...r.path].reverse()}

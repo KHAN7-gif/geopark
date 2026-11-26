@@ -17,3 +17,7 @@
 - **Fon DM Sans dan Manrope** — dimuatkan melalui Google Fonts; setiap keluarga tertakluk kepada lesen sumbernya. Aplikasi mempunyai fon gantian jika fon luar tidak tersedia.
 
 Avatar, ilustrasi Jejak dan templat sijil disertakan sebagai aset aplikasi. Tiada lesen keseluruhan repositori ditetapkan dalam eksport ini; lesen komponen dan aset pihak ketiga kekal berkuat kuasa.
+
+## gtamaplib-vc — rujukan UI / UX
+
+[rolux/gtamaplib-vc](https://github.com/rolux/gtamaplib-vc), Robert Luxemburg, Unlicense. Dirujuk pada 26 November 2026 untuk pola kanvas penuh, kawalan terapung dan data pandangan kamera (`ui/map3d.css`, `ui/map3d.js`). Modul `map-viewer.mjs` dan stylesheet Labuan ialah pelaksanaan asal; tiada aset GTA, dataset, enjin triangulasi atau pelayan Python disalin / diperlukan.

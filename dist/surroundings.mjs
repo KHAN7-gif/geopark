@@ -1,5 +1,5 @@
-import {decorateEnvironment} from './world-palette.mjs?v=island-jetties-20261126';
-import {scenicDetails} from './scenery.mjs?v=island-jetties-20261126';
+import {decorateEnvironment} from './world-palette.mjs?v=map-viewer-20261126';
+import {scenicDetails} from './scenery.mjs?v=map-viewer-20261126';
 export const SURROUNDING_LAYERS=['labuan-green','labuan-buildings','labuan-trunks','labuan-canopies','labuan-roofs','labuan-crown-tops','labuan-palm-fronds','labuan-sea','labuan-shore','labuan-waves','labuan-mission-beacons'];
 export function addSurroundingLayers(map,data){
   map.addSource('labuan-surroundings',{type:'geojson',data:decorateEnvironment(data),attribution:'Environment © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL)'});

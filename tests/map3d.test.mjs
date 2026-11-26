@@ -38,6 +38,8 @@ test('3D view preserves route coordinates, destination pins and teardown',async(
     assert.ok(nodes[1].element.className.includes('target'));
     nodes[1].element.onclick();assert.equal(selected.id,'G2');
     assert.deepEqual(nodes[11].point,[115.23,5.32]);
+    view.setLayers({missions:false,jetties:false,route:false});assert.equal(nodes[0].element.hidden,true);assert.equal(nodes[2].element.hidden,true);assert.equal(map.layers['route-line'].visibility,'none');assert.deepEqual(map.sources.route.data,routeFeature(path));
+    view.setLayers({missions:true,jetties:true,route:true});assert.equal(nodes[0].element.hidden,false);assert.equal(nodes[2].element.hidden,false);assert.equal(map.layers['route-line'].visibility,'visible');
     assert.equal(nodes[2].element.textContent,'⚓ J1');nodes[2].element.onclick();assert.equal(selected.id,'J1');assert.equal(map.sources['virtual-jetties'].data.features.length,18);view.follow(path[1],true);assert.equal(map.camera.duration,0);
     assert.deepEqual(map.camera.center,[115.23,5.32]);
     for(let i=0;i<3;i++)map.events.error({sourceId:'satellite'});assert.deepEqual(basemapChanges,['street']);assert.equal(map.layers.base.visibility,'visible');assert.equal(map.layers['base-satellite'].visibility,'none');map.contextLost();assert.ok(failed.includes('2D'));

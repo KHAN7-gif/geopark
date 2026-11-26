@@ -1,0 +1,119 @@
+/* Original Labuan UI inspired by gtamaplib-vc's full-canvas floating controls.
+   Reference: https://github.com/rolux/gtamaplib-vc (Unlicense).
+   Geographic engine, missions, graphics and branding remain Labuan's. */
+.viewer-actions,.viewer-coordinates,.viewer-panel-heading,.viewer-layers,.viewer-crosshair{display:none}
+.journey-stage[data-map-style="atlas"]{--viewer-panel:#101b21e8;--viewer-line:#c2d4d72e;--viewer-accent:#c6df99;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+[data-map-style="atlas"] button:focus-visible{outline:3px solid #e5f1b3;outline-offset:3px}
+.game-home [data-map-style="atlas"] .stage-header{padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));min-height:66px;align-items:center;gap:14px;background:linear-gradient(#10191ee8,#10191eaa 75%,transparent);pointer-events:none}
+.game-home [data-map-style="atlas"] .stage-header button,.game-home [data-map-style="atlas"] .stage-header .hud-identity{pointer-events:auto}
+.game-home [data-map-style="atlas"] .stage-header>div:nth-child(2){padding:0}
+.game-home [data-map-style="atlas"] .stage-header p{font-size:12px;letter-spacing:1.6px;color:#c4d7ca}
+.game-home [data-map-style="atlas"] .stage-header h2{font:700 19px/1.3 system-ui,sans-serif;letter-spacing:.3px;color:#fff}
+.game-home [data-map-style="atlas"] .stage-header .stage-guide{display:none}
+.game-home [data-map-style="atlas"] .stage-back{border:1px solid var(--viewer-line);border-radius:6px;background:#101b21be;min-height:44px;font-size:14px;box-shadow:none;color:#eef4ed}
+.game-home [data-map-style="atlas"] .hud-identity{margin-left:auto;background:#101b2180;border:1px solid var(--viewer-line);border-radius:6px;padding:5px 10px}
+.game-home [data-map-style="atlas"] .hud-identity>img{width:32px;height:32px}
+.game-home [data-map-style="atlas"] .hud-identity>div{display:none}
+.game-home [data-map-style="atlas"] .hud-identity p{border:0;padding-left:6px}
+.game-home [data-map-style="atlas"] .hud-identity p b{font:700 23px/1 system-ui,sans-serif;color:var(--viewer-accent)}
+.game-home [data-map-style="atlas"] .hud-identity small{font-size:12px}
+.game-home [data-map-style="atlas"] .hud-identity p em{font-size:12px;color:#d3dfd9}
+[data-map-style="atlas"] .viewer-actions{display:flex;position:absolute;top:max(76px,calc(env(safe-area-inset-top) + 64px));right:16px;z-index:735;gap:6px;pointer-events:auto}
+[data-map-style="atlas"] .viewer-actions button,[data-map-style="atlas"] .hud-display-controls>button{display:flex;align-items:center;justify-content:center;gap:7px;background:var(--viewer-panel);color:#edf5ef;border:1px solid var(--viewer-line);border-radius:6px;min-height:44px;padding:9px 12px;font:500 14px/1.3 system-ui,sans-serif;box-shadow:0 4px 20px #0002;backdrop-filter:blur(12px)}
+[data-map-style="atlas"] .viewer-actions button>span{font-size:20px}
+[data-map-style="atlas"] .viewer-actions button b{font-weight:500}
+[data-map-style="atlas"] .viewer-actions button[aria-pressed="true"],[data-map-style="atlas"] .viewer-actions button[aria-expanded="true"]{border-color:#c6df9980;color:var(--viewer-accent);background:#213b32e8}
+.game-home [data-map-style="atlas"] .hud-display-controls{top:max(76px,calc(env(safe-area-inset-top) + 64px));left:16px;max-width:calc(100% - 370px)}
+[data-map-style="atlas"] .hud-display-controls #compactRemaining{font:600 17px/1.2 ui-monospace,Consolas,monospace}
+.game-home [data-map-style="atlas"] .stage-map .stage-status{top:136px;left:16px;width:min(350px,calc(100% - 100px));background:var(--viewer-panel);border:1px solid var(--viewer-line);border-left:3px solid #c3a47c;border-radius:6px;box-shadow:0 8px 30px #0002;padding:14px 16px}
+.game-home [data-map-style="atlas"] .stage-status>span{font-size:12px;letter-spacing:1.5px;color:#c5d5c6}
+.game-home [data-map-style="atlas"] .stage-status>strong{font:600 20px/1.35 system-ui,sans-serif}
+.game-home [data-map-style="atlas"] .environment-info{font-size:14px;line-height:1.6}
+[data-map-style="atlas"] .weather-badge{left:16px;top:136px;background:var(--viewer-panel);border:1px solid var(--viewer-line);border-radius:6px;font-size:14px;max-width:calc(100% - 110px)}
+.game-home [data-map-style="atlas"] .maplibregl-ctrl-top-right{top:135px;right:14px}
+[data-map-style="atlas"] .maplibregl-ctrl-group{background:#132129eb;border:1px solid var(--viewer-line);border-radius:6px;box-shadow:0 4px 15px #0003;overflow:hidden}
+[data-map-style="atlas"] .maplibregl-ctrl-group button{width:42px;height:42px;border-color:var(--viewer-line)}
+[data-map-style="atlas"] .maplibregl-ctrl-icon{filter:invert(1);opacity:.85}
+[data-map-style="atlas"] #worldLookCycle,[data-map-style="atlas"] #cameraCycle{display:none}
+.game-home [data-map-style="atlas"] #gameTools{top:132px;right:16px;width:min(320px,calc(100vw - 32px));max-width:320px;max-height:calc(100dvh - 240px - env(safe-area-inset-top));padding:16px;gap:12px;border:1px solid #b0c7bd55;border-radius:10px;background:#122128f5;box-shadow:0 12px 60px #0005;backdrop-filter:blur(18px);align-items:stretch}
+[data-map-style="atlas"] .viewer-panel-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--viewer-line);padding-bottom:12px}
+[data-map-style="atlas"] .viewer-panel-heading span{display:block;color:#aac7bd;letter-spacing:1.5px;font-size:12px;margin-bottom:4px}
+[data-map-style="atlas"] .viewer-panel-heading strong{font-size:18px;color:#f4f7ee}
+[data-map-style="atlas"] .viewer-panel-heading button{min-width:44px;min-height:44px;border:1px solid var(--viewer-line);border-radius:6px;background:#ffffff08;color:#fff;font-size:24px}
+[data-map-style="atlas"] .viewer-layers{display:grid;gap:7px;border-bottom:1px solid var(--viewer-line);padding-bottom:14px}
+[data-map-style="atlas"] .viewer-layers button{display:flex;align-items:center;justify-content:space-between;min-height:44px;border:1px solid var(--viewer-line);background:#ffffff06;color:#e5efea;border-radius:6px;padding:10px 12px;font-size:14px}
+[data-map-style="atlas"] .viewer-layers button b{font-weight:500;color:#91a5a0;font-size:14px}
+[data-map-style="atlas"] .viewer-layers button[aria-pressed="true"] b{color:#c6df99}
+[data-map-style="atlas"] .viewer-layers small{font-size:13px;line-height:1.6;color:#afc1ba;margin-top:4px}
+.game-home [data-map-style="atlas"] .stage-tools>button{font-size:14px!important;border:1px solid var(--viewer-line);background:#ffffff08;color:#e7f1e7;border-radius:6px}
+[data-map-style="atlas"] .advanced-tool-group>span,[data-map-style="atlas"] .scene-looks>span{font-size:12px;color:#aac7bd;letter-spacing:1.2px}
+[data-map-style="atlas"] .advanced-tool-group>button,[data-map-style="atlas"] .scene-looks>button{font-size:14px;min-height:44px;border-radius:5px;background:#ffffff08;border-color:var(--viewer-line);color:#e6eee8}
+[data-map-style="atlas"] .advanced-tool-group>button[aria-pressed="true"],[data-map-style="atlas"] .scene-looks>button[aria-pressed="true"]{background:#355745;border-color:#a5c482;color:#edf5dc}
+[data-map-style="atlas"] .advanced-map-tools>p{font-size:13px;line-height:1.7;color:#b2c6ba}
+[data-map-style="atlas"] .viewer-coordinates{display:block;position:absolute;bottom:106px;right:16px;z-index:620;padding:8px 10px;border-radius:5px;border:1px solid var(--viewer-line);background:var(--viewer-panel);color:#ccdcd4;font:12px/1.5 ui-monospace,Consolas,monospace;pointer-events:none;font-variant-numeric:tabular-nums}
+[data-map-style="atlas"] .viewer-crosshair{display:block;position:absolute;top:50%;left:50%;width:13px;height:13px;border:1px solid #effbf29c;border-radius:50%;box-shadow:0 0 0 1px #163c3b6b;transform:translate(-50%,-50%);z-index:450;pointer-events:none}
+[data-map-style="atlas"][data-camera-control="follow"] .viewer-crosshair{display:none}
+.game-home [data-map-style="atlas"] .hud-minimap{border:1px solid #b4cab35c;border-radius:8px;background:var(--viewer-panel);overflow:hidden;box-shadow:0 5px 30px #0003}
+.game-home [data-map-style="atlas"] .hud-minimap-label{font-size:12px;letter-spacing:1px;padding:7px 9px;background:#14252af5}
+.game-home [data-map-style="atlas"] .hud-minimap-footer{font-size:12px;padding:6px 8px;background:#14252af5}
+.game-home [data-map-style="atlas"] .hud-minimap-footer a{font-size:10px}
+.game-home [data-map-style="atlas"] .hud-telemetry{background:var(--viewer-panel);border:1px solid var(--viewer-line);border-radius:6px;bottom:152px;box-shadow:0 4px 24px #0002}
+.game-home [data-map-style="atlas"] .hud-telemetry strong{font:700 34px/1 system-ui,sans-serif}
+.game-home [data-map-style="atlas"] .hud-telemetry small{font-size:12px}
+.game-home [data-map-style="atlas"] .hud-telemetry p>span{font-size:14px}
+.game-home [data-map-style="atlas"] .journey-banner{bottom:237px;background:var(--viewer-panel);border-color:#b4cc8c70;border-radius:7px}
+.game-home [data-map-style="atlas"] .game-dock{background:var(--viewer-panel);border-color:var(--viewer-line);box-shadow:0 8px 40px #0004;border-radius:9px}
+.game-home [data-map-style="atlas"] .game-dock>button{font-size:14px;min-height:48px}
+.game-home [data-map-style="atlas"] .game-dock>button>span{font-size:20px}
+.game-home [data-map-style="atlas"] .game-play{border-radius:6px;background:#c6df99;color:#1b2c23;box-shadow:none;border:1px solid #eff4ba33}
+[data-map-style="atlas"] .geo3d-pin{border-radius:6px!important;font:700 14px/1 system-ui,sans-serif;box-shadow:0 3px 14px #0004}
+[data-map-style="atlas"][data-map-focus="true"] .viewer-actions,[data-map-style="atlas"][data-map-focus="true"] .viewer-coordinates,[data-map-style="atlas"][data-map-focus="true"] .viewer-crosshair{display:none!important}
+.game-home [data-map-style="atlas"][data-map-focus="true"] .hud-display-controls{top:auto;left:50%;bottom:max(25px,env(safe-area-inset-bottom));max-width:calc(100% - 24px);background:var(--viewer-panel)}
+@media(max-width:760px){
+ .game-home [data-map-style="atlas"] .stage-header{padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top));gap:10px;min-height:68px}
+ .game-home [data-map-style="atlas"] .stage-header h2{font-size:16px}
+ .game-home [data-map-style="atlas"] .stage-header p{font-size:10px;letter-spacing:1px}
+ .game-home [data-map-style="atlas"] .hud-identity{padding:6px}
+ .game-home [data-map-style="atlas"] .hud-identity>img{display:none}
+ .game-home [data-map-style="atlas"] .hud-identity p{padding:0;margin:0}
+ .game-home [data-map-style="atlas"] .hud-identity p b{font-size:22px}
+ .game-home [data-map-style="atlas"] .hud-display-controls{left:12px;top:max(78px,calc(env(safe-area-inset-top) + 68px));max-width:calc(100% - 24px);gap:5px}
+ [data-map-style="atlas"] .hud-display-controls>button{font-size:14px;padding:9px 10px;gap:5px}
+ [data-map-style="atlas"] .viewer-actions{top:max(132px,calc(env(safe-area-inset-top) + 122px));left:12px;right:12px;justify-content:space-between;gap:5px}
+ [data-map-style="atlas"] .viewer-actions button{font-size:14px;padding:9px 10px;gap:5px}
+ [data-map-style="atlas"] .viewer-actions button>span{font-size:18px}
+ [data-map-style="atlas"] .weather-badge{top:max(186px,calc(env(safe-area-inset-top) + 176px));left:12px;font-size:12px;max-width:calc(100% - 85px);padding:8px 10px}
+ .game-home [data-map-style="atlas"] .stage-map .stage-status{top:max(186px,calc(env(safe-area-inset-top) + 176px));left:12px;width:calc(100% - 88px);padding:12px}
+ .game-home [data-map-style="atlas"] .stage-status>strong{font-size:17px}
+ .game-home [data-map-style="atlas"] .maplibregl-ctrl-top-right{top:max(186px,calc(env(safe-area-inset-top) + 176px));right:10px}
+ .game-home [data-map-style="atlas"] #gameTools{top:max(184px,calc(env(safe-area-inset-top) + 174px));right:12px;max-height:calc(100dvh - 285px - env(safe-area-inset-top));width:calc(100% - 24px);max-width:360px;padding:14px}
+ .game-home [data-map-style="atlas"] .hud-minimap{width:126px;bottom:calc(88px + env(safe-area-inset-bottom))}
+ .game-home [data-map-style="atlas"] .hud-minimap-label{font-size:10px;padding:5px 6px;letter-spacing:.5px}
+ .game-home [data-map-style="atlas"] .hud-minimap-footer{font-size:10px;padding:4px}
+ .game-home [data-map-style="atlas"] .hud-telemetry,.game-home [data-map-style="atlas"][data-hud-scene="explore"] .hud-telemetry{right:12px;bottom:calc(115px + env(safe-area-inset-bottom));padding:9px;max-width:calc(100% - 160px);gap:7px}
+ .game-home [data-map-style="atlas"] .hud-telemetry strong{font-size:27px}
+ .game-home [data-map-style="atlas"] .hud-telemetry small{font-size:10px}
+ .game-home [data-map-style="atlas"] .hud-telemetry p{padding-left:8px}
+ .game-home [data-map-style="atlas"] .hud-telemetry p>span{font-size:12px}
+ [data-map-style="atlas"] .viewer-coordinates{right:12px;bottom:calc(87px + env(safe-area-inset-bottom));font-size:10px;max-width:calc(100% - 164px);padding:4px 6px;text-align:right}
+ .game-home [data-map-style="atlas"] .stage-map .journey-banner{bottom:calc(224px + env(safe-area-inset-bottom));left:12px;right:12px;width:auto;padding:11px 12px}
+ .game-home [data-map-style="atlas"] .stage-arrival{bottom:calc(224px + env(safe-area-inset-bottom))}
+ .game-home [data-map-style="atlas"] .game-dock>button{font-size:12px;padding:5px;min-width:0;min-height:48px}
+ .game-home [data-map-style="atlas"] .game-dock>button>span{font-size:18px}
+ .game-home [data-map-style="atlas"] .game-dock .game-play{font-size:14px}
+}
+@media(max-height:560px) and (orientation:landscape){
+ .game-home [data-map-style="atlas"] .stage-header{min-height:50px;padding:6px 12px}
+ .game-home [data-map-style="atlas"] .stage-header p{display:none}
+ .game-home [data-map-style="atlas"] .hud-display-controls{top:60px;left:12px;max-width:calc(100% - 340px)}
+ [data-map-style="atlas"] .viewer-actions{top:60px;left:auto;right:12px}
+ [data-map-style="atlas"] .viewer-actions button b{display:none}
+ [data-map-style="atlas"] .viewer-actions button{width:44px}
+ .game-home [data-map-style="atlas"] #gameTools{top:112px;max-height:calc(100dvh - 185px)}
+ [data-map-style="atlas"] .weather-badge,.game-home [data-map-style="atlas"] .stage-map .stage-status{top:112px;max-width:260px}
+ .game-home [data-map-style="atlas"] .maplibregl-ctrl-top-right{top:112px}
+ [data-map-style="atlas"] .viewer-coordinates{display:none}
+ .game-home [data-map-style="atlas"] .stage-map .journey-banner{bottom:100px;left:auto;right:12px;width:300px}
+ .game-home [data-map-style="atlas"] .hud-telemetry{display:none}
+}
+@media(max-width:370px){[data-map-style="atlas"] #hudInfoCode,[data-map-style="atlas"] #toggleMapFocus b{display:none}[data-map-style="atlas"] #toggleMapFocus{min-width:44px;padding:8px}[data-map-style="atlas"] .viewer-actions button{font-size:13px;padding:9px 8px}.game-home [data-map-style="atlas"] .stage-header h2{font-size:15px}}

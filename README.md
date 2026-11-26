@@ -110,3 +110,11 @@ Akses dari darat menggunakan pengiraan OSRM berjalan kaki ke jeti dan sambungan 
 Jana semula koridor dengan `node scripts/prepare-marine.mjs` menggunakan `scripts/marine-ports.json`, pantai beratribusi OSM dan snapshot pendekatan OSRM dalam `tests/fixtures/port-J*.json`. Uji melalui `npm test`. Sebarang perubahan pantai atau jalan perlu menjana semula data dan menyemak sambungan jeti.
 
 Enam jeti pulau J4–J9 ditambah untuk Kuraman, Rusukan Besar, Rusukan Kecil, Papan, Burong dan Ular. Setiap pulau berkongsi satu jeti untuk tapak daratnya, dengan akses berjalan kaki simulasi. B4 kekal pemerhatian laut, melalui jeti Rusukan Besar dahulu. Pin jeti dalam peta 2D / 3D membuka popup dengan pautan terus ke misi pulau. Bangunan jeti pulau merangkumi pelantar dan bumbung teduhan; Ular dilabel jeti terapung maya kerana garis pantainya belum dipetakan. Perjalanan tersimpan terus menggunakan geometri asalnya.
+
+### Paparan 3D peta penuh
+
+UI / UX diilhamkan oleh [rolux/gtamaplib-vc](https://github.com/rolux/gtamaplib-vc): kanvas peta penuh, kawalan terapung, reset pandangan dan bar data kamera. Pelaksanaan Labuan menggunakan MapLibre sedia ada; tidak memerlukan pelayan Python gtamaplib-vc dan tidak mengimport data / imejan GTA. Identiti hijau dan coklat geopark dikekalkan dalam panel gelap yang lebih ringkas.
+
+Butang **Kawalan** membuka panel lapisan misi, jeti dan laluan, kamera Dekat / Dron / Orbit, latar satelit / jalan serta kualiti grafik. **Labuan** memusatkan semua pulau dan menghentikan kamera ikut. **Kamera bebas / Ikut penjelajah** menukar kawalan pandangan sahaja. Koordinat pada penjuru peta ialah pusat kamera, bukannya GPS pemain. Pilihan lapisan disimpan pada `jelajah-labuan-map-ui-v1`; geometri perjalanan, pemasa, XP, kilometer dan inventori kekal berasingan.
+
+Pintasan desktop: **L** kawalan, **R** pusatkan Labuan, **F** fokus. Pintasan tidak aktif semasa menaip atau membuka dialog. **Escape** menutup panel peta sebelum membuka menu permainan. Telefon menggunakan kawalan sentuh MapLibre. Mod 2D kekal tersedia sebagai gantian WebGL.
