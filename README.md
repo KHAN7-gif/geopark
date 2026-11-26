@@ -20,6 +20,8 @@ Nama repositori: **geopark**. Cadangan nama produk: **Jejak Geopark Labuan**.
 - Galeri 70 foto, 25 kad penemuan, 8 lencana, pemandu Jejak dan sijil selepas 25 misi lengkap.
 - Nama/avatar, pembelian dan kemajuan disimpan pada pelayar. Eksport/import pasport untuk sandaran atau pertukaran peranti.
 
+Jika Pages ditetapkan kepada penerbitan daripada cabang `main` / root, halaman akar turut menghala ke `dist/` supaya pautan utama tetap membuka permainan. GitHub Actions menerbitkan kandungan `dist/` terus ke akar.
+
 ## Jalankan secara setempat
 
 Tiada proses build atau API key diperlukan untuk aplikasi semasa.
