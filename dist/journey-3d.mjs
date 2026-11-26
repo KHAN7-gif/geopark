@@ -1,3 +1,5 @@
+import {navigationHUD} from './navigation-hud.mjs';
+import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs';
 // All geographic data uses WGS84 coordinates. No invented coastlines or roads.
 export const TERRAIN_TILES='https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png';
 export const BASEMAP_TILES='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -14,20 +16,20 @@ function loadLibrary(){
     script.onerror=()=>{clearTimeout(timeout);script.remove();reject(Error('3D library unavailable'))};document.head.append(script);
   }).catch(error=>{library=null;throw error});return library;
 }
-export async function createJourney3D({element,onSelect,onInteract,onNotice,onFailure,reducedMotion=false}){
+export async function createJourney3D({element,onSelect,onInteract,onNotice,onFailure,onEnvironment=()=>{},reducedMotion=false}){
   const gl=await loadLibrary();
-  const map=new gl.Map({container:element,center:[115.23,5.30],zoom:11.5,pitch:52,bearing:0,maxPitch:70,maxZoom:18,minZoom:8,
+  const map=new gl.Map({container:element,center:[115.23,5.30],zoom:11.5,pitch:52,bearing:0,maxPitch:75,maxZoom:20,minZoom:8,
     maxBounds:[[114.85,4.95],[115.65,5.7]],canvasContextAttributes:{antialias:true},
-    style:{version:8,sources:{
+    style:{version:8,sky:{'sky-color':'#80b4d6','horizon-color':'#e8e9c7','fog-color':'#d5dfcc','sky-horizon-blend':.55,'horizon-fog-blend':.6,'fog-ground-blend':.25},light:{anchor:'map',color:'#fff2d3',intensity:.45,position:[1.5,150,45]},sources:{
       basemap:{type:'raster',tiles:[BASEMAP_TILES],tileSize:256,maxzoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'},
       elevation:{type:'raster-dem',tiles:[TERRAIN_TILES],tileSize:256,maxzoom:15,encoding:'terrarium',attribution:'Terrain: <a href="https://github.com/tilezen/joerd/blob/master/docs/attribution.md" target="_blank" rel="noopener">Mapzen / AWS Open Data</a>'}
     },layers:[{id:'base',type:'raster',source:'basemap'},{id:'relief',type:'hillshade',source:'elevation',paint:{'hillshade-shadow-color':'#536747','hillshade-highlight-color':'#fff8df','hillshade-exaggeration':.3}}],terrain:{source:'elevation',exaggeration:1}}
   });
   let loaded=false,destroyed=false,pending=null,lastRoute=null,lastDone='',terrainErrors=0,tileErrors=0;
-  const markers=new Map();let player=null;
+  const markers=new Map();let player=null,explorer=null,following=false,surroundings=true,environmentReady=false,heading=0,chaseZoom=null;const environmentAbort=new AbortController();
   const timeout=setTimeout(()=>{if(!loaded&&!destroyed)onFailure('Paparan 3D tidak dapat dimuatkan. Peta 2D dipulihkan.')},25000);
   map.addControl(new gl.NavigationControl({visualizePitch:true}),'top-right');
-  map.on('dragstart',onInteract);map.on('rotatestart',e=>{if(e.originalEvent)onInteract()});
+  map.on('dragstart',onInteract);map.on('zoomstart',e=>{if(e.originalEvent)onInteract()});map.on('pitchstart',e=>{if(e.originalEvent)onInteract()});map.on('rotatestart',e=>{if(e.originalEvent)onInteract()});
   map.on('error',e=>{
     if(destroyed)return;
     if(e.sourceId==='elevation'&&++terrainErrors===3){map.setTerrain(null);onNotice('Data ketinggian belum tersedia. Paparan condong diteruskan tanpa bentuk muka bumi 3D.')}
@@ -40,11 +42,16 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
     map.addLayer({id:'route-halo',type:'line',source:'route',paint:{'line-color':'#fff9e8','line-width':9}});
     map.addLayer({id:'route-line',type:'line',source:'route',paint:{'line-color':'#315d3d','line-width':5,'line-dasharray':[2,1]}});
     map.addLayer({id:'travelled-line',type:'line',source:'travelled',paint:{'line-color':'#a46b32','line-width':5}});
-    if(pending){sync(pending);fit(pending.journey?.route.path||pending.sites.map(s=>[s.lat,s.lng]))}
+    if(pending){sync(pending);if(!following)fit(pending.journey?.route.path||pending.sites.map(s=>[s.lat,s.lng]))}
+    loadSurroundings();loadExplorer();
   });
   function sync(state){
     pending=state;if(!loaded||destroyed)return;
     const {sites,records,journey,position,profile,vehicle}=state;
+    const metrics=journey?navigationHUD(journey,{position,index:state.index||0,waiting:!!state.waiting,arrived:!!state.arrived}):null;
+    if(metrics?.heading)heading=metrics.heading.degrees;
+    explorer?.sync({position,heading,mode:journey?.route.mode||state.mode||'walk',avatar:profile?.avatar||'rimba',journey,moving:!!journey&&journey.pausedAt===null&&!state.waiting&&!state.arrived});
+    if(following&&position)chase(position);
     const key=sites.map(s=>`${s.id}:${!!records[s.id]?.done}:${journey?.toId===s.id}`).join('|');
     if(key!==lastDone){
       lastDone=key;for(const marker of markers.values())marker.remove();markers.clear();
@@ -66,6 +73,23 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
       player.setLngLat(lngLat(position));
     }else if(player){player.remove();player=null}
   }
-  function fit(path){if(!loaded||!path?.length)return;const bounds=new gl.LngLatBounds();path.forEach(p=>bounds.extend(lngLat(p)));map.fitBounds(bounds,{padding:{top:110,right:60,bottom:window.innerWidth<760?290:200,left:60},maxZoom:14.5,pitch:52,bearing:map.getBearing(),duration:reducedMotion?0:700})}
-  return {sync,fit,follow(position,close=false){if(loaded)map.easeTo({center:lngLat(position),...(close?{zoom:15}:{}),duration:reducedMotion?0:600})},resize(){map.resize()},destroy(){destroyed=true;clearTimeout(timeout);map.remove()}};
+  function fit(path){following=false;chaseZoom=null;if(!loaded||!path?.length)return;const bounds=new gl.LngLatBounds();path.forEach(p=>bounds.extend(lngLat(p)));map.fitBounds(bounds,{padding:{top:110,right:60,bottom:window.innerWidth<760?290:200,left:60},maxZoom:14.5,pitch:52,bearing:map.getBearing(),duration:reducedMotion?0:700})}
+  async function loadSurroundings(){
+    onEnvironment('Memuatkan bangunan dan kawasan hijau…');
+    try{
+      const response=await fetch(new URL('environment/labuan.geojson',import.meta.url),{signal:environmentAbort.signal});
+      if(!response.ok)throw Error('Environment unavailable');const data=await response.json();if(destroyed)return;
+      if(data.type!=='FeatureCollection'||!Array.isArray(data.features))throw Error('Invalid environment');
+      addSurroundingLayers(map,data);environmentReady=true;setSurroundingsVisible(map,surroundings);
+      onEnvironment('Suasana Labuan · tapak bangunan OSM; sebahagian ketinggian dan pokok ialah ilustrasi.');
+    }catch(error){if(!destroyed&&error.name!=='AbortError')onEnvironment('Bangunan dan tumbuhan belum dimuatkan. Peta dan perjalanan kekal tersedia.')}
+  }
+  async function loadExplorer(){
+    try{const {createExplorerLayer}=await import('./explorer-model.mjs');if(destroyed)return;
+      explorer=createExplorerLayer(gl,{reducedMotion,onFailure:()=>{element.classList.remove('has-explorer-model');onNotice('Model penjelajah tidak tersedia. Penanda avatar digunakan.') }});
+      map.addLayer(explorer.layer);element.classList.add('has-explorer-model');if(pending)sync(pending);
+    }catch{if(!destroyed){explorer=null;element.classList.remove('has-explorer-model');onNotice('Penanda avatar digunakan pada peranti ini.')}}
+  }
+  function chase(position,close=false){if(!loaded)return;const current=map.getBearing(),bearing=current+((heading-current+540)%360-180);map.easeTo({center:lngLat(position),bearing,pitch:67,zoom:close?19.1:chaseZoom??Math.max(17.8,map.getZoom?.()||17.8),padding:{top:0,right:0,bottom:window.innerWidth<760?130:90,left:0},duration:reducedMotion?0:300})}
+  return {sync,fit,follow(position,close=false){following=true;if(close)chaseZoom=19.1;if(loaded)chase(position,close)},setFollowing(value){following=!!value},setSurroundings(value){surroundings=!!value;if(environmentReady)setSurroundingsVisible(map,surroundings)},resize(){map.resize()},destroy(){destroyed=true;environmentAbort.abort();element.classList.remove('has-explorer-model');clearTimeout(timeout);map.remove()}};
 }

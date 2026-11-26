@@ -4,6 +4,8 @@
 - **Leaflet.markercluster 1.5.3** — https://github.com/Leaflet/Leaflet.markercluster — MIT. Salinan lesen: `third-party/markercluster-LICENSE.txt`.
 - **MapLibre GL JS 5.6.2** — https://maplibre.org/ — BSD 3-Clause dan komponen berlesen lain seperti dalam `third-party/maplibre-LICENSE.txt`.
 - **Terrain Tiles / Mapzen / AWS Open Data** — https://registry.opendata.aws/terrain-tiles/ — data ketinggian Terrarium, termasuk sumber SRTM di Labuan. Atribusi: https://github.com/tilezen/joerd/blob/master/docs/attribution.md. Bukan data bangunan 3D atau imejan langsung.
+- **Three.js 0.180.0** — https://threejs.org/ — MIT. Salinan lesen: `third-party/three-LICENSE.txt`. Model penjelajah/kenderaan dibina khas daripada geometri asas; tiada model Sketchbook disalin.
+- **Pangkalan data suasana Labuan** — `dist/environment/labuan.geojson`, terbitan © OpenStreetMap contributors, berlesen [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). Metadata, cap masa, ID sumber dan nota anggaran dibundel bersama data.
 - **OpenStreetMap** — https://www.openstreetmap.org/copyright — data peta dan laluan tertakluk kepada atribusi serta syarat penggunaan penyedianya. Atribusi dipaparkan pada peta.
 - **OSRM** — https://project-osrm.org/ — perkhidmatan pengiraan laluan. Perkhidmatan awam tidak menjamin ketersediaan atau trafik langsung.
 - **Routing kaki** — https://routing.openstreetmap.de/ — digunakan untuk laluan pejalan kaki.

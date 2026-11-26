@@ -1,0 +1,22 @@
+{
+  "source": "OpenStreetMap contributors via Overpass API",
+  "license": "ODbL-1.0",
+  "attribution": "https://www.openstreetmap.org/copyright",
+  "osmTimestamp": "2026-11-26T11:46:05Z",
+  "bbox": [
+    115.08,
+    5.1,
+    115.37,
+    5.44
+  ],
+  "stats": {
+    "buildings": 2189,
+    "taggedHeights": 562,
+    "estimatedHeights": 1627,
+    "greenAreas": 22,
+    "mappedTrees": 110,
+    "illustrativeTrees": 420
+  },
+  "heightNote": "OSM height where present, otherwise levels \u00d7 3.1 m; untagged buildings shown at an illustrative 6 m. Not a surveyed city model.",
+  "vegetationNote": "Mapped tree nodes plus illustrative trees within OSM green areas; canopy shapes and heights are illustrative."
+}

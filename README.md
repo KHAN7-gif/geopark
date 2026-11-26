@@ -11,6 +11,8 @@ Nama repositori: **geopark**. Cadangan nama produk: **Jejak Geopark Labuan**.
 - Mod Jelajah 2D memenuhi ruang pelayar, avatar, penanda destinasi dan kawalan ikut penjelajah.
 - HUD perjalanan: peta mini OpenStreetMap, kedudukan penjelajah, baki jarak sepanjang laluan, arah kompas, kadar perjalanan anggaran dan baki XP. Peta mini dipadam apabila keluar daripada mod jelajah.
 - Mod Jelajah 3D percubaan: peta MapLibre boleh dicondong dan diputar, jubin OpenStreetMap, ketinggian Mapzen / AWS Terrarium pada skala sebenar 1×, pin lokasi serta laluan/penjelajah yang sama.
+- Suasana 3D: 2,189 tapak bangunan OSM diekstrusi, 22 kawasan hijau, 110 pokok dipetakan dan 420 pokok ilustrasi dalam kawasan hijau tersebut. Snapshot OSM: 26 November 2026. Sebahagian ketinggian bangunan ialah anggaran visual; lihat Info suasana 3D.
+- Model penjelajah berjalan serta bas/motor/kereta mengikut pengangkutan yang dimiliki. Kamera dekat mengikuti laluan sebenar; seretan peta menghentikan ikutan dan Lihat laluan kembali kepada pandangan keseluruhan. Suasana boleh dimatikan untuk peranti yang lebih ringan.
 - 3D dimuatkan apabila dipilih, memerlukan WebGL dan internet. Jika grafik gagal, 2D dipulihkan tanpa mengubah pemasa atau kemajuan. Data ketinggian yang gagal dimuatkan dinyatakan pada paparan; tiada bukit, jalan atau bangunan rekaan ditambah.
 - Laluan pejalan kaki dan kenderaan daripada OSRM / OpenStreetMap.
 - Nisbah masa 3:1; 60 minit anggaran perjalanan menjadi 20 minit permainan.
@@ -74,3 +76,9 @@ Peta memerlukan sambungan internet ke OpenStreetMap. Pengiraan laluan menggunaka
 Kemajuan setempat tidak dikongsi secara automatik antara domain Sites, GitHub Pages dan localhost. **Eksport pasport daripada domain lama dan import ke domain baharu** untuk meneruskan permainan. Sijil ialah pencapaian permainan, bukan pengesahan lawatan fizikal.
 
 Lihat [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) untuk sumber pustaka dan aset. Metadata pengehosan Sites serta sejarah repositori dalaman tidak dimasukkan dalam eksport ini.
+
+## Data suasana Labuan
+
+`dist/environment/labuan.geojson` ialah pangkalan data terbitan OpenStreetMap berlesen ODbL 1.0, dengan ID sumber bagi setiap ciri. Metadata dan nota anggaran: `dist/environment/metadata.json`. Bangunan tanpa tag ketinggian ditunjukkan setinggi 6 m; tag tingkat menggunakan anggaran 3.1 m setiap tingkat. Pokok berbentuk ilustrasi; kedudukan pokok tambahan hanya di dalam poligon kawasan hijau OSM. Model watak/kenderaan ialah ilustrasi permainan, bukan imbasan objek sebenar.
+
+Penukar snapshot: `python3 scripts/prepare-environment.py /path/to/overpass.json`. Aplikasi menggunakan fail setempat yang dibundel; ia tidak menghantar pertanyaan Overpass semasa dimainkan. Kamera, model dan suasana tidak mengubah pemasa, harga XP atau lokasi misi. Model dan jubin peta memerlukan WebGL2; peta 2D serta penanda avatar menjadi pilihan gantian jika grafik gagal.
