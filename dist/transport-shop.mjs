@@ -1,4 +1,4 @@
-import {rewardTotals} from './travel-rewards.mjs?v=focus-20261126';
+import {rewardTotals} from './travel-rewards.mjs?v=weather-20261126';
 export const TRANSPORTS={
  walk:{id:'walk',name:'Berjalan kaki',icon:'🚶',price:0,domain:'land',available:true,speed:5,description:'Pilihan asas untuk semua penjelajah. Menggunakan rangkaian laluan pejalan kaki.',timing:'5 km/j · 4 minit permainan / km',assumption:'Anggaran berjalan 5 km/j, tanpa pelarasan cerun atau hentian.'},
  bus:{id:'bus',name:'Bas jelajah',icon:'🚌',price:150,domain:'land',available:true,speed:25,description:'Pas bas permainan yang berpatutan. Bergerak di rangkaian jalan kenderaan.',timing:'25 km/j + 2 minit menunggu · semuanya ÷ 3',assumption:'Simulasi bas jelajah 25 km/j + 2 minit menunggu; bukan jadual atau laluan bas awam.'},

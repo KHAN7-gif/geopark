@@ -1,0 +1,29 @@
+name: Update Labuan weather
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: labuan-weather
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            /scripts/
+            /dist/weather-engine.mjs
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Read Labuan station observation with model fallback
+        run: node scripts/collect-weather.mjs /tmp/geopark-weather.json
+      - name: Publish weather data separately from application code
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/publish-weather.mjs /tmp/geopark-weather.json

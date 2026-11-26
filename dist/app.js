@@ -1,4 +1,4 @@
-import {hudPreferences,toggleHudPart,createGameSound,travelOptions,requiresWalkingApproach,accessDescription,combineRouteLegs,distanceTotals,navigationHUD,certificateState,certificateSVG,GUIDE_TOPICS,guideAdvice,achievementState,challengeSpec,challengeLabel,scoreChallenge,defaultRewards,rewardTotals,validateRewards,creditRewards,mergeRewards,TRANSPORTS,defaultShop,earnedXP,spentXP,availableXP,validateShop,purchaseTransport,mergeShop,TIME_RATIO,ISLAND_SITES,distanceMetres,normaliseRoadResponse,validateJourney,journeyAt,formatClock,routeURL} from './travel-engine.mjs?v=focus-20261126';
+import {createWeatherClient,weatherPresentation,labuanTimePhase,hudPreferences,toggleHudPart,createGameSound,travelOptions,requiresWalkingApproach,accessDescription,combineRouteLegs,distanceTotals,navigationHUD,certificateState,certificateSVG,GUIDE_TOPICS,guideAdvice,achievementState,challengeSpec,challengeLabel,scoreChallenge,defaultRewards,rewardTotals,validateRewards,creditRewards,mergeRewards,TRANSPORTS,defaultShop,earnedXP,spentXP,availableXP,validateShop,purchaseTransport,mergeShop,TIME_RATIO,ISLAND_SITES,distanceMetres,normaliseRoadResponse,validateJourney,journeyAt,formatClock,routeURL} from './travel-engine.mjs?v=weather-20261126';
 const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const cats={G:{name:'Geotapak',color:'#b8427a',icon:'◆',total:11},B:{name:'Biotapak',color:'#226da8',icon:'❋',total:4},C:{name:'Tapak Budaya',color:'#237b54',icon:'⌂',total:10}};
 const KEY='jelajah-labuan-v1',PLAYER='jelajah-labuan-player',PROFILE='jelajah-labuan-profile-v1';
@@ -10,6 +10,7 @@ let rewards=defaultRewards(),shopState=defaultShop();
 let journey=null,plannedRoute=null,travelledRoute=null,routeHalo=null,travelTimer=null,routePreview=null,routeController=null;
 const gameHome=document.body.classList.contains('game-home');let gamePanelMoves=[],gamePanelFocus=null;
 let hudPrefs=hudPreferences(null);try{hudPrefs=hudPreferences(JSON.parse(localStorage.getItem('jelajah-labuan-hud')||'null'))}catch{}const gameSound=createGameSound({enabled:hudPrefs.sound});
+let weatherMode='auto',weatherLightning=true,latestWeather=null,weatherClient=null;try{const saved=JSON.parse(localStorage.getItem('jelajah-labuan-weather-settings')||'{}');if(saved.mode==='manual')weatherMode='manual';if(typeof saved.lightning==='boolean')weatherLightning=saved.lightning}catch{}
 let mileageViewKey=null;
 let destinationFlag=null;
 let hudMiniMap=null,hudMiniPlayer=null,hudMiniRoute=null,hudMiniPath=null,hudIdentityKey=null;
@@ -76,13 +77,13 @@ async function set3DMode(enabled){
  const request=++threeDRequest;threeDActive=enabled;
  $('toggleJourney3D').setAttribute('aria-pressed',String(enabled));$('toggleJourney3D').textContent=enabled?'Buka peta 2D':'Cuba mod 3D';
  $('stageTitle').textContent=gameHome?'JELAJAH LABUAN':enabled?'Mod Jelajah 3D':'Mod Jelajah 2D';$('gameWorld').setAttribute('aria-pressed',String(enabled));$('gameWorld').innerHTML=enabled?'<span aria-hidden="true">◇</span>Dunia 2D':'<span aria-hidden="true">◇</span>Dunia 3D';
- $('mapWrap').classList.toggle('is-3d',enabled);$('map3d').hidden=!enabled;$('toggleSurroundings').hidden=!enabled;$('environmentInfo').hidden=!enabled;$('worldLookCycle').hidden=!enabled;$('worldGlow').hidden=!enabled;$('sceneLooks').hidden=!enabled;$('advancedMapTools').hidden=!enabled;$('cameraCycle').hidden=!enabled;
+ $('mapWrap').classList.toggle('is-3d',enabled);$('map3d').hidden=!enabled;$('toggleSurroundings').hidden=!enabled;$('environmentInfo').hidden=!enabled;$('worldLookCycle').hidden=!enabled;$('worldGlow').hidden=!enabled;$('sceneLooks').hidden=!enabled;$('advancedMapTools').hidden=!enabled;$('cameraCycle').hidden=!enabled;$('worldWeather').hidden=!enabled;
  if(!enabled){view3D?.destroy();view3D=null;$('map3d').replaceChildren();$('threeDHint').hidden=true;map?.invalidateSize();return}
  threeDNotice('Memuatkan peta 3D…');
  try{
-  const {createJourney3D}=await import('./journey-3d.mjs?v=focus-20261126');if(request!==threeDRequest)return;
-  const controller=await createJourney3D({element:$('map3d'),look:sceneLook,cameraMode,basemap:mapBase,quality:graphicsQuality,onBasemapChange:id=>{mapBase=id;reflectAdvancedMap()},onSelect:openSite,onInteract:()=>setStageFollow(false),onNotice:threeDNotice,onEnvironment:message=>{if(request===threeDRequest)$('environmentStatus').textContent=message+' Cahaya ialah suasana visual pilihan pemain, bukan cuaca semasa.'},reducedMotion,onFailure:message=>{if(request!==threeDRequest)return;set3DMode(false);threeDNotice(message);toast(message)}});
-  if(request!==threeDRequest){controller.destroy();return}view3D=controller;sync3D();controller.resize();controller.setSurroundings?.(surroundingsEnabled);if(journey||gameHome&&currentSite()){const here=currentSite(),point=journey?journeyAt(journey).position:[here.lat,here.lng];setStageFollow(true);controller.follow(point,true)}
+  const {createJourney3D}=await import('./journey-3d.mjs?v=weather-20261126');if(request!==threeDRequest)return;
+  const controller=await createJourney3D({element:$('map3d'),look:sceneLook,cameraMode,basemap:mapBase,quality:graphicsQuality,onBasemapChange:id=>{mapBase=id;reflectAdvancedMap()},onSelect:openSite,onInteract:()=>setStageFollow(false),onNotice:threeDNotice,onEnvironment:message=>{if(request===threeDRequest)$('environmentStatus').textContent=message+' Mod Auto mengikuti waktu tempatan Labuan; sumber cuaca dipaparkan dalam Menu.'},reducedMotion,onFailure:message=>{if(request!==threeDRequest)return;set3DMode(false);threeDNotice(message);toast(message)}});
+  if(request!==threeDRequest){controller.destroy();return}view3D=controller;sync3D();controller.resize();controller.setSurroundings?.(surroundingsEnabled);controller.setWeather?.(weatherPresentation(latestWeather));if(journey||gameHome&&currentSite()){const here=currentSite(),point=journey?journeyAt(journey).position:[here.lat,here.lng];setStageFollow(true);controller.follow(point,true)}
   threeDNotice('3D lanjutan: pilih kamera Dekat, Dron atau Orbit. Latar satelit dan kualiti grafik tersedia dalam Kawalan peta.');
  }catch{if(request!==threeDRequest)return;set3DMode(false);const message='Mod 3D tidak tersedia pada peranti ini. Anda boleh terus menjelajah dengan peta 2D.';threeDNotice(message);toast(message)}
 }
@@ -92,17 +93,18 @@ $('toggleSurroundings').onclick=()=>{surroundingsEnabled=!surroundingsEnabled;vi
 
 
 function chooseSceneLook(id,persist=true){
+ if(persist){weatherMode='manual';saveWeatherSettings()}
  const names={day:'Siang',dusk:'Senja',night:'Malam'},icons={day:'☀',dusk:'◐',night:'☾'};sceneLook=names[id]?id:'dusk';$('journeyStage').dataset.look=sceneLook;view3D?.setLook?.(sceneLook);
  $('worldLookCycle').innerHTML=`<span aria-hidden="true">${icons[sceneLook]}</span><b>${names[sceneLook]}</b>`;$('worldLookCycle').setAttribute('aria-label',`Suasana ${names[sceneLook]}. Tekan untuk menukar cahaya visual.`);
  document.querySelectorAll('[data-scene-look]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.sceneLook===sceneLook)));
- if(persist)try{localStorage.setItem('jelajah-labuan-look',sceneLook)}catch{}
+ if(persist){try{localStorage.setItem('jelajah-labuan-look',sceneLook)}catch{}updateWeatherUI()}
 }
 $('worldLookCycle').onclick=()=>{const ids=['day','dusk','night'];chooseSceneLook(ids[(ids.indexOf(sceneLook)+1)%3])};
 document.querySelectorAll('[data-scene-look]').forEach(b=>b.onclick=()=>chooseSceneLook(b.dataset.sceneLook));chooseSceneLook(sceneLook,false);
 
 
 function reflectAdvancedMap(){
- const names={close:'Dekat',drone:'Dron',orbit:'Orbit'};$('cameraCycle').innerHTML=`<span aria-hidden="true">${cameraMode==='drone'?'⌖':cameraMode==='orbit'?'◉':'▧'}</span><b>${names[cameraMode]}</b>`;$('cameraCycle').setAttribute('aria-label',`Kamera ${names[cameraMode]}. Tekan untuk menukar pandangan.`);
+ $('journeyStage').dataset.graphicsQuality=graphicsQuality;const names={close:'Dekat',drone:'Dron',orbit:'Orbit'};$('cameraCycle').innerHTML=`<span aria-hidden="true">${cameraMode==='drone'?'⌖':cameraMode==='orbit'?'◉':'▧'}</span><b>${names[cameraMode]}</b>`;$('cameraCycle').setAttribute('aria-label',`Kamera ${names[cameraMode]}. Tekan untuk menukar pandangan.`);
  for(const [selector,value,key]of [['[data-camera]',cameraMode,'camera'],['[data-basemap]',mapBase,'basemap'],['[data-quality]',graphicsQuality,'quality']])document.querySelectorAll(selector).forEach(button=>button.setAttribute('aria-pressed',String(button.dataset[key]===value)));
 }
 function saveAdvancedMap(){try{localStorage.setItem('jelajah-labuan-advanced-map',JSON.stringify({camera:cameraMode,basemap:mapBase,quality:graphicsQuality}))}catch{}}
@@ -132,6 +134,24 @@ $('toggleMapFocus').onclick=toggleMapFocus;$('gameFocus').onclick=()=>{closeGame
 $('toggleGameSound').onclick=()=>{hudPrefs={...hudPrefs,sound:!hudPrefs.sound};applyHUDPreferences();if(hudPrefs.sound)gameSound.play('preview',{gesture:true})};$('testGameSound').onclick=()=>gameSound.play('preview',{gesture:true});
 document.addEventListener('pointerdown',()=>{gameSound.unlock()},{capture:true});document.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' ')gameSound.unlock()},{capture:true});
 applyHUDPreferences(false);
+
+
+function saveWeatherSettings(){try{localStorage.setItem('jelajah-labuan-weather-settings',JSON.stringify({mode:weatherMode,lightning:weatherLightning}))}catch{}}
+function updateWeatherUI(){
+ const view=weatherPresentation(latestWeather),stage=$('journeyStage');
+ if(weatherMode==='auto')chooseSceneLook(view.look,false);
+ stage.dataset.weather=view.condition;stage.dataset.raining=String(view.raining);stage.dataset.lightning=String(weatherLightning);stage.style.setProperty('--weather-cloud-cover',String(Math.min(.72,(view.cloudCover||0)/100*.65)));view3D?.setWeather?.(view);
+ const time=new Date().toLocaleTimeString('ms-MY',{timeZone:'Asia/Kuching',hour:'2-digit',minute:'2-digit',hour12:false}),temp=view.weather?.temperatureC;
+ const icon=view.condition==='storm'?'ϟ':view.raining?'☂':view.condition==='cloudy'||view.condition==='fog'?'☁':view.look==='night'?'☾':'☀';
+ $('weatherBadge').textContent=`${icon} ${view.description}${temp===null||temp===undefined?'':' · '+Math.round(temp)+'°C'}`;
+ $('weatherBadge').setAttribute('aria-label',`${view.description}. ${view.source}. Buka maklumat cuaca.`);
+ const observation=view.weather?new Date(view.observedAt).toLocaleTimeString('ms-MY',{timeZone:'Asia/Kuching',hour:'2-digit',minute:'2-digit',hour12:false}):'—';
+ $('weatherDetails').textContent=`Labuan ${time} MYT · ${view.label}. ${view.source}${view.weather?' · laporan '+observation+' MYT':''}. ${view.description}.${weatherMode==='manual'?' Cahaya dipilih secara manual.':' Cahaya mengikuti waktu matahari Labuan.'}`;
+ $('weatherAuto').setAttribute('aria-pressed',String(weatherMode==='auto'));$('weatherAuto').textContent=weatherMode==='auto'?'Auto Labuan: aktif':'Ikut waktu Labuan';$('weatherLightning').setAttribute('aria-pressed',String(weatherLightning));$('weatherLightning').textContent=weatherLightning?'Kesan kilat: aktif':'Kilatan: dimatikan';
+}
+$('weatherAuto').onclick=()=>{weatherMode='auto';saveWeatherSettings();updateWeatherUI()};$('weatherLightning').onclick=()=>{weatherLightning=!weatherLightning;saveWeatherSettings();updateWeatherUI()};
+$('weatherRefresh').onclick=()=>weatherClient?.refresh();$('weatherBadge').onclick=()=>{openGamePanel('options');$('weatherSettings').scrollIntoView?.({block:'center',behavior:reducedMotion?'auto':'smooth'})};
+function startWeather(){weatherClient=createWeatherClient({fetchFn:fetch,storage:localStorage,onUpdate:data=>{latestWeather=data;updateWeatherUI()},onStatus:status=>{$('weatherRefresh').disabled=status==='loading';$('weatherRefresh').textContent=status==='loading'?'Memuatkan cuaca…':'Kemas kini cuaca'},setIntervalFn:window.setInterval?.bind(window),clearIntervalFn:window.clearInterval?.bind(window)});updateWeatherUI();weatherClient.refresh();window.setInterval?.(updateWeatherUI,60000)}
 
 function startHUD(){
  if(!hudMiniMap&&window.L){
@@ -244,4 +264,5 @@ $('export').onclick=()=>{const a=document.createElement('a'),url=URL.createObjec
 function validateRecords(input){if(!input||typeof input!=='object'||Array.isArray(input))throw Error();const clean={};for(const [id,r]of Object.entries(input)){if(!sites.some(s=>s.id===id)||!r||typeof r!=='object')throw Error();for(const key of ['arrived','done'])if(r[key]!==undefined&&(!Number.isFinite(r[key])||r[key]<=0||r[key]>Date.now()+60000))throw Error();if(r.note!==undefined&&(typeof r.note!=='string'||r.note.length>1000))throw Error();if(r.done&&!r.arrived)throw Error();clean[id]={...(r.arrived?{arrived:r.arrived}:{}),...(r.done?{done:r.done}:{}),...(r.note?{note:r.note}:{})}}return clean}
 $('import').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;if(file.size>2000000)throw Error();const data=JSON.parse(await file.text());if(data.version!==1)throw Error();const clean=validateRecords(data.records);const incomingRewards=data.travelRewards===undefined?defaultRewards():validateRewards(data.travelRewards,sites);const mergedRewards=mergeRewards(rewards,incomingRewards,sites);const importedProfile=data.profile===undefined?null:validateProfile(data.profile);const importedJourney=data.journey===undefined?undefined:data.journey===null?null:validateJourney(data.journey,sites);const mergedRecords={...records};for(const [id,r]of Object.entries(clean))if(!mergedRecords[id]?.done)mergedRecords[id]={...mergedRecords[id],...r};const incomingShop=data.shop===undefined?shopState:validateShop(data.shop,earnedXP(clean,sites,incomingRewards));const mergedShop=mergeShop(shopState,incomingShop,earnedXP(mergedRecords,sites,mergedRewards));records=mergedRecords;rewards=mergedRewards;shopState=mergedShop;if(importedJourney!==undefined){stopTravelTimer();journey=importedJourney;clearRoute()}if(!journey&&sites.some(s=>s.id===data.playerId))playerId=data.playerId;if(journey)playerId=journey.fromId;if(importedProfile)profile=importedProfile;save();moveAvatar(false);if(journey){renderTravelRoute();tickJourney(false)}render();toast('Pasport diimport. Kemajuan selesai sedia ada dikekalkan.')}catch{toast('Fail tidak sah. Pilih fail eksport pasport Jelajah Labuan.')}finally{e.target.value=''}};
 async function load(){try{const res=await fetch('locations.json?v=game-20261126');if(!res.ok)throw Error();sites=await res.json();try{records=validateRecords(records)}catch{records={};toast('Rekod setempat tidak dapat dibaca. Import sandaran jika ada.')}if(!sites.some(s=>s.id===playerId))playerId=null;restoreRewards();restoreShop();draw();render();progress();restoreJourney();if(gameHome){if(!map)throw Error('Map unavailable');enterJourney2D();$('gameBoot').hidden=true;try{if(localStorage.getItem('jelajah-labuan-view')!=='2d')set3DMode(true)}catch{}}}catch{if(gameHome){$('gameBoot').hidden=false;$('gameBootMessage').textContent='Peta atau data misi belum dapat dimuatkan. Semak internet dan cuba semula.';$('gameRetry').hidden=false;}$('locations').innerHTML='<div class="empty"><strong>Data lokasi belum tersedia</strong>Semak sambungan internet dan cuba semula.<br><button id="retry" class="secondary">Cuba lagi</button></div>';$('retry').onclick=load;$('gameStatus').textContent='Data lokasi gagal dimuatkan.'}}
+startWeather();
 await load();

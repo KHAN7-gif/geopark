@@ -14,7 +14,7 @@ export function cameraPose({mode='close',position,heading=0,currentBearing=0,orb
 }
 export function applyAdvancedQuality(map,profile,surroundings=true){
  map.setPixelRatio?.(profile.pixelRatio);
- for(const id of ['labuan-roofs','labuan-crown-tops','labuan-waves'])if(map.getLayer(id))map.setLayoutProperty(id,'visibility',surroundings&&profile.details?'visible':'none');
+ for(const id of ['labuan-roofs','labuan-crown-tops','labuan-palm-fronds','labuan-waves'])if(map.getLayer(id))map.setLayoutProperty(id,'visibility',surroundings&&profile.details?'visible':'none');
  for(const id of ['labuan-buildings','labuan-canopies'])if(map.getLayer(id))map.setLayerZoomRange?.(id,profile.level==='high'?13.5:id==='labuan-buildings'?14:15,24);
 }
 export function switchBasemap(map,choice){
