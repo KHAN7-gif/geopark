@@ -29,12 +29,22 @@ jobs:
           node-version: '22'
       - name: Validate application
         run: npm test
+      - name: Detect Pages publishing source
+        id: pages_source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PAGES_SOURCE=$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq .build_type)
+          echo "type=${PAGES_SOURCE}" >> "$GITHUB_OUTPUT"
       - name: Configure Pages
+        if: steps.pages_source.outputs.type == 'workflow'
         uses: actions/configure-pages@v5
       - name: Upload static application
+        if: steps.pages_source.outputs.type == 'workflow'
         uses: actions/upload-pages-artifact@v4
         with:
           path: dist
       - name: Deploy
         id: deployment
+        if: steps.pages_source.outputs.type == 'workflow'
         uses: actions/deploy-pages@v4
