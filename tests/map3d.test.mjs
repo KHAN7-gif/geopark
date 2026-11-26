@@ -1,0 +1,46 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createJourney3D,routeFeature,TERRAIN_TILES} from '../dist/journey-3d.mjs';
+
+test('3D view preserves route coordinates, destination pins and teardown',async()=>{
+  const path=[[5.381444,115.255608],[5.32,115.23],[5.27,115.25]];
+  const snapshot=JSON.stringify(path);
+  const nodes=[];
+  const element=()=>({dataset:{},style:{setProperty(){}},children:[],setAttribute(){},append(n){this.children.push(n)},replaceChildren(){this.children=[]}});
+  const document={createElement:element,head:{append(){}}};
+  let map,selected,failed;
+  class FakeMap{
+    constructor(options){this.options=options;this.events={};this.sources={};map=this}
+    on(event,callback){this.events[event]=callback}
+    addControl(){} getCanvas(){return {addEventListener:(name,cb)=>{this.contextLost=cb}}}
+    addSource(id,source){this.sources[id]={...source,setData(data){this.data=data}}}
+    getSource(id){return this.sources[id]} addLayer(){} getBearing(){return 0}
+    fitBounds(bounds,options){this.bounds=bounds;this.fit=options} resize(){} easeTo(options){this.camera=options}
+    setTerrain(terrain){this.terrain=terrain} remove(){this.removed=true}
+  }
+  class FakeMarker{
+    constructor(options){this.element=options.element;nodes.push(this)}setLngLat(point){this.point=point;return this}addTo(){return this}remove(){this.removed=true}getElement(){return this.element}
+  }
+  const window={innerWidth:390,maplibregl:{Map:FakeMap,Marker:FakeMarker,NavigationControl:class{},LngLatBounds:class{constructor(){this.points=[]}extend(point){this.points.push(point)}}}};
+  globalThis.window=window;globalThis.document=document;
+  const view=await createJourney3D({element:element(),onSelect:s=>selected=s,onInteract(){},onNotice(){},onFailure:msg=>failed=msg,reducedMotion:true});
+  try{
+    const sites=[{id:'G1',name:'Mula',lat:path[0][0],lng:path[0][1]},{id:'G2',name:'Destinasi',lat:path[2][0],lng:path[2][1]}];
+    view.sync({sites,records:{G1:{done:1}},journey:{toId:'G2',route:{path}},position:path[1],index:1,profile:{name:'Aiman',avatar:'rimba'},vehicle:'🚶'});
+    map.events.load();
+    assert.equal(map.options.style.terrain.exaggeration,1);
+    assert.equal(map.options.style.sources.elevation.encoding,'terrarium');
+    assert.ok(TERRAIN_TILES.startsWith('https://'));
+    assert.deepEqual(map.sources.route.data,routeFeature(path));
+    assert.deepEqual(nodes[0].point,[115.255608,5.381444]);
+    assert.equal(nodes[0].element.textContent,'G1 ✓');
+    assert.ok(nodes[1].element.className.includes('target'));
+    nodes[1].element.onclick();assert.equal(selected.id,'G2');
+    assert.deepEqual(nodes[2].point,[115.23,5.32]);
+    view.follow(path[1],true);assert.equal(map.camera.duration,0);
+    assert.deepEqual(map.camera.center,[115.23,5.32]);
+    map.contextLost();assert.ok(failed.includes('2D'));
+    assert.equal(JSON.stringify(path),snapshot);
+  }finally{view.destroy();delete globalThis.window;delete globalThis.document}
+  assert.equal(map.removed,true);
+});

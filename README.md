@@ -8,6 +8,8 @@ Nama repositori: **geopark**. Cadangan nama produk: **Jejak Geopark Labuan**.
 
 - Satu peta Leaflet: 11 Geotapak (pink), 4 Biotapak (biru), 10 Tapak Budaya (hijau).
 - Mod Jelajah 2D memenuhi ruang pelayar, avatar, penanda destinasi dan kawalan ikut penjelajah.
+- Mod Jelajah 3D percubaan: peta MapLibre boleh dicondong dan diputar, jubin OpenStreetMap, ketinggian Mapzen / AWS Terrarium pada skala sebenar 1×, pin lokasi serta laluan/penjelajah yang sama.
+- 3D dimuatkan apabila dipilih, memerlukan WebGL dan internet. Jika grafik gagal, 2D dipulihkan tanpa mengubah pemasa atau kemajuan. Data ketinggian yang gagal dimuatkan dinyatakan pada paparan; tiada bukit, jalan atau bangunan rekaan ditambah.
 - Laluan pejalan kaki dan kenderaan daripada OSRM / OpenStreetMap.
 - Nisbah masa 3:1; 60 minit anggaran perjalanan menjadi 20 minit permainan.
 - Perjalanan berterusan selepas halaman ditutup, dengan jeda, sambung dan batal.
