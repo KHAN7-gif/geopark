@@ -1,8 +1,8 @@
-import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=advanced3d-20261126';
-import {createCameraDirector} from './camera-director.mjs?v=advanced3d-20261126';
-import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=advanced3d-20261126';
-import {navigationHUD} from './navigation-hud.mjs?v=advanced3d-20261126';
-import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=advanced3d-20261126';
+import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=focus-20261126';
+import {createCameraDirector} from './camera-director.mjs?v=focus-20261126';
+import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=focus-20261126';
+import {navigationHUD} from './navigation-hud.mjs?v=focus-20261126';
+import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=focus-20261126';
 // All geographic data uses WGS84 coordinates. No invented coastlines or roads.
 export const TERRAIN_TILES='https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png';
 export const BASEMAP_TILES='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -94,7 +94,7 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
     }catch(error){if(!destroyed&&error.name!=='AbortError')onEnvironment('Bangunan dan tumbuhan belum dimuatkan. Peta dan perjalanan kekal tersedia.')}
   }
   async function loadExplorer(){
-    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=advanced3d-20261126b');if(destroyed)return;
+    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=focus-20261126');if(destroyed)return;
       explorer=createExplorerLayer(gl,{reducedMotion,onFailure:()=>{element.classList.remove('has-explorer-model');onNotice('Model penjelajah tidak tersedia. Penanda avatar digunakan.') }});
       map.addLayer(explorer.layer);explorer.setMood?.(lookId);explorer.setFrameRate?.(graphics.fps);element.classList.add('has-explorer-model');if(pending)sync(pending);
     }catch{if(!destroyed){explorer=null;element.classList.remove('has-explorer-model');onNotice('Penanda avatar digunakan pada peranti ini.')}}

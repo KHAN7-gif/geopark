@@ -6,6 +6,8 @@ Nama repositori: **geopark**. Cadangan nama produk: **Jejak Geopark Labuan**.
 
 ## Ciri
 
+- Info destinasi dan pemasa boleh dibuka/disorok secara berasingan melalui tab kecil. Mod Fokus melapangkan peta dengan menyembunyikan HUD besar, radar dan dock; butang Pulih UI, baki masa serta Jeda kekal tersedia. Pilihan disimpan setempat.
+- Bunyi sintesis asal untuk bertolak dan tiba, dengan tetapan senyap dan Uji bunyi dalam Menu. Audio hanya diaktifkan selepas interaksi pengguna yang dibenarkan pelayar; ketibaan ketika membuka semula halaman tidak dijadualkan sebagai bunyi tertunda.
 - Skrin utama permainan memenuhi pelayar: dunia peta, HUD pemain dan dock Misi / 3D / Pasport / Kedai. Menu dibuka sebagai lapisan; tiada dashboard panjang untuk ditatal.
 - Satu peta Leaflet: 11 Geotapak (pink), 4 Biotapak (biru), 10 Tapak Budaya (hijau).
 - Antara muka sinematik berwarna arang, hijau mineral dan emas, dengan foto lokasi sebenar.
