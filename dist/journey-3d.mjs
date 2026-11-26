@@ -1,5 +1,6 @@
-import {navigationHUD} from './navigation-hud.mjs?v=game-20261126';
-import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=game-20261126';
+import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=scenery-20261126';
+import {navigationHUD} from './navigation-hud.mjs?v=scenery-20261126';
+import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=scenery-20261126';
 // All geographic data uses WGS84 coordinates. No invented coastlines or roads.
 export const TERRAIN_TILES='https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png';
 export const BASEMAP_TILES='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -16,7 +17,7 @@ function loadLibrary(){
     script.onerror=()=>{clearTimeout(timeout);script.remove();reject(Error('3D library unavailable'))};document.head.append(script);
   }).catch(error=>{library=null;throw error});return library;
 }
-export async function createJourney3D({element,onSelect,onInteract,onNotice,onFailure,onEnvironment=()=>{},reducedMotion=false}){
+export async function createJourney3D({element,onSelect,onInteract,onNotice,onFailure,onEnvironment=()=>{},look='dusk',reducedMotion=false}){
   const gl=await loadLibrary();
   const map=new gl.Map({container:element,center:[115.23,5.30],zoom:11.5,pitch:52,bearing:0,maxPitch:75,maxZoom:20,minZoom:8,
     maxBounds:[[114.85,4.95],[115.65,5.7]],canvasContextAttributes:{antialias:true},
@@ -25,6 +26,7 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
       elevation:{type:'raster-dem',tiles:[TERRAIN_TILES],tileSize:256,maxzoom:15,encoding:'terrarium',attribution:'Terrain: <a href="https://github.com/tilezen/joerd/blob/master/docs/attribution.md" target="_blank" rel="noopener">Mapzen / AWS Open Data</a>'}
     },layers:[{id:'base',type:'raster',source:'basemap'},{id:'relief',type:'hillshade',source:'elevation',paint:{'hillshade-shadow-color':'#536747','hillshade-highlight-color':'#fff8df','hillshade-exaggeration':.3}}],terrain:{source:'elevation',exaggeration:1}}
   });
+  let lookId=SCENE_LOOKS[look]?look:'dusk',waveTimer=null,wavePhase=0;
   let loaded=false,destroyed=false,pending=null,lastRoute=null,lastDone='',terrainErrors=0,tileErrors=0;
   const markers=new Map();let player=null,explorer=null,following=false,surroundings=true,environmentReady=false,heading=0,chaseZoom=null;const environmentAbort=new AbortController();
   const timeout=setTimeout(()=>{if(!loaded&&!destroyed)onFailure('Paparan 3D tidak dapat dimuatkan. Peta 2D dipulihkan.')},25000);
@@ -38,12 +40,14 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
   map.getCanvas().addEventListener('webglcontextlost',()=>{if(!destroyed)onFailure('Sokongan grafik 3D terhenti. Peta 2D dipulihkan.')});
   map.on('load',()=>{
     if(destroyed)return;loaded=true;clearTimeout(timeout);
+    applySceneLook(map,lookId);
+    map.addSource('mission-beacons',{type:'geojson',data:{type:'FeatureCollection',features:[]}});map.addLayer({id:'labuan-mission-beacons',type:'fill-extrusion',source:'mission-beacons',minzoom:15,paint:{'fill-extrusion-height':['get','height'],'fill-extrusion-base':0,'fill-extrusion-color':['get','color'],'fill-extrusion-opacity':.4}});
     for(const id of ['route','travelled'])map.addSource(id,{type:'geojson',data:{type:'FeatureCollection',features:[]}});
     map.addLayer({id:'route-halo',type:'line',source:'route',paint:{'line-color':'#fff9e8','line-width':9}});
     map.addLayer({id:'route-line',type:'line',source:'route',paint:{'line-color':'#315d3d','line-width':5,'line-dasharray':[2,1]}});
     map.addLayer({id:'travelled-line',type:'line',source:'travelled',paint:{'line-color':'#a46b32','line-width':5}});
     if(pending){sync(pending);if(!following)fit(pending.journey?.route.path||pending.sites.map(s=>[s.lat,s.lng]))}
-    loadSurroundings();loadExplorer();
+    loadSurroundings();loadCoast();loadExplorer();
   });
   function sync(state){
     pending=state;if(!loaded||destroyed)return;
@@ -54,7 +58,7 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
     if(following&&position)chase(position);
     const key=sites.map(s=>`${s.id}:${!!records[s.id]?.done}:${journey?.toId===s.id}`).join('|');
     if(key!==lastDone){
-      lastDone=key;for(const marker of markers.values())marker.remove();markers.clear();
+      lastDone=key;map.getSource('mission-beacons').setData(missionBeacons(sites,records,journey?.toId));for(const marker of markers.values())marker.remove();markers.clear();
       for(const site of sites){
         const button=document.createElement('button');button.type='button';button.className='geo3d-pin'+(journey?.toId===site.id?' target':'');
         button.style.setProperty('--pin-color',{G:'#b8427a',B:'#226da8',C:'#237b54'}[site.id[0]]);
@@ -80,16 +84,20 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
       const response=await fetch(new URL('environment/labuan.geojson',import.meta.url),{signal:environmentAbort.signal});
       if(!response.ok)throw Error('Environment unavailable');const data=await response.json();if(destroyed)return;
       if(data.type!=='FeatureCollection'||!Array.isArray(data.features))throw Error('Invalid environment');
-      addSurroundingLayers(map,data);environmentReady=true;setSurroundingsVisible(map,surroundings);
-      onEnvironment('Suasana Labuan · tapak bangunan OSM; sebahagian ketinggian dan pokok ialah ilustrasi.');
+      addSurroundingLayers(map,data);environmentReady=true;setSurroundingsVisible(map,surroundings);applySceneLook(map,lookId);
+      onEnvironment('Suasana Labuan · tapak bangunan OSM; sebahagian ketinggian dan pokok ialah ilustrasi. Ombak dan cahaya ialah kesan visual.');
     }catch(error){if(!destroyed&&error.name!=='AbortError')onEnvironment('Bangunan dan tumbuhan belum dimuatkan. Peta dan perjalanan kekal tersedia.')}
   }
   async function loadExplorer(){
-    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=game-20261126');if(destroyed)return;
+    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=scenery-20261126');if(destroyed)return;
       explorer=createExplorerLayer(gl,{reducedMotion,onFailure:()=>{element.classList.remove('has-explorer-model');onNotice('Model penjelajah tidak tersedia. Penanda avatar digunakan.') }});
-      map.addLayer(explorer.layer);element.classList.add('has-explorer-model');if(pending)sync(pending);
+      map.addLayer(explorer.layer);explorer.setMood?.(lookId);element.classList.add('has-explorer-model');if(pending)sync(pending);
     }catch{if(!destroyed){explorer=null;element.classList.remove('has-explorer-model');onNotice('Penanda avatar digunakan pada peranti ini.')}}
   }
+  async function loadCoast(){
+    try{const response=await fetch(new URL('environment/shoreline.geojson',import.meta.url),{signal:environmentAbort.signal});if(!response.ok)throw Error('Coast unavailable');const data=await response.json();if(destroyed)return;if(data.type!=='FeatureCollection')throw Error('Invalid coast');addCoastalScenery(map,data);setSurroundingsVisible(map,surroundings);applySceneLook(map,lookId);refreshWaves()}catch(error){if(!destroyed&&error.name!=='AbortError')onNotice('Kesan laut belum dimuatkan. Garis pantai peta asal dikekalkan.')}
+  }
+  function refreshWaves(){clearInterval(waveTimer);waveTimer=null;if(!surroundings||reducedMotion||destroyed||!map.getLayer('labuan-waves'))return;waveTimer=setInterval(()=>{if(typeof document!=='undefined'&&document.hidden)return;wavePhase=(wavePhase+1)%64;map.setPaintProperty('labuan-waves','fill-translate',[0,-wavePhase])},160)}
   function chase(position,close=false){if(!loaded)return;const current=map.getBearing(),bearing=current+((heading-current+540)%360-180);map.easeTo({center:lngLat(position),bearing,pitch:67,zoom:close?19.1:chaseZoom??Math.max(17.8,map.getZoom?.()||17.8),padding:{top:0,right:0,bottom:window.innerWidth<760?130:90,left:0},duration:reducedMotion?0:300})}
-  return {sync,fit,follow(position,close=false){following=true;if(close)chaseZoom=19.1;if(loaded)chase(position,close)},setFollowing(value){following=!!value},setSurroundings(value){surroundings=!!value;if(environmentReady)setSurroundingsVisible(map,surroundings)},resize(){map.resize()},destroy(){destroyed=true;environmentAbort.abort();element.classList.remove('has-explorer-model');clearTimeout(timeout);map.remove()}};
+  return {sync,fit,follow(position,close=false){following=true;if(close)chaseZoom=19.1;if(loaded)chase(position,close)},setFollowing(value){following=!!value},setLook(id){lookId=SCENE_LOOKS[id]?id:'dusk';if(loaded){applySceneLook(map,lookId);explorer?.setMood?.(lookId)}},setSurroundings(value){surroundings=!!value;if(loaded)setSurroundingsVisible(map,surroundings);refreshWaves()},resize(){map.resize()},destroy(){destroyed=true;clearInterval(waveTimer);environmentAbort.abort();element.classList.remove('has-explorer-model');clearTimeout(timeout);map.remove()}};
 }

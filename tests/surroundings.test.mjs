@@ -24,9 +24,9 @@ test('all environment layers can be disabled without changing the route or terra
   const layers=new Map(),changes=[],sources=[];
   const map={addSource(id){sources.push(id)},addLayer(layer){layers.set(layer.id,layer)},getLayer:id=>layers.get(id),setLayoutProperty(id,key,value){changes.push([id,key,value])}};
   addSurroundingLayers(map,data);setSurroundingsVisible(map,false);
-  assert.equal(layers.size,4);assert.deepEqual(sources,['labuan-surroundings']);
-  assert.equal(changes.length,4);assert.ok(changes.every(([id,key,value])=>SURROUNDING_LAYERS.includes(id)&&key==='visibility'&&value==='none'));
-  setSurroundingsVisible(map,true);assert.ok(changes.slice(4).every(c=>c[2]==='visible'));
+  assert.ok(layers.has('labuan-roofs'));assert.ok(layers.has('labuan-crown-tops'));assert.deepEqual(sources,['labuan-surroundings','labuan-details']);
+  assert.equal(changes.length,layers.size);assert.ok(changes.every(([id,key,value])=>SURROUNDING_LAYERS.includes(id)&&key==='visibility'&&value==='none'));
+  setSurroundingsVisible(map,true);assert.ok(changes.slice(layers.size).every(c=>c[2]==='visible'));
 });
 
 test('original 3D explorer and unlocked transport models animate and release their geometry',()=>{

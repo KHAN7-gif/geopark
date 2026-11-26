@@ -1,0 +1,10 @@
+{
+  "source": "OpenStreetMap API coastline ways",
+  "copyright": "OpenStreetMap contributors",
+  "license": "ODbL-1.0",
+  "attribution": "https://www.openstreetmap.org/copyright",
+  "snapshotDate": "2026-11-26",
+  "closedIslandOutlines": 6,
+  "unusedOpenChains": 1,
+  "note": "Coastal water colours, foam and waves are decorative. Shorelines follow the bundled OSM geometry. No tide or weather data is implied."
+}
