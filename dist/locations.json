@@ -1,0 +1,1314 @@
+[
+  {
+    "id": "G1",
+    "name": "Batu Pasir Belait Tanjung Kubong",
+    "lat": 5.381444,
+    "lng": 115.255608,
+    "slug": "batu-pasir-belait-tanjung-kubong",
+    "summary": "Lapisan batu pasir di Tanjung Kubong menceritakan sejarah sungai purba sekitar 15 juta tahun dahulu.",
+    "story": "Lapisan tebal yang hampir mendatar merupakan sebahagian daripada Formasi Belait. Di pesisirnya, pantai berbatu dan berpasir berselang-seli; hakisan laut turut membentuk gua serta gerbang laut.",
+    "highlight": "Batu pasir · gua dan gerbang laut",
+    "area": "Tanjung Kubong",
+    "quiz": {
+      "question": "Apakah yang membentuk landskap pesisir Tanjung Kubong?",
+      "options": [
+        "Gua dan gerbang laut",
+        "Kawah gunung berapi",
+        "Padang pasir"
+      ],
+      "answer": 0
+    },
+    "photos": [
+      {
+        "src": "photos/7a60baa7d3d8e1b3.webp",
+        "caption": "Batu Pasir Belait Tanjung Kubong",
+        "source": "https://labuangeopark.com/images/sites/G1/2.webp"
+      },
+      {
+        "src": "photos/6dbb64b2b893cbc5.webp",
+        "caption": "Kepelbagaian bentuk dan saiz batu arang di dalam batu pasir",
+        "source": "https://labuangeopark.com/images/sites/G1/doc-1.webp"
+      },
+      {
+        "src": "photos/9cb495b11ce770f9.webp",
+        "caption": "Batu Pasir Belait Tanjung Kubong",
+        "source": "https://labuangeopark.com/images/sites/G1/11d.webp"
+      }
+    ],
+    "challenge": {
+      "type": "photo",
+      "photoIndex": 1,
+      "question": "Apakah bahan gelap yang kelihatan di antara batu pasir dalam foto ini?",
+      "options": [
+        "Ais kering",
+        "Batu arang",
+        "Batu apung"
+      ],
+      "answer": 1,
+      "explanation": "Foto ini menunjukkan batu arang dalam batu pasir, salah satu ciri geologi di Tanjung Kubong."
+    },
+    "discoveryTitle": "Cerita Batu Pasir"
+  },
+  {
+    "id": "G2",
+    "name": "Batu Pasir Belait Atas Tanjung Batu",
+    "lat": 5.281947,
+    "lng": 115.261954,
+    "slug": "batu-pasir-belait-atas-tanjung-batu",
+    "summary": "Batu pasir Tanjung Batu menyimpan jejak persekitaran sungai yang pernah dipengaruhi pasang surut.",
+    "story": "Selain kesan korekan organisma laut cetek, batuannya mempunyai rongga pelapukan yang dikenali sebagai tafoni. Bentuk rongga ini memberikan tekstur yang tersendiri pada permukaan batu.",
+    "highlight": "Tafoni · fosil surih",
+    "area": "Tanjung Batu",
+    "quiz": {
+      "question": "Apakah nama rongga pelapukan di Tanjung Batu?",
+      "options": [
+        "Sesar",
+        "Tafoni",
+        "Terumbu"
+      ],
+      "answer": 1
+    },
+    "photos": [
+      {
+        "src": "photos/7d85445c30c7c0e9.webp",
+        "caption": "Batu Pasir Belait Atas Tanjung Batu",
+        "source": "https://labuangeopark.com/images/sites/G2/16.webp"
+      },
+      {
+        "src": "photos/3fb1008a0343f971.webp",
+        "caption": "Tafoni unik berbentuk cerebroid (otak)",
+        "source": "https://labuangeopark.com/images/sites/G2/doc-1.webp"
+      },
+      {
+        "src": "photos/7092f85aae318a4e.webp",
+        "caption": "Batu Pasir Belait Atas Tanjung Batu",
+        "source": "https://labuangeopark.com/images/sites/G2/11.webp"
+      }
+    ],
+    "challenge": {
+      "type": "photo",
+      "photoIndex": 1,
+      "question": "Apakah nama rongga pelapukan yang ditunjukkan pada permukaan batuan ini?",
+      "options": [
+        "Tafoni",
+        "Terumbu karang",
+        "Lidah pasir"
+      ],
+      "answer": 0,
+      "explanation": "Rongga pelapukan ini dikenali sebagai tafoni. Ia antara tarikan geologi Tanjung Batu."
+    },
+    "discoveryTitle": "Seni Tafoni"
+  },
+  {
+    "id": "G3",
+    "name": "Lapisan Silang Tanjung Layang-Layangan",
+    "lat": 5.3464455,
+    "lng": 115.1997108,
+    "slug": "lapisan-silang-tanjung-layang-layangan",
+    "summary": "Lapisan silang di Tanjung Layang-Layangan menunjukkan bagaimana sedimen disusun oleh aliran purba.",
+    "story": "Antara cirinya ialah lapisan silang berskala besar dengan kelikir batu arang. Kawasan pesisir turut memperlihatkan dataran pasang surut dan gerbang yang dibentuk oleh ombak.",
+    "highlight": "Lapisan silang · kelikir batu arang",
+    "area": "Tanjung Layang-Layangan",
+    "quiz": {
+      "question": "Apakah struktur utama di Tanjung Layang-Layangan?",
+      "options": [
+        "Tasik air tawar",
+        "Gua batu kapur",
+        "Lapisan silang"
+      ],
+      "answer": 2
+    },
+    "photos": [
+      {
+        "src": "photos/bef4ab8f0eacf445.webp",
+        "caption": "Lapisan Silang Tanjung Layang-Layangan",
+        "source": "https://labuangeopark.com/images/sites/G3/2.webp"
+      },
+      {
+        "src": "photos/4647cd7d63c89fa5.webp",
+        "caption": "Landskap hakisan pantai Tanjung Layang-Layangan",
+        "source": "https://labuangeopark.com/images/sites/G3/doc-1.webp"
+      },
+      {
+        "src": "photos/8fe05b62b79010e1.webp",
+        "caption": "Lapisan Silang Tanjung Layang-Layangan",
+        "source": "https://labuangeopark.com/images/sites/G3/1.webp"
+      }
+    ],
+    "challenge": {
+      "type": "quiz",
+      "question": "Apakah struktur utama di Tanjung Layang-Layangan?",
+      "options": [
+        "Tasik air tawar",
+        "Gua batu kapur",
+        "Lapisan silang"
+      ],
+      "answer": 2,
+      "explanation": "Lapisan silang di Tanjung Layang-Layangan menunjukkan bagaimana sedimen disusun oleh aliran purba."
+    },
+    "discoveryTitle": "Jejak Lapisan Silang"
+  },
+  {
+    "id": "G4",
+    "name": "Batuan Sedimen Temburong Bebuloh Darat",
+    "lat": 5.278717,
+    "lng": 115.190836,
+    "slug": "batuan-sedimen-temburong-bebuloh-darat",
+    "summary": "Batuan Bebuloh Darat membawa cerita dasar laut dalam sekitar 30 juta tahun dahulu.",
+    "story": "Batu lumpur, batu lodak dan batu pasir tersusun sebagai rekod pemendapan sedimen. Fosil surih di sini pula menunjukkan aktiviti organisma yang pernah hidup di dasar laut.",
+    "highlight": "Sedimen laut dalam · fosil surih",
+    "area": "Kg. Bebuloh Darat",
+    "quiz": {
+      "question": "Bebuloh Darat merekodkan persekitaran purba yang mana?",
+      "options": [
+        "Dasar laut dalam",
+        "Padang rumput",
+        "Gunung berapi"
+      ],
+      "answer": 0
+    },
+    "photos": [
+      {
+        "src": "photos/1fb9e1c13bc89d7c.webp",
+        "caption": "Batuan Sedimen Temburong Bebuloh Darat",
+        "source": "https://labuangeopark.com/images/sites/G4/1p2a2715.webp"
+      },
+      {
+        "src": "photos/710815237c26b1b5.webp",
+        "caption": "Batuan Sedimen Temburong Bebuloh Darat",
+        "source": "https://labuangeopark.com/images/sites/G4/1p2a2737.webp"
+      },
+      {
+        "src": "photos/1ae42eb541279821.webp",
+        "caption": "Batuan Sedimen Temburong Bebuloh Darat",
+        "source": "https://labuangeopark.com/images/sites/G4/1p2a2741.webp"
+      }
+    ],
+    "challenge": {
+      "type": "match",
+      "question": "Padankan setiap petunjuk dengan istilah yang tepat.",
+      "choices": [
+        "Batuan sedimen",
+        "Fosil surih",
+        "Sekitar 30 juta tahun dahulu"
+      ],
+      "pairs": [
+        {
+          "prompt": "Batu lumpur, batu lodak dan batu pasir tergolong dalam kumpulan ini.",
+          "answer": 0
+        },
+        {
+          "prompt": "Kesan aktiviti organisma purba yang direkodkan dalam batuan.",
+          "answer": 1
+        },
+        {
+          "prompt": "Anggaran masa lampau yang disebut untuk dasar laut purba di sini.",
+          "answer": 2
+        }
+      ],
+      "explanation": "Bebuloh Darat menghubungkan batuan sedimen, jejak organisma dan sejarah persekitaran laut dalam."
+    },
+    "discoveryTitle": "Memori Laut Dalam"
+  },
+  {
+    "id": "G5",
+    "name": "Batuan Penakung Minyak Ganggarak",
+    "lat": 5.368836,
+    "lng": 115.224664,
+    "slug": "batuan-penakung-minyak-ganggarak",
+    "summary": "Di Ganggarak, batuan yang boleh menjadi penakung minyak tersingkap di permukaan.",
+    "story": "Ruang di dalam batuan membolehkan minyak tersimpan. Singkapan ini membantu kita mengenali batuan reservoir yang biasanya berada jauh di bawah permukaan bumi atau dasar laut.",
+    "highlight": "Batuan reservoir · petroleum",
+    "area": "Kg. Ganggarak",
+    "quiz": {
+      "question": "Mengapakah batuan Ganggarak boleh menjadi penakung minyak?",
+      "options": [
+        "Batuan terbentuk daripada minyak",
+        "Ruang di dalamnya boleh menyimpan minyak",
+        "Batuan digunakan membuat bot"
+      ],
+      "answer": 1
+    },
+    "photos": [
+      {
+        "src": "photos/ae2ce0ad7ee93307.webp",
+        "caption": "Batuan Penakung Minyak Ganggarak",
+        "source": "https://labuangeopark.com/images/sites/G5/1p2a2959.webp"
+      },
+      {
+        "src": "photos/4575879e48c449af.webp",
+        "caption": "Batuan Penakung Minyak Ganggarak",
+        "source": "https://labuangeopark.com/images/sites/G5/1p2a2941.webp"
+      },
+      {
+        "src": "photos/cdb81e400169cf47.webp",
+        "caption": "Batuan Penakung Minyak Ganggarak",
+        "source": "https://labuangeopark.com/images/sites/G5/1p2a2969.webp"
+      }
+    ],
+    "challenge": {
+      "type": "match",
+      "question": "Padankan setiap petunjuk dengan istilah yang tepat.",
+      "choices": [
+        "Reservoir",
+        "Ruang dalam batuan",
+        "Singkapan di Ganggarak"
+      ],
+      "pairs": [
+        {
+          "prompt": "Istilah lain untuk batuan penakung minyak.",
+          "answer": 0
+        },
+        {
+          "prompt": "Bahagian batuan yang membolehkan minyak tersimpan.",
+          "answer": 1
+        },
+        {
+          "prompt": "Dedahan setempat yang membolehkan batuan penakung diperhatikan di permukaan.",
+          "answer": 2
+        }
+      ],
+      "explanation": "Batuan reservoir menyimpan minyak dalam ruang di dalamnya; singkapan membantu kita mengenalinya di permukaan."
+    },
+    "discoveryTitle": "Rahsia Batuan Penakung"
+  },
+  {
+    "id": "G6",
+    "name": "Lidah Pasir Pulau Kuraman",
+    "lat": 5.21862,
+    "lng": 115.140926,
+    "slug": "lidah-pasir-pulau-kuraman",
+    "summary": "Lidah pasir Pulau Kuraman terbentuk apabila pasir diangkut dan dimendapkan oleh arus pesisir.",
+    "story": "Pasir terkumpul di hujung pantai menjadi beting yang memanjang. Angin dan ombak boleh melengkungkan hujungnya serta mengubah bentuk pesisir dari semasa ke semasa.",
+    "highlight": "Arus pesisir · pemendapan pasir",
+    "area": "Pulau Kuraman",
+    "quiz": {
+      "question": "Apakah yang membentuk lidah pasir Pulau Kuraman?",
+      "options": [
+        "Letusan gunung berapi",
+        "Pembekuan air laut",
+        "Pengangkutan dan pemendapan pasir oleh arus"
+      ],
+      "answer": 2
+    },
+    "photos": [
+      {
+        "src": "photos/62d36c7d77ecc1c6.webp",
+        "caption": "Lidah Pasir Pulau Kuraman",
+        "source": "https://labuangeopark.com/images/sites/G6/dji-0082.webp"
+      },
+      {
+        "src": "photos/dc28564fc7c681a3.webp",
+        "caption": "Lidah Pasir Pulau Kuraman",
+        "source": "https://labuangeopark.com/images/sites/G6/dji-0038.webp"
+      },
+      {
+        "src": "photos/20f3f1ca1c16921e.webp",
+        "caption": "Lidah Pasir Pulau Kuraman",
+        "source": "https://labuangeopark.com/images/sites/G6/dji-0048.webp"
+      }
+    ],
+    "challenge": {
+      "type": "photo",
+      "photoIndex": 0,
+      "question": "Apakah bentuk pesisir yang memanjang dari pulau dalam foto ini?",
+      "options": [
+        "Kawah gunung berapi",
+        "Pentas ais",
+        "Lidah pasir"
+      ],
+      "answer": 2,
+      "explanation": "Arus pesisir mengangkut dan memendapkan pasir sehingga membentuk lidah pasir Pulau Kuraman."
+    },
+    "discoveryTitle": "Lidah Pasir Kuraman"
+  },
+  {
+    "id": "G7",
+    "name": "Pulau Rusukan Besar",
+    "lat": 5.188398,
+    "lng": 115.142793,
+    "slug": "pulau-rusukan-besar-g7",
+    "summary": "Batuan Pulau Rusukan Besar memperlihatkan rekahan dan sesar yang berkait dengan pergerakan kerak bumi.",
+    "story": "Pada pentas hakisan lautnya terdapat corak kekar berbentuk kotak. Struktur ini menjadi petunjuk proses tektonik yang pernah mempengaruhi bahagian barat Borneo.",
+    "highlight": "Kekar kotak · sesar",
+    "area": "Pulau Rusukan Besar",
+    "quiz": {
+      "question": "Apakah yang ditunjukkan rekahan dan sesar Rusukan Besar?",
+      "options": [
+        "Pergerakan kerak bumi pada masa lalu",
+        "Pembentukan ais",
+        "Aktiviti penanaman"
+      ],
+      "answer": 0
+    },
+    "photos": [
+      {
+        "src": "photos/c8a062a3ef9a9e71.webp",
+        "caption": "Pulau Rusukan Besar",
+        "source": "https://labuangeopark.com/images/sites/G7/1p2a2651.webp"
+      },
+      {
+        "src": "photos/88261d897bb789f6.webp",
+        "caption": "Pulau Rusukan Besar",
+        "source": "https://labuangeopark.com/images/sites/G7/dji-0090.webp"
+      },
+      {
+        "src": "photos/584a05d2620ad35d.webp",
+        "caption": "Pulau Rusukan Besar",
+        "source": "https://labuangeopark.com/images/sites/G7/dsc00350.webp"
+      }
+    ],
+    "challenge": {
+      "type": "quiz",
+      "question": "Apakah yang ditunjukkan rekahan dan sesar Rusukan Besar?",
+      "options": [
+        "Pergerakan kerak bumi pada masa lalu",
+        "Pembentukan ais",
+        "Aktiviti penanaman"
+      ],
+      "answer": 0,
+      "explanation": "Batuan Pulau Rusukan Besar memperlihatkan rekahan dan sesar yang berkait dengan pergerakan kerak bumi."
+    },
+    "discoveryTitle": "Corak Kekar Kotak"
+  },
+  {
+    "id": "G8",
+    "name": "Bekas Lombong Batu Arang Lubok Temiang",
+    "lat": 5.3738109,
+    "lng": 115.232894,
+    "slug": "bekas-lombong-batu-arang-lubok-temiang",
+    "summary": "Lubok Temiang menyimpan tinggalan kegiatan perlombongan batu arang Labuan pada abad ke-19.",
+    "story": "Struktur seperti terowong, lohong dan adit menjadi bukti sejarah perlombongan di utara pulau. Tapak ini menghubungkan sumber geologi dengan perkembangan kegiatan manusia.",
+    "highlight": "Warisan perlombongan · abad ke-19",
+    "area": "Kg. Lubok Temiang",
+    "quiz": {
+      "question": "Apakah sumber yang dilombong di Lubok Temiang?",
+      "options": [
+        "Emas",
+        "Batu arang",
+        "Batu permata"
+      ],
+      "answer": 1
+    },
+    "photos": [
+      {
+        "src": "photos/d8cf63d42f9e5d3d.webp",
+        "caption": "Bekas Lombong Batu Arang Lubok Temiang",
+        "source": "https://labuangeopark.com/images/sites/G8/1p2a2306.webp"
+      },
+      {
+        "src": "photos/353ddca95491d250.webp",
+        "caption": "Bekas Lombong Batu Arang Lubok Temiang",
+        "source": "https://labuangeopark.com/images/sites/G8/1p2a2283.webp"
+      },
+      {
+        "src": "photos/0caf561995495e29.webp",
+        "caption": "Bekas Lombong Batu Arang Lubok Temiang",
+        "source": "https://labuangeopark.com/images/sites/G8/1p2a2285.webp"
+      }
+    ],
+    "challenge": {
+      "type": "photo",
+      "photoIndex": 0,
+      "question": "Apakah tinggalan sejarah yang ditunjukkan oleh bukaan gelap dalam foto ini?",
+      "options": [
+        "Rumah api",
+        "Terowong perlombongan",
+        "Laluan kereta api bertingkat"
+      ],
+      "answer": 1,
+      "explanation": "Bukaan terowong ini berkaitan tinggalan perlombongan batu arang di Lubok Temiang."
+    },
+    "discoveryTitle": "Jejak Batu Arang"
+  },
+  {
+    "id": "G9",
+    "name": "Permatang Jurus Labuan",
+    "lat": 5.3516844,
+    "lng": 115.2068397,
+    "slug": "permatang-jurus-labuan",
+    "summary": "Permatang Labuan terbentuk apabila lapisan batuan terangkat dan terlipat akibat proses tektonik.",
+    "story": "Proses sekitar 12 hingga 3 juta tahun dahulu mengangkat kawasan ini dari dasar laut secara beransur-ansur. Lipatan batuan membentuk bukit dan permatang yang mencorakkan pulau.",
+    "highlight": "Pengangkatan · lipatan batuan",
+    "area": "cth. Bukit Merinding",
+    "quiz": {
+      "question": "Apakah proses yang membentuk permatang Labuan?",
+      "options": [
+        "Pembinaan empangan",
+        "Hujan salji",
+        "Pengangkatan dan lipatan batuan"
+      ],
+      "answer": 2
+    },
+    "photos": [
+      {
+        "src": "photos/695e8dea7957e801.webp",
+        "caption": "Permatang Jurus Labuan",
+        "source": "https://labuangeopark.com/images/sites/G10/1p2a2675.webp"
+      },
+      {
+        "src": "photos/c7d763a481a67e4f.webp",
+        "caption": "Permatang Jurus Labuan",
+        "source": "https://labuangeopark.com/images/sites/G10/1p2a2662.webp"
+      },
+      {
+        "src": "photos/a88a4354f42385f9.webp",
+        "caption": "Permatang Jurus Labuan",
+        "source": "https://labuangeopark.com/images/sites/G10/1p2a2667.webp"
+      }
+    ],
+    "challenge": {
+      "type": "match",
+      "question": "Padankan setiap petunjuk dengan istilah yang tepat.",
+      "choices": [
+        "Tektonik",
+        "Lipatan",
+        "Pengangkatan"
+      ],
+      "pairs": [
+        {
+          "prompt": "Proses pergerakan kerak bumi yang membentuk struktur batuan.",
+          "answer": 0
+        },
+        {
+          "prompt": "Pembengkokan lapisan batuan sedimen.",
+          "answer": 1
+        },
+        {
+          "prompt": "Proses menaikkan kawasan dari dasar laut secara beransur-ansur.",
+          "answer": 2
+        }
+      ],
+      "explanation": "Tektonik, lipatan dan pengangkatan membantu menjelaskan pembentukan bukit serta permatang Labuan."
+    },
+    "discoveryTitle": "Bumi yang Terangkat"
+  },
+  {
+    "id": "G10",
+    "name": "Enapan Pesisir Simpang Sweetman",
+    "lat": 5.391345,
+    "lng": 115.249601,
+    "slug": "enapan-pesisir-simpang-sweetman",
+    "summary": "Enapan di Simpang Sweetman merekodkan pembentukan batuan dalam persekitaran pesisir purba.",
+    "story": "Lapisan batu pasirnya mengandungi serpihan batu arang dan fosil surih Ophiomorpha. Ciri-ciri ini membantu menjelaskan keadaan persekitaran ketika sedimen dimendapkan.",
+    "highlight": "Enapan pesisir · Ophiomorpha",
+    "area": "Pantai Tanjung Kubong",
+    "quiz": {
+      "question": "Apakah persekitaran asal enapan Simpang Sweetman?",
+      "options": [
+        "Pesisir purba",
+        "Gurun berais",
+        "Kawah gunung berapi"
+      ],
+      "answer": 0
+    },
+    "photos": [
+      {
+        "src": "photos/19bf4e80be97ae71.webp",
+        "caption": "Enapan Pesisir Simpang Sweetman",
+        "source": "https://labuangeopark.com/images/sites/G11/1p2a2232.webp"
+      },
+      {
+        "src": "photos/bfcc868e174cf009.webp",
+        "caption": "Enapan Pesisir Simpang Sweetman",
+        "source": "https://labuangeopark.com/images/sites/G11/1p2a2223.webp"
+      },
+      {
+        "src": "photos/0838214e018f08bd.webp",
+        "caption": "Enapan Pesisir Simpang Sweetman",
+        "source": "https://labuangeopark.com/images/sites/G11/1p2a2249.webp"
+      }
+    ],
+    "challenge": {
+      "type": "quiz",
+      "question": "Apakah persekitaran asal enapan Simpang Sweetman?",
+      "options": [
+        "Pesisir purba",
+        "Gurun berais",
+        "Kawah gunung berapi"
+      ],
+      "answer": 0,
+      "explanation": "Enapan di Simpang Sweetman merekodkan pembentukan batuan dalam persekitaran pesisir purba."
+    },
+    "discoveryTitle": "Rekod Pesisir Purba"
+  },
+  {
+    "id": "G11",
+    "name": "Fosil Surih Tanjung Punei",
+    "lat": 5.259617,
+    "lng": 115.159943,
+    "slug": "fosil-surih-tanjung-punei",
+    "summary": "Tanjung Punei terkenal dengan fosil surih Paleodictyon yang mempunyai corak seperti sarang lebah.",
+    "story": "Corak ini dikaitkan dengan aktiviti organisma menghasilkan sumber makanan. Lapisan pembawanya terdedah pada pentas hakisan di sepanjang pantai.",
+    "highlight": "Paleodictyon · pentas hakisan",
+    "area": "Tanjung Punei",
+    "quiz": {
+      "question": "Apakah fosil surih bercorak sarang lebah di Tanjung Punei?",
+      "options": [
+        "Ophiomorpha",
+        "Paleodictyon",
+        "Tafoni"
+      ],
+      "answer": 1
+    },
+    "photos": [
+      {
+        "src": "photos/34915647d607253c.webp",
+        "caption": "Fosil Surih Tanjung Punei",
+        "source": "https://labuangeopark.com/images/sites/G12/dsc00406.webp"
+      },
+      {
+        "src": "photos/28d11956977451d2.webp",
+        "caption": "Fosil Surih Tanjung Punei",
+        "source": "https://labuangeopark.com/images/sites/G12/1p2a2660.webp"
+      },
+      {
+        "src": "photos/127046eeafdc5a11.webp",
+        "caption": "Fosil Surih Tanjung Punei",
+        "source": "https://labuangeopark.com/images/sites/G12/1p2a2663.webp"
+      }
+    ],
+    "challenge": {
+      "type": "match",
+      "question": "Padankan setiap petunjuk dengan istilah yang tepat.",
+      "choices": [
+        "Paleodictyon",
+        "Fosil surih",
+        "Pentas hakisan"
+      ],
+      "pairs": [
+        {
+          "prompt": "Nama fosil surih yang mempunyai corak seperti sarang lebah.",
+          "answer": 0
+        },
+        {
+          "prompt": "Rekod kesan aktiviti organisma purba.",
+          "answer": 1
+        },
+        {
+          "prompt": "Permukaan batuan yang terdedah akibat hakisan di sepanjang pantai.",
+          "answer": 2
+        }
+      ],
+      "explanation": "Tanjung Punei memperlihatkan Paleodictyon dalam lapisan batuan yang tersingkap pada pentas hakisan."
+    },
+    "discoveryTitle": "Sarang Lebah Purba"
+  },
+  {
+    "id": "B1",
+    "name": "Hutan Paya Bakau Kinabenuwa",
+    "lat": 5.2865817,
+    "lng": 115.2146215,
+    "slug": "hutan-paya-bakau-kinabenuwa",
+    "summary": "Paya bakau Kinabenuwa ialah habitat penting bagi kepelbagaian tumbuhan di Labuan.",
+    "story": "Kawasan paya laut ini meliputi kira-kira 374 hektar. Inventori yang dirujuk merekodkan 47 spesies tumbuhan daripada 23 famili, menggambarkan kekayaan flora habitat pesisirnya.",
+    "highlight": "Paya bakau · kepelbagaian flora",
+    "area": "Kinabenuwa",
+    "quiz": {
+      "question": "Apakah habitat utama di Kinabenuwa?",
+      "options": [
+        "Hutan gunung",
+        "Padang pasir",
+        "Hutan paya bakau"
+      ],
+      "answer": 2
+    },
+    "photos": [
+      {
+        "src": "photos/2d4d382dc737c7ad.webp",
+        "caption": "Hutan Paya Bakau Kinabenuwa",
+        "source": "https://labuangeopark.com/images/sites/B1/dji-0270.webp"
+      },
+      {
+        "src": "photos/cf83c2fbd05a42d0.webp",
+        "caption": "Hutan Paya Bakau Kinabenuwa",
+        "source": "https://labuangeopark.com/images/sites/B1/1p2a2084.webp"
+      },
+      {
+        "src": "photos/b32ef4b6cab410b6.webp",
+        "caption": "Hutan Paya Bakau Kinabenuwa",
+        "source": "https://labuangeopark.com/images/sites/B1/1p2a2089.webp"
+      }
+    ],
+    "challenge": {
+      "type": "photo",
+      "photoIndex": 0,
+      "question": "Apakah habitat utama yang kelihatan dalam foto Kinabenuwa ini?",
+      "options": [
+        "Hutan paya bakau",
+        "Hutan salji",
+        "Ladang teh"
+      ],
+      "answer": 0,
+      "explanation": "Kinabenuwa ialah kawasan hutan paya bakau yang penting untuk kepelbagaian flora pesisir Labuan."
+    },
+    "discoveryTitle": "Dunia Paya Bakau"
+  },
+  {
+    "id": "B2",
+    "name": "Pantai Tanjung Kubong",
+    "lat": 5.3914992,
+    "lng": 115.249461,
+    "slug": "pantai-tanjung-kubong",
+    "summary": "Pantai Tanjung Kubong menghubungkan pesisir berbatu dan berpasir dengan ekosistem hutan pantai.",
+    "story": "Inventori flora sepanjang laluan Chimney hingga Pantai Tanjung Aru merekodkan 61 spesies tumbuhan, termasuk 35 spesies pokok. Pesisir ini memperlihatkan hubungan antara landskap pantai dan kepelbagaian tumbuhan.",
+    "highlight": "Hutan pantai · flora pesisir",
+    "area": "Tanjung Kubong",
+    "quiz": {
+      "question": "Pantai Tanjung Kubong menyokong ekosistem apa?",
+      "options": [
+        "Hutan pantai",
+        "Hutan salji",
+        "Padang rumput alpine"
+      ],
+      "answer": 0
+    },
+    "photos": [
+      {
+        "src": "photos/b5872542c5db0d9e.webp",
+        "caption": "Pantai Tanjung Kubong",
+        "source": "https://labuangeopark.com/images/sites/B2/dji-0019.webp"
+      },
+      {
+        "src": "photos/17e8456333f90ae6.webp",
+        "caption": "Pantai Tanjung Kubong",
+        "source": "https://labuangeopark.com/images/sites/B2/1p2a2458.webp"
+      },
+      {
+        "src": "photos/4e90f24fb1d2fabd.webp",
+        "caption": "Pantai Tanjung Kubong",
+        "source": "https://labuangeopark.com/images/sites/B2/dji-0008.webp"
+      }
+    ],
+    "challenge": {
+      "type": "photo",
+      "photoIndex": 0,
+      "question": "Apakah ekosistem daratan yang menyokong kawasan pesisir dalam foto ini?",
+      "options": [
+        "Padang rumput alpine",
+        "Hutan salji",
+        "Hutan pantai"
+      ],
+      "answer": 2,
+      "explanation": "Pantai berbatu dan berpasir Tanjung Kubong berkait rapat dengan ekosistem hutan pantainya."
+    },
+    "discoveryTitle": "Kehidupan Hutan Pantai"
+  },
+  {
+    "id": "B3",
+    "name": "Sanktuari Hidupan Liar Pulau Layang-layangan",
+    "lat": 5.3435272,
+    "lng": 115.1917684,
+    "slug": "sanktuari-hidupan-liar-pulau-layang-layangan",
+    "summary": "Pulau Layang-layangan, turut dikenali sebagai Pulau Ular, penting sebagai habitat burung.",
+    "story": "Pulau ini menjadi kawasan pembiakan burung camar dan persinggahan burung air yang bermigrasi. Nilai habitatnya mendorong cadangan menjadikannya kawasan perlindungan hidupan liar.",
+    "highlight": "Burung camar · burung migrasi",
+    "area": "Pulau Layang-layangan (Pulau Ular)",
+    "quiz": {
+      "question": "Mengapakah Pulau Layang-layangan penting untuk burung?",
+      "options": [
+        "Kilang makanan burung",
+        "Kawasan pembiakan dan persinggahan migrasi",
+        "Kawasan tanpa tumbuhan"
+      ],
+      "answer": 1
+    },
+    "photos": [
+      {
+        "src": "photos/bef4ab8f0eacf445.webp",
+        "caption": "Dataran pasang surut Tanjung Layang-Layangan ke arah Pulau Ular",
+        "source": "https://labuangeopark.com/images/sites/G3/2.webp"
+      },
+      {
+        "src": "photos/8fe05b62b79010e1.webp",
+        "caption": "Dataran pasang surut Tanjung Layang-Layangan ke arah Pulau Ular",
+        "source": "https://labuangeopark.com/images/sites/G3/1.webp"
+      }
+    ],
+    "challenge": {
+      "type": "quiz",
+      "question": "Mengapakah Pulau Layang-layangan penting untuk burung?",
+      "options": [
+        "Kilang makanan burung",
+        "Kawasan pembiakan dan persinggahan migrasi",
+        "Kawasan tanpa tumbuhan"
+      ],
+      "answer": 1,
+      "explanation": "Pulau Layang-layangan, turut dikenali sebagai Pulau Ular, penting sebagai habitat burung."
+    },
+    "discoveryTitle": "Persinggahan Burung"
+  },
+  {
+    "id": "B4",
+    "name": "Taman Laut Labuan",
+    "lat": 5.188747,
+    "lng": 115.143668,
+    "slug": "taman-laut",
+    "summary": "Taman Laut Labuan merangkumi perairan sekitar Kuraman, Rusukan Besar dan Rusukan Kecil.",
+    "story": "Terumbu karang cetek di sekeliling pulau-pulau ini menyokong pelbagai hidupan marin. Rekod yang dirujuk menyenaraikan 161 spesies karang daripada 54 genus.",
+    "highlight": "Terumbu karang · hidupan marin",
+    "area": "Pulau Rusukan Besar, Pulau Rusukan Kecil, Pulau Kuraman",
+    "quiz": {
+      "question": "Apakah habitat marin penting di Taman Laut Labuan?",
+      "options": [
+        "Salji",
+        "Ladang kelapa sawit",
+        "Terumbu karang cetek"
+      ],
+      "answer": 2
+    },
+    "photos": [
+      {
+        "src": "photos/825e813ca2a33ef0.webp",
+        "caption": "Pulau Rusukan Kecil",
+        "source": "https://labuangeopark.com/images/sites/C7/dji-0111.webp"
+      },
+      {
+        "src": "photos/88261d897bb789f6.webp",
+        "caption": "Pulau Rusukan Besar",
+        "source": "https://labuangeopark.com/images/sites/G7/dji-0090.webp"
+      },
+      {
+        "src": "photos/62d36c7d77ecc1c6.webp",
+        "caption": "Lidah Pasir Pulau Kuraman",
+        "source": "https://labuangeopark.com/images/sites/G6/dji-0082.webp"
+      }
+    ],
+    "challenge": {
+      "type": "match",
+      "question": "Padankan setiap petunjuk dengan istilah yang tepat.",
+      "choices": [
+        "Pulau Kuraman",
+        "Terumbu karang",
+        "Hidupan marin"
+      ],
+      "pairs": [
+        {
+          "prompt": "Salah satu pulau yang membentuk Taman Laut Labuan.",
+          "answer": 0
+        },
+        {
+          "prompt": "Habitat perairan cetek yang mengelilingi pulau-pulau taman laut.",
+          "answer": 1
+        },
+        {
+          "prompt": "Kumpulan hidupan yang disokong oleh habitat laut ini.",
+          "answer": 2
+        }
+      ],
+      "explanation": "Kuraman, Rusukan Besar dan Rusukan Kecil dikelilingi habitat terumbu yang kaya dengan hidupan marin."
+    },
+    "discoveryTitle": "Khazanah Terumbu"
+  },
+  {
+    "id": "C1",
+    "name": "Kampung Air Tradisi Patau-Patau",
+    "lat": 5.276984,
+    "lng": 115.235002,
+    "slug": "kampung-air-tradisi-patau-patau",
+    "summary": "Kampung Air Patau-Patau memperkenalkan warisan kediaman atas air dan kehidupan masyarakat pesisir.",
+    "story": "Perkampungan ini mempunyai sejarah lebih satu abad. Seni bina rumah dan kehidupan komuniti nelayan memperlihatkan hubungan rapat penduduk dengan laut.",
+    "highlight": "Rumah atas air · komuniti nelayan",
+    "area": "Kg. Patau-Patau",
+    "quiz": {
+      "question": "Apakah ciri warisan Kampung Patau-Patau?",
+      "options": [
+        "Kediaman tradisional atas air",
+        "Kota di gunung",
+        "Terowong bawah tanah"
+      ],
+      "answer": 0
+    },
+    "photos": [
+      {
+        "src": "photos/7250069c5fedb76d.webp",
+        "caption": "Kampung Air Tradisi Patau-Patau",
+        "source": "https://labuangeopark.com/images/sites/C1/dji-0295.webp"
+      },
+      {
+        "src": "photos/da858fa024fc6410.webp",
+        "caption": "Kampung Air Tradisi Patau-Patau",
+        "source": "https://labuangeopark.com/images/sites/C1/1p2a3327.webp"
+      },
+      {
+        "src": "photos/ee3a8badeac1949f.webp",
+        "caption": "Kampung Air Tradisi Patau-Patau",
+        "source": "https://labuangeopark.com/images/sites/C1/1p2a3372.webp"
+      }
+    ],
+    "challenge": {
+      "type": "match",
+      "question": "Padankan setiap petunjuk dengan istilah yang tepat.",
+      "choices": [
+        "Rumah atas air",
+        "Komuniti nelayan",
+        "Warisan lebih satu abad"
+      ],
+      "pairs": [
+        {
+          "prompt": "Ciri seni bina kediaman tradisional di Patau-Patau.",
+          "answer": 0
+        },
+        {
+          "prompt": "Masyarakat yang kehidupannya berkait rapat dengan laut.",
+          "answer": 1
+        },
+        {
+          "prompt": "Tempoh sejarah perkampungan yang diterangkan dalam maklumat lokasi.",
+          "answer": 2
+        }
+      ],
+      "explanation": "Patau-Patau menghubungkan seni bina atas air, kehidupan nelayan dan sejarah komuniti yang panjang."
+    },
+    "discoveryTitle": "Kehidupan Atas Air"
+  },
+  {
+    "id": "C2",
+    "name": "Kampung Air Tradisi Bebuloh Laut",
+    "lat": 5.277483,
+    "lng": 115.193552,
+    "slug": "kampung-air-tradisi-bebuloh-laut",
+    "summary": "Kampung Bebuloh Laut mengekalkan ciri perkampungan nelayan tradisional Labuan.",
+    "story": "Rumah kayu di atas air dihubungkan dengan laluan pejalan kaki. Tradisi maritim dan adat masyarakat setempat menjadi sebahagian penting identiti kampung ini.",
+    "highlight": "Kampung air · tradisi maritim",
+    "area": "Kg. Bebuloh Laut",
+    "quiz": {
+      "question": "Apakah yang menghubungkan rumah kayu di Bebuloh Laut?",
+      "options": [
+        "Lif kaca",
+        "Laluan pejalan kaki",
+        "Terowong kereta api"
+      ],
+      "answer": 1
+    },
+    "photos": [
+      {
+        "src": "photos/83cfff1161702fd5.webp",
+        "caption": "Kampung Air Tradisi Bebuloh Laut",
+        "source": "https://labuangeopark.com/images/sites/C2/1p2a2798.webp"
+      },
+      {
+        "src": "photos/e05fee8468a803fa.webp",
+        "caption": "Kampung Air Tradisi Bebuloh Laut",
+        "source": "https://labuangeopark.com/images/sites/C2/1p2a2825.webp"
+      },
+      {
+        "src": "photos/a11402cd789461f5.webp",
+        "caption": "Kampung Air Tradisi Bebuloh Laut",
+        "source": "https://labuangeopark.com/images/sites/C2/1p2a2849-1.webp"
+      }
+    ],
+    "challenge": {
+      "type": "quiz",
+      "question": "Apakah yang menghubungkan rumah kayu di Bebuloh Laut?",
+      "options": [
+        "Lif kaca",
+        "Laluan pejalan kaki",
+        "Terowong kereta api"
+      ],
+      "answer": 1,
+      "explanation": "Kampung Bebuloh Laut mengekalkan ciri perkampungan nelayan tradisional Labuan."
+    },
+    "discoveryTitle": "Tradisi Maritim"
+  },
+  {
+    "id": "C3",
+    "name": "Muzium Chimney",
+    "lat": 5.3811233,
+    "lng": 115.2487039,
+    "slug": "muzium-chimney",
+    "summary": "Muzium Chimney di Tanjung Kubong mengetengahkan sejarah perlombongan batu arang Labuan.",
+    "story": "Pamerannya menghubungkan pengunjung dengan kegiatan perlombongan sejak abad ke-19. Menara Chimney yang terkenal merupakan mercu tanda utama kawasan ini.",
+    "highlight": "Muzium · warisan perlombongan",
+    "area": "Tanjung Kubong",
+    "quiz": {
+      "question": "Muzium Chimney memperkenalkan sejarah kegiatan apa?",
+      "options": [
+        "Penanaman teh",
+        "Perlombongan emas",
+        "Perlombongan batu arang"
+      ],
+      "answer": 2
+    },
+    "photos": [
+      {
+        "src": "photos/d3ece8c8712c5df2.webp",
+        "caption": "Muzium Chimney",
+        "source": "https://labuangeopark.com/images/sites/C3/lcwt-pic-1.webp"
+      }
+    ],
+    "challenge": {
+      "type": "photo",
+      "photoIndex": 0,
+      "question": "Apakah mercu tanda tinggi yang kelihatan dalam foto ini?",
+      "options": [
+        "Rumah Api Pulau Kuraman",
+        "Menara Chimney",
+        "Menara telekomunikasi"
+      ],
+      "answer": 1,
+      "explanation": "Menara Chimney merupakan mercu tanda kawasan muzium yang memperkenalkan sejarah perlombongan Labuan."
+    },
+    "discoveryTitle": "Menara Pencerita"
+  },
+  {
+    "id": "C4",
+    "name": "Surrender Point",
+    "lat": 5.3323848,
+    "lng": 115.1928091,
+    "slug": "surrender-point",
+    "summary": "Surrender Point memperingati penyerahan tentera Jepun kepada pihak Bersekutu pada tahun 1945.",
+    "story": "Tapak peringatan ini menghubungkan Labuan dengan peristiwa berakhirnya Perang Dunia Kedua di rantau ini. Ia menjadi ruang untuk mengenali sejarah dan menghargai keamanan.",
+    "highlight": "Peringatan sejarah · 1945",
+    "area": "Layang-Layangan",
+    "quiz": {
+      "question": "Surrender Point memperingati peristiwa pada tahun berapa?",
+      "options": [
+        "1945",
+        "1845",
+        "2005"
+      ],
+      "answer": 0
+    },
+    "photos": [
+      {
+        "src": "photos/732043c15a1f744f.webp",
+        "caption": "Surrender Point",
+        "source": "https://labuangeopark.com/images/sites/C4/pana1258.webp"
+      },
+      {
+        "src": "photos/06f0079c8de70ba5.webp",
+        "caption": "Surrender Point",
+        "source": "https://labuangeopark.com/images/sites/C4/pana1246.webp"
+      },
+      {
+        "src": "photos/e972f29ace13eff7.webp",
+        "caption": "Surrender Point",
+        "source": "https://labuangeopark.com/images/sites/C4/pana1248.webp"
+      }
+    ],
+    "challenge": {
+      "type": "match",
+      "question": "Padankan setiap petunjuk dengan istilah yang tepat.",
+      "choices": [
+        "1945",
+        "Tentera Jepun",
+        "Tapak peringatan"
+      ],
+      "pairs": [
+        {
+          "prompt": "Tahun peristiwa penyerahan yang diperingati di Surrender Point.",
+          "answer": 0
+        },
+        {
+          "prompt": "Pihak yang menyerah kepada Tentera Bersekutu.",
+          "answer": 1
+        },
+        {
+          "prompt": "Peranan lokasi ini pada masa kini.",
+          "answer": 2
+        }
+      ],
+      "explanation": "Surrender Point memperingati penyerahan tentera Jepun kepada pihak Bersekutu pada tahun 1945."
+    },
+    "discoveryTitle": "Memori 1945"
+  },
+  {
+    "id": "C5",
+    "name": "Muzium Labuan",
+    "lat": 5.2768661,
+    "lng": 115.2453992,
+    "slug": "muzium-labuan",
+    "summary": "Muzium Labuan memperkenalkan perjalanan sejarah dan kepelbagaian budaya masyarakat pulau.",
+    "story": "Koleksinya merangkumi warisan etnik serta artifak berkaitan Perang Dunia Kedua. Pameran membantu menghubungkan kisah masyarakat dengan perubahan yang dilalui Labuan.",
+    "highlight": "Sejarah tempatan · warisan masyarakat",
+    "area": "Bandar Labuan",
+    "quiz": {
+      "question": "Apakah yang diperkenalkan Muzium Labuan?",
+      "options": [
+        "Hidupan kutub sahaja",
+        "Sejarah dan budaya masyarakat Labuan",
+        "Angkasa lepas sahaja"
+      ],
+      "answer": 1
+    },
+    "photos": [
+      {
+        "src": "photos/4a77d435e3d1b247.webp",
+        "caption": "Muzium Labuan",
+        "source": "https://labuangeopark.com/images/sites/C5/dsc00668.webp"
+      },
+      {
+        "src": "photos/37a4ae826065d552.webp",
+        "caption": "Muzium Labuan",
+        "source": "https://labuangeopark.com/images/sites/C5/dsc00657.webp"
+      },
+      {
+        "src": "photos/d0e8f0faa782a1d9.webp",
+        "caption": "Muzium Labuan",
+        "source": "https://labuangeopark.com/images/sites/C5/dsc00684.webp"
+      }
+    ],
+    "challenge": {
+      "type": "quiz",
+      "question": "Apakah yang diperkenalkan Muzium Labuan?",
+      "options": [
+        "Hidupan kutub sahaja",
+        "Sejarah dan budaya masyarakat Labuan",
+        "Angkasa lepas sahaja"
+      ],
+      "answer": 1,
+      "explanation": "Muzium Labuan memperkenalkan perjalanan sejarah dan kepelbagaian budaya masyarakat pulau."
+    },
+    "discoveryTitle": "Kisah Masyarakat Labuan"
+  },
+  {
+    "id": "C6",
+    "name": "Rumah Api Pulau Papan",
+    "lat": 5.252965,
+    "lng": 115.268828,
+    "slug": "rumah-api-pulau-papan",
+    "summary": "Rumah Api Pulau Papan ialah sebahagian daripada warisan pandu arah kapal di perairan Labuan.",
+    "story": "Dibina semasa era British, rumah api ini membantu kapal yang melalui Selat Labuan. Ia memperlihatkan kepentingan pulau kecil dalam sejarah pelayaran setempat.",
+    "highlight": "Rumah api · sejarah pelayaran",
+    "area": "Pulau Papan",
+    "quiz": {
+      "question": "Apakah peranan Rumah Api Pulau Papan?",
+      "options": [
+        "Menyimpan hasil tanaman",
+        "Menara perlombongan",
+        "Membantu pandu arah kapal"
+      ],
+      "answer": 2
+    },
+    "photos": [
+      {
+        "src": "photos/f44c6fec43d2a5a7.webp",
+        "caption": "Rumah Api Pulau Papan",
+        "source": "https://labuangeopark.com/images/sites/C6/dji-0047.webp"
+      },
+      {
+        "src": "photos/90881e3f4293d8f5.webp",
+        "caption": "Rumah Api Pulau Papan",
+        "source": "https://labuangeopark.com/images/sites/C6/dji-0043.webp"
+      }
+    ],
+    "challenge": {
+      "type": "match",
+      "question": "Padankan setiap petunjuk dengan istilah yang tepat.",
+      "choices": [
+        "Rumah api",
+        "Era British",
+        "Selat Labuan"
+      ],
+      "pairs": [
+        {
+          "prompt": "Mercu tanda yang membantu pandu arah kapal.",
+          "answer": 0
+        },
+        {
+          "prompt": "Zaman pembinaan yang disebut dalam maklumat lokasi.",
+          "answer": 1
+        },
+        {
+          "prompt": "Perairan yang dilalui kapal dan dibantu oleh rumah api ini.",
+          "answer": 2
+        }
+      ],
+      "explanation": "Rumah Api Pulau Papan menunjukkan hubungan antara warisan era British dengan sejarah pelayaran Selat Labuan."
+    },
+    "discoveryTitle": "Cahaya Pulau Papan"
+  },
+  {
+    "id": "C7",
+    "name": "Pulau Rusukan Kecil",
+    "lat": 5.201113,
+    "lng": 115.147433,
+    "slug": "pulau-rusukan-kecil",
+    "summary": "Pulau Rusukan Kecil menggabungkan landskap pulau dengan jejak sejarah manusia di pesisirnya.",
+    "story": "Kawasan perkuburan lama di tepi pantai dipercayai berkait dengan pelaut atau nelayan dahulu. Pulau ini turut dikenali sebagai kawasan rekreasi marin.",
+    "highlight": "Perkuburan lama · warisan pesisir",
+    "area": "Pulau Rusukan Kecil",
+    "quiz": {
+      "question": "Apakah jejak sejarah di Pulau Rusukan Kecil?",
+      "options": [
+        "Kawasan perkuburan lama",
+        "Stesen kereta api",
+        "Istana bukit"
+      ],
+      "answer": 0
+    },
+    "photos": [
+      {
+        "src": "photos/825e813ca2a33ef0.webp",
+        "caption": "Pulau Rusukan Kecil",
+        "source": "https://labuangeopark.com/images/sites/C7/dji-0111.webp"
+      },
+      {
+        "src": "photos/2495dfa71d332ccb.webp",
+        "caption": "Pulau Rusukan Kecil",
+        "source": "https://labuangeopark.com/images/sites/C7/dji-0127.webp"
+      },
+      {
+        "src": "photos/0c9ca6f094ad794c.webp",
+        "caption": "Pulau Rusukan Kecil",
+        "source": "https://labuangeopark.com/images/sites/C7/dji-0134.webp"
+      }
+    ],
+    "challenge": {
+      "type": "quiz",
+      "question": "Apakah jejak sejarah di Pulau Rusukan Kecil?",
+      "options": [
+        "Kawasan perkuburan lama",
+        "Stesen kereta api",
+        "Istana bukit"
+      ],
+      "answer": 0,
+      "explanation": "Pulau Rusukan Kecil menggabungkan landskap pulau dengan jejak sejarah manusia di pesisirnya."
+    },
+    "discoveryTitle": "Jejak Pelaut Lama"
+  },
+  {
+    "id": "C8",
+    "name": "Pulau Rusukan Besar",
+    "lat": 5.188582,
+    "lng": 115.142915,
+    "slug": "pulau-rusukan-besar-c8",
+    "summary": "Pulau Rusukan Besar mempunyai nilai budaya di samping landskap dan terumbu karangnya.",
+    "story": "Kehadiran kawasan perkuburan lama memperlihatkan hubungan manusia dengan pulau ini pada masa lalu. Oleh itu, Rusukan Besar muncul dalam kategori geologi dan budaya dengan fokus berlainan.",
+    "highlight": "Warisan pulau · perkuburan lama",
+    "area": "Pulau Rusukan Besar",
+    "quiz": {
+      "question": "Mengapakah Rusukan Besar turut menjadi tapak budaya?",
+      "options": [
+        "Mempunyai padang salji",
+        "Terdapat kawasan perkuburan lama",
+        "Mempunyai ladang teh"
+      ],
+      "answer": 1
+    },
+    "photos": [
+      {
+        "src": "photos/88261d897bb789f6.webp",
+        "caption": "Pulau Rusukan Besar",
+        "source": "https://labuangeopark.com/images/sites/G7/dji-0090.webp"
+      },
+      {
+        "src": "photos/c8a062a3ef9a9e71.webp",
+        "caption": "Pulau Rusukan Besar",
+        "source": "https://labuangeopark.com/images/sites/G7/1p2a2651.webp"
+      },
+      {
+        "src": "photos/584a05d2620ad35d.webp",
+        "caption": "Pulau Rusukan Besar",
+        "source": "https://labuangeopark.com/images/sites/G7/dsc00350.webp"
+      }
+    ],
+    "challenge": {
+      "type": "quiz",
+      "question": "Mengapakah Rusukan Besar turut menjadi tapak budaya?",
+      "options": [
+        "Mempunyai padang salji",
+        "Terdapat kawasan perkuburan lama",
+        "Mempunyai ladang teh"
+      ],
+      "answer": 1,
+      "explanation": "Pulau Rusukan Besar mempunyai nilai budaya di samping landskap dan terumbu karangnya."
+    },
+    "discoveryTitle": "Warisan Rusukan Besar"
+  },
+  {
+    "id": "C9",
+    "name": "Rumah Api Pulau Kuraman",
+    "lat": 5.223155,
+    "lng": 115.135302,
+    "slug": "rumah-api-pulau-kuraman",
+    "summary": "Rumah Api Pulau Kuraman menjadi mercu tanda pandu arah di perairan selatan Labuan.",
+    "story": "Peranannya membantu kapal menghubungkan warisan pelayaran dengan landskap pulau. Rumah api ini turut menjadi antara tarikan kawasan Taman Laut Labuan.",
+    "highlight": "Pandu arah kapal · mercu tanda pulau",
+    "area": "Pulau Kuraman",
+    "quiz": {
+      "question": "Apakah fungsi Rumah Api Pulau Kuraman?",
+      "options": [
+        "Menjana arang batu",
+        "Menyimpan air tawar",
+        "Membantu navigasi kapal"
+      ],
+      "answer": 2
+    },
+    "photos": [
+      {
+        "src": "photos/c2e5c6968cfa1cef.webp",
+        "caption": "Rumah Api Pulau Kuraman",
+        "source": "https://labuangeopark.com/images/sites/C9/dji-0038.webp"
+      },
+      {
+        "src": "photos/8d0a685e6678ba2a.webp",
+        "caption": "Rumah Api Pulau Kuraman",
+        "source": "https://labuangeopark.com/images/sites/C9/dsc00341.webp"
+      }
+    ],
+    "challenge": {
+      "type": "photo",
+      "photoIndex": 0,
+      "question": "Apakah fungsi bangunan menara di pesisir Pulau Kuraman ini?",
+      "options": [
+        "Membantu pandu arah kapal",
+        "Menakung minyak",
+        "Menjadi pintu terowong lombong"
+      ],
+      "answer": 0,
+      "explanation": "Rumah Api Pulau Kuraman membantu navigasi kapal di perairan selatan Labuan."
+    },
+    "discoveryTitle": "Cahaya Pulau Kuraman"
+  },
+  {
+    "id": "C10",
+    "name": "Tapak Geoarkeologi Pulau Burong",
+    "lat": 5.237793,
+    "lng": 115.190408,
+    "slug": "batu-kapur-terumbu-pulau-burong",
+    "summary": "Pulau Burong memperlihatkan batu kapur yang berasal daripada pembentukan terumbu karang.",
+    "story": "Pentas hakisan laut mengelilingi pulau ini. Ciri batu kapurnya menjadikan Pulau Burong lokasi tersendiri dalam warisan Labuan serta pengenalan kepada hubungan geologi dan arkeologi.",
+    "highlight": "Batu kapur terumbu · geoarkeologi",
+    "area": "Pulau Burong",
+    "quiz": {
+      "question": "Batu kapur Pulau Burong berasal daripada pembentukan apa?",
+      "options": [
+        "Terumbu karang",
+        "Ais laut",
+        "Lava gunung berapi"
+      ],
+      "answer": 0
+    },
+    "photos": [
+      {
+        "src": "photos/7b0b007e61fa2fbd.webp",
+        "caption": "Tapak Geoarkeologi Pulau Burong",
+        "source": "https://labuangeopark.com/images/sites/G9/dji-0142.webp"
+      },
+      {
+        "src": "photos/bec6527139b8f93f.webp",
+        "caption": "Tapak Geoarkeologi Pulau Burong",
+        "source": "https://labuangeopark.com/images/sites/G9/dji-0156.webp"
+      },
+      {
+        "src": "photos/b784629233a11beb.webp",
+        "caption": "Tapak Geoarkeologi Pulau Burong",
+        "source": "https://labuangeopark.com/images/sites/G9/dji-0165.webp"
+      }
+    ],
+    "challenge": {
+      "type": "quiz",
+      "question": "Batu kapur Pulau Burong berasal daripada pembentukan apa?",
+      "options": [
+        "Terumbu karang",
+        "Ais laut",
+        "Lava gunung berapi"
+      ],
+      "answer": 0,
+      "explanation": "Pulau Burong memperlihatkan batu kapur yang berasal daripada pembentukan terumbu karang."
+    },
+    "discoveryTitle": "Pulau Batu Kapur"
+  }
+]

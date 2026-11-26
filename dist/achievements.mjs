@@ -1,0 +1,9 @@
+export function achievementState(sites,records){const done=sites.filter(s=>records[s.id]?.done),dates=done.map(s=>records[s.id].done).sort((a,b)=>a-b);const group=code=>done.filter(s=>s.id.startsWith(code)),count=code=>group(code).length;const threshold=(n)=>dates[n-1]??null,lastFor=code=>group(code).length?Math.max(...group(code).map(s=>records[s.id].done)):null;const definitions=[
+{id:'first',name:'Penemuan Pertama',symbol:'✧',description:'Selesaikan misi pertama.',current:done.length,target:1,date:threshold(1)},
+{id:'five',name:'Langkah Penjelajah',symbol:'⌖',description:'Selesaikan 5 misi berlainan.',current:done.length,target:5,date:threshold(5)},
+{id:'ten',name:'Pemburu Penemuan',symbol:'◈',description:'Selesaikan 10 misi berlainan.',current:done.length,target:10,date:threshold(10)},
+{id:'three',name:'Tiga Warisan',symbol:'❖',description:'Selesaikan sekurang-kurangnya satu misi setiap kategori.',current:['G','B','C'].filter(k=>count(k)>0).length,target:3,date:['G','B','C'].every(k=>count(k)>0)?Math.max(...['G','B','C'].map(k=>Math.min(...group(k).map(s=>records[s.id].done)))):null},
+{id:'geo',name:'Ahli Geotapak',symbol:'◆',description:'Lengkapkan semua 11 Geotapak.',current:count('G'),target:11,date:count('G')===11?lastFor('G'):null},
+{id:'bio',name:'Sahabat Alam',symbol:'❋',description:'Lengkapkan semua 4 Biotapak.',current:count('B'),target:4,date:count('B')===4?lastFor('B'):null},
+{id:'culture',name:'Pewaris Cerita',symbol:'⌂',description:'Lengkapkan semua 10 Tapak Budaya.',current:count('C'),target:10,date:count('C')===10?lastFor('C'):null},
+{id:'all',name:'Penjaga Warisan Labuan',symbol:'✦',description:'Lengkapkan kesemua 25 misi.',current:done.length,target:25,date:threshold(25)}];return {count:done.length,total:sites.length,badges:definitions.map(b=>({...b,current:Math.min(b.current,b.target),unlocked:b.current>=b.target,earnedAt:b.current>=b.target?b.date:null}))};}

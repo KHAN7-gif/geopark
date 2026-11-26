@@ -1,0 +1,3 @@
+export function challengeSpec(site){return site.challenge||{type:'quiz',...site.quiz,explanation:site.summary}}
+export function challengeLabel(spec){return spec.type==='photo'?'Kenal foto':spec.type==='match'?'Padankan petunjuk':'Kuiz pengetahuan'}
+export function scoreChallenge(spec,answers){const expected=spec.type==='match'?spec.pairs.map(p=>p.answer):[spec.answer],size=spec.type==='match'?spec.choices.length:spec.options.length;const incomplete=expected.some((_,i)=>answers[i]===undefined||answers[i]===null||answers[i]===''||!/^\d+$/.test(String(answers[i]))||Number(answers[i])>=size),wrongIndices=expected.flatMap((value,i)=>Number(answers[i])===value?[]:[i]);return{correct:!incomplete&&wrongIndices.length===0,incomplete,wrongIndices,explanation:spec.explanation}}

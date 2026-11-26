@@ -1,0 +1,8 @@
+{
+  "name": "geopark",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Permainan jelajah interaktif Geopark Labuan",
+  "engines": { "node": ">=22" },
+  "scripts": { "test": "node --test tests/*.test.mjs" }
+}
