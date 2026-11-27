@@ -1,4 +1,4 @@
-import {journeyAt} from './travel-engine.mjs?v=map-viewer-20261126';
+import {journeyAt} from './travel-engine.mjs?v=zoom-fix-20261127';
 import * as THREE from './vendor/three.module.js';
 
 export function buildExplorerModel(mode='walk',avatar='rimba'){
