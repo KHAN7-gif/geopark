@@ -1,3 +1,4 @@
+import {Color} from '../dist/vendor/three.module.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -22,6 +23,6 @@ test('monument and flag are at the western end, grandstand is at the southern si
 });
 test('reference-based grandstand and monument geometry leave the middle of the field empty',()=>{
  const anchor=dataranPoint(112,-46),model=buildVillageScene({type:'FeatureCollection',features:[]},anchor),sx=111320*Math.cos(anchor[1]*Math.PI/180);assert.equal(model.stats.grandstands,1);assert.equal(model.stats.monuments,1);
- const pole=model.root.children.find(mesh=>mesh.material.color.getHexString()==='e5e5d6');assert(pole);const attr=pole.geometry.attributes.position,centre=dataranPoint(DATARAN_LAYOUT.flag.u,DATARAN_LAYOUT.flag.v);let minY=Infinity;for(let i=0;i<attr.count;i++){const point=[anchor[0]+attr.getX(i)/sx,anchor[1]-attr.getZ(i)/111320];assert(Math.hypot((point[0]-centre[0])*sx,(point[1]-centre[1])*111320)<.3);minY=Math.min(minY,attr.getY(i))}assert(Math.abs(minY-DATARAN_LAYOUT.monument.platformHeight)<.01);
+ const poleColour=new Color('#e5e5d6'),centre=dataranPoint(DATARAN_LAYOUT.flag.u,DATARAN_LAYOUT.flag.v);let minY=Infinity,poleVertices=0;for(const mesh of model.root.children){const attr=mesh.geometry.attributes.position,colours=mesh.geometry.attributes.color;for(let i=0;i<attr.count;i++){if(Math.abs(colours.getX(i)-poleColour.r)+Math.abs(colours.getY(i)-poleColour.g)+Math.abs(colours.getZ(i)-poleColour.b)>1e-5)continue;poleVertices++;const point=[anchor[0]+attr.getX(i)/sx,anchor[1]-attr.getZ(i)/111320];assert(Math.hypot((point[0]-centre[0])*sx,(point[1]-centre[1])*111320)<.3);minY=Math.min(minY,attr.getY(i))}}assert(poleVertices>0);assert(Math.abs(minY-DATARAN_LAYOUT.monument.platformHeight)<.01);
  let centralVertices=0;model.root.traverse(o=>{if(!o.isMesh)return;const a=o.geometry.attributes.position;for(let i=0;i<a.count;i++){assert(Number.isFinite(a.getY(i)));const point=[anchor[0]+a.getX(i)/sx,anchor[1]-a.getZ(i)/111320],[u,v]=dataranUV(point);if(u>45&&u<185&&v>-75&&v<-15)centralVertices++}});assert.equal(centralVertices,0);model.dispose();
 });

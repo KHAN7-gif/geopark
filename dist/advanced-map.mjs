@@ -1,6 +1,6 @@
-import {GAME_MAP_LAYERS} from './game-world.mjs?v=depth3d-20261127';
+import {GAME_MAP_LAYERS} from './game-world.mjs?v=town3d-20261127';
 export const SATELLITE_TILES='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-export const CAMERA_MODES={village:{name:'Kampung',pitch:62,zoom:18.7},close:{name:'Dekat',pitch:67,zoom:19.1},drone:{name:'Dron',pitch:48,zoom:17.1},orbit:{name:'Orbit',pitch:64,zoom:18.6}};
+export const CAMERA_MODES={street:{name:'Jalan',pitch:75,zoom:20},village:{name:'Kampung',pitch:62,zoom:18.7},close:{name:'Dekat',pitch:67,zoom:19.1},drone:{name:'Dron',pitch:48,zoom:17.1},orbit:{name:'Orbit',pitch:64,zoom:18.6}};
 export function qualityProfile(choice='auto',device={}){
  const requested=['auto','eco','high'].includes(choice)?choice:'auto';
  const low=(device.memory>0&&device.memory<=2)||(device.cores>0&&device.cores<=4);

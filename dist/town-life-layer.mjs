@@ -1,6 +1,6 @@
 import * as THREE from './vendor/three.module.js';
-import {prepareTownPaths,selectTownActors,townActorState} from './town-life.mjs?v=depth3d-20261127';
-import {buildTownActor} from './town-life-model.mjs?v=depth3d-20261127';
+import {prepareTownPaths,selectTownActors,townActorState} from './town-life.mjs?v=town3d-20261127';
+import {buildTownActor} from './town-life-model.mjs?v=town3d-20261127';
 export function createTownLifeLayer(gl,{roads,quality='balanced',reducedMotion=false,onFailure=()=>{}}){
  const paths=prepareTownPaths(roads);let map,renderer,scene,camera,origin,anchor=null,selection=[],models=new Map(),ambient,sun,enabled=false,disposed=false,timer=null,fps=25,anchorZoom=null;
  function clear(){for(const model of models.values()){scene?.remove(model.root);model.dispose()}models.clear();selection=[]}

@@ -1,20 +1,22 @@
-import {addPerbadananFacades} from './perbadanan-model.mjs?v=depth3d-20261127';
-import {addMerdekaRoundabout} from './merdeka-model.mjs?v=depth3d-20261127';
-import {merdekaDistance,merdekaTreeAllowed} from './merdeka-layout.mjs?v=depth3d-20261127';
-import {addMarlinMonument} from './marlin-model.mjs?v=depth3d-20261127';
-import {marlinDistance,marlinTreeAllowed} from './marlin-layout.mjs?v=depth3d-20261127';
-import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=depth3d-20261127';
-import {addDataranStructures} from './dataran-model.mjs?v=depth3d-20261127';
-import {TOWN_DATA} from './environment/town-data.mjs?v=depth3d-20261127';
-import {plazaCentre} from './town-scene.mjs?v=depth3d-20261127';
-import {buildingStyle,buildingHeight} from './building-types.mjs?v=depth3d-20261127';
+import {addCityFacade,addCityFrontage} from './city-facade.mjs?v=town3d-20261127';
+import {cityTexture,surfaceUV} from './city-materials.mjs?v=town3d-20261127';
+import {addPerbadananFacades} from './perbadanan-model.mjs?v=town3d-20261127';
+import {addMerdekaRoundabout} from './merdeka-model.mjs?v=town3d-20261127';
+import {merdekaDistance,merdekaTreeAllowed} from './merdeka-layout.mjs?v=town3d-20261127';
+import {addMarlinMonument} from './marlin-model.mjs?v=town3d-20261127';
+import {marlinDistance,marlinTreeAllowed} from './marlin-layout.mjs?v=town3d-20261127';
+import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=town3d-20261127';
+import {addDataranStructures} from './dataran-model.mjs?v=town3d-20261127';
+import {TOWN_DATA} from './environment/town-data.mjs?v=town3d-20261127';
+import {plazaCentre} from './town-scene.mjs?v=town3d-20261127';
+import {buildingStyle,buildingHeight} from './building-types.mjs?v=town3d-20261127';
 import * as THREE from './vendor/three.module.js';
-import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=depth3d-20261127';
-import {landAt} from './marine-geometry.mjs?v=depth3d-20261127';
+import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=town3d-20261127';
+import {landAt} from './marine-geometry.mjs?v=town3d-20261127';
 const SY=111320;
 export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildingLimit=80,treeLimit=100,roads=null}={}){
  const sx=SY*Math.cos(anchor[1]*Math.PI/180),local=p=>[(p[0]-anchor[0])*sx,(anchor[1]-p[1])*SY],world=p=>[anchor[0]+p[0]/sx,anchor[1]-p[1]/SY];
- const root=new THREE.Group(),batches=new Map(),stats={buildings:0,pitchedRoofs:0,windows:0,trees:0,illustrativeRoadTrees:0,byType:{},shopfronts:0,officeBands:0,policeBands:0,plazas:0};
+ const root=new THREE.Group(),batches=new Map(),roofColours=new Set(),facadeColours=new Set(),stats={buildings:0,pitchedRoofs:0,windows:0,trees:0,illustrativeRoadTrees:0,byType:{},shopfronts:0,officeBands:0,policeBands:0,plazas:0};
  const batch=colour=>{if(!batches.has(colour))batches.set(colour,[]);return batches.get(colour)};
  const triangle=(colour,a,b,c)=>batch(colour).push(...a,...b,...c);
  const quad=(colour,a,b,c,d)=>{triangle(colour,a,b,c);triangle(colour,a,c,d)};
@@ -23,11 +25,13 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
  const buildings=data.features.filter(f=>f.properties.kind==='building').map(f=>({f,ring:f.geometry.coordinates[0].slice(0,-1).map(local)}));
  for(const b of buildings){b.center=b.ring.reduce((sum,p)=>[sum[0]+p[0]/b.ring.length,sum[1]+p[1]/b.ring.length],[0,0]);b.distance=Math.hypot(...b.center)}
  buildings.sort((a,b)=>a.distance-b.distance);
+ const furniture=[];
+ const insideBuilding=(p,ring)=>{let inside=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const a=ring[i],b=ring[j];if((a[1]>p[1])!==(b[1]>p[1])&&p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0])inside=!inside}return inside};
  const distSegment=(p,a,b)=>{const dx=b[0]-a[0],dz=b[1]-a[1],t=Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dz)/(dx*dx+dz*dz||1)));return Math.hypot(p[0]-a[0]-t*dx,p[1]-a[1]-t*dz)};
- const streetSegments=(roads?.features||[]).filter(f=>!f.properties.foot).flatMap(f=>{const line=f.geometry.coordinates.map(local);return line.slice(1).map((b,i)=>[line[i],b]).filter(([a,b])=>Math.hypot((a[0]+b[0])/2,(a[1]+b[1])/2)<radius+200)});
+ const streetSegments=(roads?.features||[]).filter(f=>!f.properties.foot).flatMap(f=>{const line=f.geometry.coordinates.map(local);return line.slice(1).map((b,i)=>[line[i],b,f.properties.width||6]).filter(([a,b])=>Math.hypot((a[0]+b[0])/2,(a[1]+b[1])/2)<radius+200)});
 
  for(const {f,ring,center,distance}of buildings){if(distance>radius||stats.buildings>=buildingLimit)break;stats.buildings++;
-  const p=f.properties,style=buildingStyle(p),height=buildingHeight(p),ground=heightAt(world(center))||0,top=ground+height+.08,palette=buildingPalette(p.osm);palette.roof=style.roof||palette.roof;stats.byType[style.kind]=(stats.byType[style.kind]||0)+1;
+  const p=f.properties,style=buildingStyle(p),height=buildingHeight(p),ground=heightAt(world(center))||0,top=ground+height+.08,palette=buildingPalette(p.osm);palette.roof=style.roof||palette.roof;roofColours.add(palette.roof);facadeColours.add(style.facade||palette.facade);stats.byType[style.kind]=(stats.byType[style.kind]||0)+1;
   if(style.kind==='perbadanan'){addPerbadananFacades({ring,center,ground,triangle,quad,stats});continue}
   if(style.pitched&&ring.length===4&&height<=14){let longest=0;for(let i=1;i<4;i++)if(Math.hypot(...ring[(i+1)%4].map((v,j)=>v-ring[i][j]))>Math.hypot(...ring[(longest+1)%4].map((v,j)=>v-ring[longest][j])))longest=i;
    const [a,b,c,d]=Array.from({length:4},(_,i)=>ring[(i+longest)%4]),mid=(u,v)=>[(u[0]+v[0])/2,(u[1]+v[1])/2],ad=mid(a,d),bc=mid(b,c),rise=Math.min(3,Math.max(.9,Math.hypot(a[0]-d[0],a[1]-d[1])*.28)),point=(q,y)=>[q[0],y,q[1]];
@@ -35,10 +39,12 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
   }else{const outline=ring.map(p=>new THREE.Vector2(...p)),faces=THREE.ShapeUtils.triangulateShape(outline,[]);for(const face of faces)triangle(palette.roof,...face.map(i=>[ring[i][0],top,ring[i][1]]))}
 
   const area=ring.reduce((sum,a,i)=>{const b=ring[(i+1)%ring.length];return sum+a[0]*b[1]-b[0]*a[1]},0),sign=area>=0?1:-1;
-  let frontage=0,bestStreet=Infinity;if(['shop','mixed'].includes(style.kind))for(let i=0;i<ring.length;i++){const a=ring[i],b=ring[(i+1)%ring.length],mid=[(a[0]+b[0])/2,(a[1]+b[1])/2];for(const [u,v]of streetSegments){const distance=distSegment(mid,u,v);if(distance<bestStreet){bestStreet=distance;frontage=i}}}
+  let frontage=0,bestStreet=Infinity;if(['shop','mixed','urban','office','hotel','civic','police'].includes(style.kind))for(let i=0;i<ring.length;i++){const a=ring[i],b=ring[(i+1)%ring.length],mid=[(a[0]+b[0])/2,(a[1]+b[1])/2];for(const [u,v]of streetSegments){const distance=distSegment(mid,u,v);if(distance<bestStreet){bestStreet=distance;frontage=i}}}
   for(let i=0;i<ring.length;i++){
    const a=ring[i],b=ring[(i+1)%ring.length],length=Math.hypot(b[0]-a[0],b[1]-a[1]);if(length<4)continue;const ux=(b[0]-a[0])/length,uz=(b[1]-a[1])/length,nx=uz*sign,nz=-ux*sign;
    const pane=(t,width,y,height,colour,offset)=>{const cx=a[0]+ux*t+nx*offset,cz=a[1]+uz*t+nz*offset;quad(colour,[cx-ux*width/2,y,cz-uz*width/2],[cx+ux*width/2,y,cz+uz*width/2],[cx+ux*width/2,y+height,cz+uz*width/2],[cx-ux*width/2,y+height,cz-uz*width/2])};
+   pane(length/2,length,ground,height,style.facade||palette.facade,.025);
+   if(i===frontage&&p.inTown&&bestStreet<35){const point=(t,y,offset)=>[a[0]+ux*t+nx*offset,y,a[1]+uz*t+nz*offset];addCityFacade({style,length,ground,top,pane,point,quad,stats});if(bestStreet>9)addCityFrontage({length,ground,point,quad,solid,geometries,stats,clear:p=>!buildings.some(o=>insideBuilding([p[0],p[2]],o.ring))&&streetSegments.every(([u,v,width])=>distSegment([p[0],p[2]],u,v)>width/2+.4),spaced:p=>{if(furniture.some(q=>Math.hypot(p[0]-q[0],p[2]-q[2])<24))return false;furniture.push(p);return true}})}
    const count=Math.min(['office','mixed'].includes(style.kind)?8:5,Math.floor(length/(['office','mixed'].includes(style.kind)?2.8:3.5))),floors=Math.min(style.floors,Math.max(1,Math.floor((height-1)/3)));
    if(style.band){pane(length/2,length,ground+2.7,.55,style.band,.12);if(style.kind==='police')stats.policeBands++}
    if(['mixed','urban','office','hotel','civic','police','shop'].includes(style.kind))pane(length/2,length,top-.45,.4,style.roof,.13);
@@ -88,7 +94,13 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
  }
  if(merdekaDistance(anchor)<radius)addMerdekaRoundabout({local,heightAt,triangle,quad,stats});
  if(marlinDistance(anchor)<radius)addMarlinMonument({local,heightAt,triangle,quad,stats});
- for(const [colour,points]of batches){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(points,3));geometry.computeVertexNormals();const material=new THREE.MeshLambertMaterial({color:colour,side:THREE.DoubleSide,flatShading:true}),mesh=new THREE.Mesh(geometry,material);mesh.frustumCulled=false;root.add(mesh)}
+ const roofTexture=cityTexture('roof'),wallTexture=cityTexture('plaster');
+ // Vertex colours combine hundreds of architectural colours into three draw
+ // calls (solid, roof and plaster), rather than one call per colour or window.
+ const surfaces=new Map();
+ for(const [colour,points]of batches){const type=roofColours.has(colour)?'roof':facadeColours.has(colour)?'wall':'solid';if(!surfaces.has(type))surfaces.set(type,{positions:[],colours:[]});const target=surfaces.get(type),c=new THREE.Color(colour);for(const value of points)target.positions.push(value);for(let i=0;i<points.length;i+=3)target.colours.push(c.r,c.g,c.b)}
+ for(const [type,{positions,colours}]of surfaces){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute('color',new THREE.Float32BufferAttribute(colours,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(surfaceUV(positions),2));geometry.computeVertexNormals();const material=new THREE.MeshLambertMaterial({vertexColors:true,map:type==='roof'?roofTexture:type==='wall'?wallTexture:null,side:THREE.DoubleSide,flatShading:true}),mesh=new THREE.Mesh(geometry,material);mesh.frustumCulled=false;root.add(mesh)}
+ stats.drawCalls=surfaces.size;
  for(const geometry of Object.values(geometries))geometry.dispose();
- return {root,stats,dispose(){root.traverse(o=>{o.geometry?.dispose();o.material?.dispose()});root.clear()}};
+ return {root,stats,dispose(){roofTexture.dispose();wallTexture.dispose();root.traverse(o=>{o.geometry?.dispose();o.material?.dispose()});root.clear()}};
 }

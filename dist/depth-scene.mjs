@@ -1,4 +1,4 @@
-import {decorateEnvironment} from './world-palette.mjs?v=depth3d-20261127';
+import {decorateEnvironment} from './world-palette.mjs?v=town3d-20261127';
 // Ground shadows in metres, so orbiting/zooming cannot detach them from objects.
 // Their footprints are visual only; navigation and source geography stay intact.
 const SUN={day:{azimuth:225,altitude:42},dusk:{azimuth:245,altitude:28},night:{azimuth:145,altitude:42}};

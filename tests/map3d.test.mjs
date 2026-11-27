@@ -53,6 +53,7 @@ test('3D view preserves route coordinates, destination pins and teardown',async(
       view.sync(state);assert.equal(map.camera,manual,'follow must not restore preset zoom after manual +/-');assert.deepEqual(map.sources.route.data,routeFeature(path));
     }
     view.focusPlace([115.24334281764924,5.277003319599451],19.1);assert.equal(map.camera.zoom,19.1);assert.deepEqual(map.sources.route.data,routeFeature(path));
+    view.previewCity();assert.equal(map.camera.pitch,75);assert.equal(map.camera.zoom,19.6);assert.deepEqual(map.sources.route.data,routeFeature(path));
     view.previewVillage();assert.equal(map.camera.pitch,62);assert.equal(map.camera.zoom,18.7);assert.deepEqual(map.camera.center,[115.246,5.284]);assert.deepEqual(map.sources.route.data,routeFeature(path));
     const before=interactions;controlEvents.get('pointerdown')({target:{closest:()=>null}});assert.equal(interactions,before);
 

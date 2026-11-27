@@ -1,5 +1,5 @@
-import {DATARAN_RING} from './dataran-layout.mjs?v=depth3d-20261127';
-import {toXY,fromXY,landAt} from './marine-geometry.mjs?v=depth3d-20261127';
+import {DATARAN_RING} from './dataran-layout.mjs?v=town3d-20261127';
+import {toXY,fromXY,landAt} from './marine-geometry.mjs?v=town3d-20261127';
 const metres=(a,b)=>Math.hypot(b[0]-a[0],b[1]-a[1]);
 const town=([lng,lat])=>lng>115.235&&lng<115.258&&lat>5.268&&lat<5.289;
 export const LIFE_LIMITS={eco:4,balanced:8,high:12};
