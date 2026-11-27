@@ -1,9 +1,11 @@
-import {TOWN_DATA} from './environment/town-data.mjs?v=town-20261127';
-import {plazaCentre} from './town-scene.mjs?v=town-20261127';
-import {buildingStyle,buildingHeight} from './building-types.mjs?v=town-20261127';
+import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=dataran-20261127';
+import {addDataranStructures} from './dataran-model.mjs?v=dataran-20261127';
+import {TOWN_DATA} from './environment/town-data.mjs?v=dataran-20261127';
+import {plazaCentre} from './town-scene.mjs?v=dataran-20261127';
+import {buildingStyle,buildingHeight} from './building-types.mjs?v=dataran-20261127';
 import * as THREE from './vendor/three.module.js';
-import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=town-20261127';
-import {landAt} from './marine-geometry.mjs?v=town-20261127';
+import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=dataran-20261127';
+import {landAt} from './marine-geometry.mjs?v=dataran-20261127';
 const SY=111320;
 export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildingLimit=80,treeLimit=100,roads=null}={}){
  const sx=SY*Math.cos(anchor[1]*Math.PI/180),local=p=>[(p[0]-anchor[0])*sx,(anchor[1]-p[1])*SY],world=p=>[anchor[0]+p[0]/sx,anchor[1]-p[1]/SY];
@@ -44,7 +46,7 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
 
   }
  }
- function tree(point,variant,illustrative=false){const [x,z]=local(point),g=heightAt(point)||0,h=variant.height,colour=variant.colour;
+ function tree(point,variant,illustrative=false){if(!dataranTreeAllowed(point))return;const [x,z]=local(point),g=heightAt(point)||0,h=variant.height,colour=variant.colour;
   if(variant.type==='palm'){
    solid(geometries.palmTrunk,'#997146',[x,g+h/2,z],[1,h,1]);
    for(let n=0;n<7;n++){const angle=n*Math.PI*2/7+(variant.seed%10)*.1,dir=[Math.cos(angle),Math.sin(angle)],side=[-dir[1],dir[0]],at=(r,w,y)=>[x+dir[0]*r+side[0]*w,g+h+y,z+dir[1]*r+side[1]*w];quad(colour,at(0,.1,0),at(2.2,.6,.5),at(4.3,0,-.8),at(2.2,-.6,.5))}
@@ -54,7 +56,7 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
   }
   stats.trees++;if(illustrative)stats.illustrativeRoadTrees++;
  }
- const trees=data.features.filter(f=>f.properties.kind==='canopy').map(f=>({f,p:treeCentre(f)})).map(o=>({...o,d:Math.hypot(...local(o.p))})).filter(o=>o.d<radius).sort((a,b)=>a.d-b.d);
+ const trees=data.features.filter(f=>f.properties.kind==='canopy').map(f=>({f,p:treeCentre(f)})).map(o=>({...o,d:Math.hypot(...local(o.p))})).filter(o=>o.d<radius&&dataranTreeAllowed(o.p)).sort((a,b)=>a.d-b.d);
  for(const {f,p}of trees.slice(0,treeLimit))tree(p,treeVariant(f));
  // Additional palms are game scenery, restricted to mapped land and clear of
  // mapped building footprints / road surfaces. They are not surveyed trees.
@@ -68,14 +70,15 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
   }
  }
  for(const feature of TOWN_DATA.features.filter(f=>f.geometry.type==='Polygon')){
-  const point=plazaCentre(feature.geometry.coordinates[0]),[x,z]=local(point);if(Math.hypot(x,z)>radius)continue;const ground=heightAt(point)||0;stats.plazas++;
-  solid(geometries.box,'#c4b18e',[x,ground+.15,z],[4,.3,4]);solid(geometries.trunk,'#e5e5d6',[x,ground+5,z],[.65,10,.65]);
+  const point=plazaCentre(feature.geometry.coordinates[0]);if(Math.hypot(...local(point))>radius)continue;stats.plazas++;
+  addDataranStructures({local,heightAt,solid,quad,triangle,geometries,stats});
+  const flagPoint=dataranPoint(DATARAN_LAYOUT.flag.u,DATARAN_LAYOUT.flag.v),[x,z]=local(flagPoint),ground=heightAt(flagPoint)||0;
+  solid(geometries.box,'#c4b18e',[x,ground+.15,z],[2.5,.3,2.5]);solid(geometries.trunk,'#e5e5d6',[x,ground+5,z],[.65,10,.65]);
   const flag=(left,bottom,width,height,colour,offset=0)=>quad(colour,[x+left,ground+bottom,z+offset],[x+left+width,ground+bottom,z+offset],[x+left+width,ground+bottom+height,z+offset],[x+left,ground+bottom+height,z+offset]);
-  for(let i=0;i<14;i++)flag(.1,9.65-(i+1)*1.55/14,3.1,1.55/14,i%2?'#f4ead2':'#c73e42');flag(.1,9.65-1.55/2,1.55,1.55/2,'#254984',-.025);
+  for(let i=0;i<14;i++)flag(.1,9.65-(i+1)*1.55/14,3.1,1.55/14,i%2?'#f4ead2':'#c73e42');for(const side of [-1,1])flag(.1,9.65-1.55/2,1.55,1.55/2,'#254984',side*.025);
   const disc=(cx,cy,r,colour,offset)=>{for(let n=0;n<24;n++){const a=n*Math.PI/12,b=(n+1)*Math.PI/12;triangle(colour,[x+cx,ground+cy,z+offset],[x+cx+Math.cos(a)*r,ground+cy+Math.sin(a)*r,z+offset],[x+cx+Math.cos(b)*r,ground+cy+Math.sin(b)*r,z+offset])}};
-  disc(.65,9.25,.26,'#efcf4f',-.04);disc(.73,9.29,.23,'#254984',-.055);
-  for(let n=0;n<28;n++){const a=n*Math.PI/14,b=(n+1)*Math.PI/14,ra=n%2?.075:.16,rb=(n+1)%2?.075:.16;triangle('#efcf4f',[x+1.15,ground+9.25,z-.06],[x+1.15+Math.cos(a)*ra,ground+9.25+Math.sin(a)*ra,z-.06],[x+1.15+Math.cos(b)*rb,ground+9.25+Math.sin(b)*rb,z-.06])}
-  for(const sign of [-1,1]){solid(geometries.box,'#94704b',[x+sign*7,ground+.65,z+5],[2,.18,.65]);solid(geometries.box,'#94704b',[x+sign*7,ground+1.1,z+5.28],[2,.8,.12]);for(const leg of [-.7,.7])solid(geometries.box,'#52635c',[x+sign*7+leg,ground+.3,z+5],[.13,.6,.5])}
+  for(const side of [-1,1]){disc(.65,9.25,.26,'#efcf4f',side*.04);disc(.73,9.29,.23,'#254984',side*.055);}
+  for(const side of [-1,1])for(let n=0;n<28;n++){const a=n*Math.PI/14,b=(n+1)*Math.PI/14,ra=n%2?.075:.16,rb=(n+1)%2?.075:.16;triangle('#efcf4f',[x+1.15,ground+9.25,z+side*.06],[x+1.15+Math.cos(a)*ra,ground+9.25+Math.sin(a)*ra,z+side*.06],[x+1.15+Math.cos(b)*rb,ground+9.25+Math.sin(b)*rb,z+side*.06])}
  }
  for(const [colour,points]of batches){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(points,3));geometry.computeVertexNormals();const material=new THREE.MeshLambertMaterial({color:colour,side:THREE.DoubleSide,flatShading:true}),mesh=new THREE.Mesh(geometry,material);mesh.frustumCulled=false;root.add(mesh)}
  for(const geometry of Object.values(geometries))geometry.dispose();

@@ -1,3 +1,5 @@
+import {dataranTreeAllowed} from '../dist/dataran-layout.mjs';
+import {treeCentre} from '../dist/world-palette.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -21,7 +23,7 @@ test('roof and crown decorations preserve source geography',()=>{
  const snapshot=JSON.stringify(environment),details=scenicDetails(environment);
  assert.equal(JSON.stringify(environment),snapshot);
  assert.equal(details.features.filter(f=>f.properties.kind==='roof').length,2189);
- assert.equal(details.features.filter(f=>f.properties.kind==='crown-top').length,530);
+ assert.equal(details.features.filter(f=>f.properties.kind==='crown-top').length,environment.features.filter(f=>f.properties.kind==='canopy'&&dataranTreeAllowed(treeCentre(f))).length);
  for(const feature of details.features){assert.ok(feature.properties.height>feature.properties.base);const ring=feature.geometry.coordinates[0];assert.deepEqual(ring[0],ring.at(-1));for(const [lng,lat]of ring){assert.ok(lng>115&&lng<115.4);assert.ok(lat>5.1&&lat<5.5)}}
  const sites=[{id:'G1',lat:5.3,lng:115.23},{id:'B1',lat:5.28,lng:115.21}],before=JSON.stringify(sites);
  const beacons=missionBeacons(sites,{},'B1');
