@@ -1,5 +1,5 @@
-import {MARINA_BERTHS,MARINA_PONTOONS} from './marina-layout.mjs?v=town3d-20261127';
-import {toXY,fromXY} from './marine-geometry.mjs?v=town3d-20261127';
+import {MARINA_BERTHS,MARINA_PONTOONS} from './marina-layout.mjs?v=carlights-20261127';
+import {toXY,fromXY} from './marine-geometry.mjs?v=carlights-20261127';
 export const MARINA_LAYERS=['marina-pontoons','marina-parked-boats'];
 export const MARINA_LIMITS={eco:6,balanced:10,high:12};
 export function marinaFeatures(quality='balanced'){

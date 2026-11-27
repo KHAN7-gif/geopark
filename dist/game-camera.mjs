@@ -1,4 +1,4 @@
-import {insideDataran} from './dataran-layout.mjs?v=town3d-20261127';
+import {insideDataran} from './dataran-layout.mjs?v=carlights-20261127';
 // Copy synchronously during MapLibre's render event; no persistent WebGL buffer.
 export function captureMapPhoto(map,{document=globalThis.document,title='Panorama Labuan',attribution='© OpenStreetMap contributors',now=Date.now(),timeoutMs=7000}={}){
  return new Promise((resolve,reject)=>{let done=false,copied=false,timer;

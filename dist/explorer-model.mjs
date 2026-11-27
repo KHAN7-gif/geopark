@@ -1,8 +1,9 @@
-import {journeyAt} from './travel-engine.mjs?v=town3d-20261127';
+import {addVehicleLights} from './vehicle-lights.mjs?v=carlights-20261127';
+import {journeyAt} from './travel-engine.mjs?v=carlights-20261127';
 import * as THREE from './vendor/three.module.js';
 
 export function buildExplorerModel(mode='walk',avatar='rimba'){
-  const root=new THREE.Group(),animated=[];
+  const root=new THREE.Group(),animated=[];let lights=null;
   const colours={rimba:0x568a4d,pesisir:0x418cb5,warisan:0xa77a4e};
   const materials=new Map();
   const material=colour=>{if(!materials.has(colour))materials.set(colour,new THREE.MeshLambertMaterial({color:colour,flatShading:true}));return materials.get(colour)};
@@ -32,15 +33,15 @@ export function buildExplorerModel(mode='walk',avatar='rimba'){
     for(const z of [-length*.32,length*.32])for(const sign of motor?[0]:[-1,1]){
       const wheel=mesh(new THREE.CylinderGeometry(bus ? .43 : .31,bus ? .43 : .31,.2,10),0x252d2c,sign*width*.51,.45,z);wheel.rotation.z=Math.PI/2;animated.push({object:wheel,wheel:true});
     }
-    for(const sign of [-1,1])box(.25,.16,.06,0xf6e9bd,sign*width*.3,.94,-length*.51);
+    lights=addVehicleLights(root,{width,length,motor});
   }
   root.traverse(object=>{if(object.isMesh)object.frustumCulled=false});
-  return {root,animate(time,moving){for(const part of animated){if(part.wheel)part.object.rotation.x=moving?time*5:0;else part.object.rotation.x=moving?Math.sin(time*8)*.45*part.phase:0}},dispose(){root.traverse(object=>object.geometry?.dispose());for(const value of materials.values())value.dispose()}};
+  return {root,setMood(id){lights?.setMood(id)},animate(time,moving){for(const part of animated){if(part.wheel)part.object.rotation.x=moving?time*5:0;else part.object.rotation.x=moving?Math.sin(time*8)*.45*part.phase:0}},dispose(){lights?.dispose();root.traverse(object=>object.geometry?.dispose());for(const value of materials.values())value.dispose()}};
 }
 
 export function createExplorerLayer(glLibrary,{reducedMotion=false,onFailure=()=>{}}={}){
   let repaintTimer=null,frameRate=30;
-  let map,renderer,scene,camera,model,ambient,sun,state=null,key='',disposed=false;
+  let map,renderer,scene,camera,model,ambient,sun,state=null,key='',disposed=false,mood='day';
   const layer={id:'labuan-explorer-model',type:'custom',renderingMode:'3d',
     onAdd(owner,context){
       map=owner;scene=new THREE.Scene();camera=new THREE.Camera();
@@ -51,7 +52,7 @@ export function createExplorerLayer(glLibrary,{reducedMotion=false,onFailure=()=
       if(disposed||!state?.position||!renderer)return;
       try{
         const identity=`${state.mode}:${state.avatar}`;
-        if(identity!==key){key=identity;if(model){scene.remove(model.root);model.dispose()}model=buildExplorerModel(state.mode,state.avatar);scene.add(model.root)}
+        if(identity!==key){key=identity;if(model){scene.remove(model.root);model.dispose()}model=buildExplorerModel(state.mode,state.avatar);model.setMood(mood);scene.add(model.root)}
         const live=state.journey?journeyAt(state.journey):null,position=live?.position||state.position;
         const point=[position[1],position[0]],altitude=['perahu','boat','boat_vip'].includes(live?.mode||state.mode)?0:map.queryTerrainElevation?.(point)||0;
         const origin=glLibrary.MercatorCoordinate.fromLngLat(point,altitude+.3),scale=origin.meterInMercatorCoordinateUnits()*(state.mode==='walk'?2.8:1.5);
@@ -65,5 +66,5 @@ export function createExplorerLayer(glLibrary,{reducedMotion=false,onFailure=()=
     },
     onRemove(){disposed=true;clearTimeout(repaintTimer);model?.dispose();renderer?.dispose();renderer=null;scene=null;state=null}
   };
-  return {layer,setFrameRate(rate){frameRate=Math.max(15,Math.min(60,rate))},setMood(id){if(!ambient||!sun)return;ambient.intensity=id==='night'?.9:id==='dusk'?1.2:1.5;sun.intensity=id==='night'?.8:2.2;sun.color.set(id==='night'?0xa6c5e9:id==='dusk'?0xffc17d:0xffedcf)},sync(next){state=next;if(!state?.moving){clearTimeout(repaintTimer);repaintTimer=null}if(map&&!disposed)map.triggerRepaint()}};
+  return {layer,setFrameRate(rate){frameRate=Math.max(15,Math.min(60,rate))},setMood(id){mood=id;model?.setMood(id);map?.triggerRepaint();if(!ambient||!sun)return;ambient.intensity=id==='night'?.9:id==='dusk'?1.2:1.5;sun.intensity=id==='night'?.8:2.2;sun.color.set(id==='night'?0xa6c5e9:id==='dusk'?0xffc17d:0xffedcf)},sync(next){state=next;if(!state?.moving){clearTimeout(repaintTimer);repaintTimer=null}if(map&&!disposed)map.triggerRepaint()}};
 }
