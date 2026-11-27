@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {viewerPreferences,viewportLabel,applyViewerLayers} from '../dist/map-viewer.mjs';
 test('viewer settings whitelist display layers and cannot alter travel or inventory',()=>{
  const raw={layers:{missions:false,jetties:false,route:true,terrain:false},journey:{paused:true},xp:99999};const saved=JSON.stringify(raw);
- assert.deepEqual(viewerPreferences(raw),{version:1,layers:{missions:false,jetties:false,route:true}});assert.equal(JSON.stringify(raw),saved);
+ assert.deepEqual(viewerPreferences(raw),{version:1,layers:{missions:false,jetties:false,route:true,places:true}});assert.equal(JSON.stringify(raw),saved);
  assert.deepEqual(viewerPreferences({layers:{route:'false',jetties:null}}),viewerPreferences(null));
  assert.equal(viewportLabel({lat:5.3,lng:115.23,zoom:14.2,bearing:-90}),'5.30000° U · 115.23000° T · Z 14.2 · 270°');assert.equal(viewportLabel({lat:NaN}),'Paparan kamera Labuan');
 });

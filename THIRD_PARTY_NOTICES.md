@@ -25,3 +25,7 @@ Avatar, ilustrasi Jejak dan templat sijil disertakan sebagai aset aplikasi. Tiad
 ## Jalan Dunia game
 
 `dist/environment/game-roads.geojson`: OpenStreetMap contributors, ODbL-1.0, diperoleh melalui Overpass pada 27 November 2026. Timestamp sumber dan andaian lebar / tanda jalan dalam fail metadata bersebelahan. Geometri seni bina serta vegetasi tambahan ialah ilustrasi prosedural asal, bukan model atau tekstur daripada gambar rujukan.
+
+## Bandar Labuan
+
+Metadata fungsi bangunan, label tempat bandar dan poligon Dataran Labuan: OpenStreetMap contributors, ODbL-1.0. Snapshot bandar diperoleh daripada [OSM API 0.6 map](https://api.openstreetmap.org/api/0.6/map?bbox=115.23,5.268,115.259,5.293) pada 27 November 2026. Financial Park ditandakan campuran pejabat / perniagaan menurut pengendali FPL; maklumat rujukan dalam README. Fasad, awning, tingkap, anggaran ketinggian dan hiasan dataran ialah geometri permainan asal.

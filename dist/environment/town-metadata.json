@@ -1,0 +1,14 @@
+{
+  "source": "OpenStreetMap contributors: existing Overpass footprints and API 0.6 town map",
+  "license": "ODbL-1.0",
+  "osmTimestamp": "2026-11-27",
+  "bbox": [
+    115.23,
+    5.268,
+    115.259,
+    5.293
+  ],
+  "joinedFootprints": 119,
+  "features": 54,
+  "note": "Function from OSM building tags or contained POIs / compounds. No nearest-neighbour guessing. Facade, plaza furniture and estimated heights are game illustrations."
+}

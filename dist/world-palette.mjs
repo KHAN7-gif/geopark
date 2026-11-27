@@ -1,3 +1,4 @@
+import {buildingStyle,buildingHeight} from './building-types.mjs?v=town-20261127';
 const FACADES=['#e9ae92','#9bcba9','#86c7cb','#a2c7e4','#efd294','#c0afd8','#d89d81','#eee2c6'];
 const ROOFS=['#b65e4d','#587b91','#b88155','#599475','#8d789d','#dbb971'];
 const GREENS=['#43885b','#69a052','#4b927e','#7da654','#39856e','#8bae62'];
@@ -8,7 +9,7 @@ export function treeVariant(feature){const centre=treeCentre(feature),seed=hash(
 export function buildingPalette(osm){const id=hash(osm);return {facade:FACADES[id%FACADES.length],roof:ROOFS[Math.floor(id/8)%ROOFS.length]}}
 export function decorateEnvironment(data){return {...data,features:data.features.map(feature=>{
  const p=feature.properties;
- if(p.kind==='building')return {...feature,properties:{...p,facadeColor:buildingPalette(p.osm).facade}};
+ if(p.kind==='building'){const style=buildingStyle(p);return {...feature,properties:{...p,height:buildingHeight(p),buildingType:style.kind,facadeColor:style.facade||buildingPalette(p.osm).facade}};}
  if(p.kind==='canopy'||p.kind==='trunk'){
   const tree=treeVariant(feature);return {...feature,properties:{...p,treeType:tree.type,height:p.kind==='trunk'?(tree.type==='palm'?tree.height-.3:3):tree.height,base:p.kind==='canopy'?(tree.type==='palm'?tree.height-.6:2.5):0,canopyColor:tree.colour,canopyNightColor:shade(tree.colour,.8)}};
  }return feature;

@@ -1,13 +1,14 @@
-import {addGameWorld,paintGameWorld} from './game-world.mjs?v=village-3d-20261127';
-import {viewerPreferences,applyViewerLayers} from './map-viewer.mjs?v=village-3d-20261127';
-import {MARINE_DATA} from './marine-data.mjs?v=village-3d-20261127';
-import {jettyFeatures} from './jetty-scene.mjs?v=village-3d-20261127';
-import {applyWeatherScene} from './weather-scene.mjs?v=village-3d-20261127';
-import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=village-3d-20261127';
-import {createCameraDirector} from './camera-director.mjs?v=village-3d-20261127';
-import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=village-3d-20261127';
-import {navigationHUD} from './navigation-hud.mjs?v=village-3d-20261127';
-import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=village-3d-20261127';
+import {TOWN_PLACES} from './town-scene.mjs?v=town-20261127';
+import {addGameWorld,paintGameWorld} from './game-world.mjs?v=town-20261127';
+import {viewerPreferences,applyViewerLayers} from './map-viewer.mjs?v=town-20261127';
+import {MARINE_DATA} from './marine-data.mjs?v=town-20261127';
+import {jettyFeatures} from './jetty-scene.mjs?v=town-20261127';
+import {applyWeatherScene} from './weather-scene.mjs?v=town-20261127';
+import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=town-20261127';
+import {createCameraDirector} from './camera-director.mjs?v=town-20261127';
+import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=town-20261127';
+import {navigationHUD} from './navigation-hud.mjs?v=town-20261127';
+import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=town-20261127';
 // All geographic data uses WGS84 coordinates. No invented coastlines or roads.
 export const TERRAIN_TILES='https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png';
 export const BASEMAP_TILES='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -24,7 +25,7 @@ function loadLibrary(){
     script.onerror=()=>{clearTimeout(timeout);script.remove();reject(Error('3D library unavailable'))};document.head.append(script);
   }).catch(error=>{library=null;throw error});return library;
 }
-export async function createJourney3D({element,onSelect,onInteract,onNotice,onFailure,onEnvironment=()=>{},onViewport=()=>{},layers=null,look='dusk',cameraMode='close',basemap='satellite',quality='auto',onBasemapChange=()=>{},reducedMotion=false}){
+export async function createJourney3D({element,onSelect,onInteract,onPlace=()=>{},onNotice,onFailure,onEnvironment=()=>{},onViewport=()=>{},layers=null,look='dusk',cameraMode='close',basemap='satellite',quality='auto',onBasemapChange=()=>{},reducedMotion=false}){
   const gl=await loadLibrary();const device={ratio:window.devicePixelRatio||1,memory:typeof navigator!=='undefined'?navigator.deviceMemory:0,cores:typeof navigator!=='undefined'?navigator.hardwareConcurrency:0};let graphics=qualityProfile(quality,device),basemapId=['game','street','satellite'].includes(basemap)?basemap:'game';
   const map=new gl.Map({container:element,center:[115.23,5.30],zoom:11.5,pitch:52,bearing:0,maxPitch:75,maxZoom:20,minZoom:8,
     maxBounds:[[114.85,4.95],[115.65,5.7]],canvasContextAttributes:{antialias:true},
@@ -37,10 +38,10 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
   let environmentData=null,roadData=null,village=null,villageLoading=false,villageFailed=false;
   let weatherState=null,visibleLayers=viewerPreferences({layers}).layers;
   function reportViewport(){if(destroyed)return;const center=map.getCenter?.()||{lat:5.30,lng:115.23};onViewport({lat:center.lat,lng:center.lng,zoom:map.getZoom?.()||11.5,bearing:map.getBearing(),pitch:map.getPitch?.()||52})}
-  map.on('moveend',reportViewport);
+  map.on('moveend',()=>{reportViewport();refreshTownLabels()});
   let lookId=SCENE_LOOKS[look]?look:'dusk',waveTimer=null,wavePhase=0;
-  let loaded=false,destroyed=false,pending=null,previewRequested=false,lastRoute=null,lastDone='',terrainErrors=0,tileErrors=0,satelliteErrors=0;
-  const markers=new Map();let player=null,explorer=null,following=false,surroundings=true,environmentReady=false,heading=0;const environmentAbort=new AbortController();
+  let loaded=false,destroyed=false,pending=null,previewRequested=false,placeRequested=null,lastRoute=null,lastDone='',terrainErrors=0,tileErrors=0,satelliteErrors=0;
+  let townLabelKey='';const markers=new Map();let player=null,explorer=null,following=false,surroundings=true,environmentReady=false,heading=0;const environmentAbort=new AbortController();
   const director=createCameraDirector(map,{getState:()=>pending,isReady:()=>loaded,reducedMotion,frameRate:graphics.fps});director.setMode(cameraMode);
   const timeout=setTimeout(()=>{if(!loaded&&!destroyed)onFailure('Paparan 3D tidak dapat dimuatkan. Peta 2D dipulihkan.')},25000);
   map.addControl(new gl.NavigationControl({visualizePitch:true}),'top-right');
@@ -66,8 +67,8 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
     map.addLayer({id:'route-halo',type:'line',source:'route',paint:{'line-color':'#fff9e8','line-width':9}});
     map.addLayer({id:'route-line',type:'line',source:'route',paint:{'line-color':'#315d3d','line-width':5,'line-dasharray':[2,1]}});
     map.addLayer({id:'travelled-line',type:'line',source:'travelled',paint:{'line-color':'#a46b32','line-width':5}});
-    if(pending){sync(pending);if(!following&&!previewRequested)fit(pending.journey?.route.path||pending.sites.map(s=>[s.lat,s.lng]))}
-    loadSurroundings();loadCoast();loadRoads();loadExplorer();reportViewport();if(previewRequested)previewVillage();
+    if(pending){sync(pending);if(!following&&!previewRequested&&!placeRequested)fit(pending.journey?.route.path||pending.sites.map(s=>[s.lat,s.lng]))}
+    loadSurroundings();loadCoast();loadRoads();loadExplorer();reportViewport();if(placeRequested)focusPlace(placeRequested);else if(previewRequested)previewVillage();refreshTownLabels();
   });
   function sync(state){
     pending=state;if(!loaded||destroyed)return;
@@ -78,13 +79,13 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
     if(following&&position)chase(position);
     const key=sites.map(s=>`${s.id}:${!!records[s.id]?.done}:${journey?.toId===s.id}`).join('|');
     if(key!==lastDone){
-      lastDone=key;map.getSource('mission-beacons').setData(missionBeacons(sites,records,journey?.toId));for(const marker of markers.values())marker.remove();markers.clear();
+      lastDone=key;map.getSource('mission-beacons').setData(missionBeacons(sites,records,journey?.toId));for(const marker of markers.values())marker.remove();markers.clear();townLabelKey='';
       for(const site of [...sites,...MARINE_DATA.jetties]){
         const button=document.createElement('button');button.type='button';button.className='geo3d-pin'+(journey?.toId===site.id?' target':'');
         button.style.setProperty('--pin-color',{G:'#b8427a',B:'#226da8',C:'#237b54'}[site.id[0]]||'#795733');
         button.textContent=(site.id.startsWith('J')?'⚓ ':'')+site.id+(records[site.id]?.done?' ✓':'');button.setAttribute('aria-label',`${site.id} · ${site.name}`);button.title=site.name;button.onclick=()=>onSelect(site);
         markers.set(site.id,new gl.Marker({element:button,anchor:'bottom',offset:site.kind==='island'?[35,0]:[0,0]}).setLngLat([site.lng,site.lat]).addTo(map));
-      }
+      }refreshTownLabels();
     }
     applyViewerLayers(map,markers,visibleLayers);
     const route=journey?.route.path||null;
@@ -98,12 +99,21 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
       player.setLngLat(lngLat(position));
     }else if(player){player.remove();player=null}
   }
-  function previewVillage(){following=false;director.setFollowing(false);previewRequested=true;if(!loaded)return;previewRequested=false;map.easeTo({center:[115.246,5.284],zoom:18.4,pitch:52,bearing:25,padding:{top:0,right:0,bottom:100,left:0},duration:reducedMotion?0:1000})}
+  function focusPlace(point){following=false;director.setFollowing(false);placeRequested=point;if(!loaded)return;placeRequested=null;map.easeTo({center:point,zoom:17.9,pitch:52,bearing:25,padding:{top:0,right:0,bottom:100,left:0},duration:reducedMotion?0:1000})}
+  function previewVillage(){placeRequested=null;following=false;director.setFollowing(false);previewRequested=true;if(!loaded)return;previewRequested=false;map.easeTo({center:[115.246,5.284],zoom:18.4,pitch:52,bearing:25,padding:{top:0,right:0,bottom:100,left:0},duration:reducedMotion?0:1000})}
   function fit(path){following=false;director.setFollowing(false);if(!loaded||!path?.length)return;const bounds=new gl.LngLatBounds();path.forEach(p=>bounds.extend(lngLat(p)));map.fitBounds(bounds,{padding:{top:110,right:60,bottom:window.innerWidth<760?290:200,left:60},maxZoom:14.5,pitch:52,bearing:map.getBearing(),duration:reducedMotion?0:700})}
+  function refreshTownLabels(){
+    if(!loaded||destroyed)return;
+    const centre=map.getCenter?.()||{lng:pending?.position?.[1]||115.245,lat:pending?.position?.[0]||5.276};
+    const near=!visibleLayers.places||(map.getZoom?.()||18)<15?[]:TOWN_PLACES.map(p=>({p,d:Math.hypot((p.geometry.coordinates[0]-centre.lng)*110850,(p.geometry.coordinates[1]-centre.lat)*111320)})).filter(o=>o.d<650).sort((a,b)=>({plaza:0,police:1,office:2,civic:3,shop:4}[a.p.properties.kind]-{plaza:0,police:1,office:2,civic:3,shop:4}[b.p.properties.kind])||a.d-b.d).slice(0,10);
+    const key=near.map(o=>o.p.properties.osm).join('|');if(key===townLabelKey)return;townLabelKey=key;
+    for(const [id,marker]of markers)if(id.startsWith('T:')){marker.remove();markers.delete(id)}
+    for(const {p}of near){const button=document.createElement('button');button.type='button';button.className='town3d-label '+p.properties.kind;button.textContent=p.properties.name;button.title=p.properties.name;button.setAttribute('aria-label',p.properties.name);button.onclick=()=>onPlace(p);markers.set('T:'+p.properties.osm,new gl.Marker({element:button,anchor:'bottom',offset:[0,-18]}).setLngLat(p.geometry.coordinates).addTo(map))}
+  }
   async function loadSurroundings(){
     onEnvironment('Memuatkan bangunan dan kawasan hijau…');
     try{
-      const response=await fetch(new URL('environment/labuan.geojson',import.meta.url),{signal:environmentAbort.signal});
+      const response=await fetch(new URL('environment/labuan.geojson?v=town-20261127',import.meta.url),{signal:environmentAbort.signal});
       if(!response.ok)throw Error('Environment unavailable');const data=await response.json();if(destroyed)return;
       if(data.type!=='FeatureCollection'||!Array.isArray(data.features))throw Error('Invalid environment');
       environmentData=data;addSurroundingLayers(map,data);environmentReady=true;setSurroundingsVisible(map,surroundings);applyAdvancedQuality(map,graphics,surroundings);paintWorldLook();ensureVillage();
@@ -122,11 +132,11 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
   }
   async function ensureVillage(){
     if(village){applyVillageState();return}if(villageLoading||!environmentData||!roadData||basemapId!=='game'||destroyed)return;villageLoading=true;
-    try{const {createVillageLayer}=await import('./village-layer.mjs?v=village-3d-20261127');if(destroyed)return;village=createVillageLayer(gl,{data:environmentData,roads:roadData,quality:graphics.level,onFailure:()=>{villageFailed=true;applyVillageState();onNotice('Perincian kampung tidak tersedia. Bangunan asas dan peta dikekalkan.')}});map.addLayer(village.layer);applyVillageState()}
+    try{const {createVillageLayer}=await import('./village-layer.mjs?v=town-20261127');if(destroyed)return;village=createVillageLayer(gl,{data:environmentData,roads:roadData,quality:graphics.level,onFailure:()=>{villageFailed=true;applyVillageState();onNotice('Perincian kampung tidak tersedia. Bangunan asas dan peta dikekalkan.')}});map.addLayer(village.layer);applyVillageState()}
     catch{villageFailed=true;onNotice('Bangunan asas digunakan pada peranti ini.')}
   }
   async function loadExplorer(){
-    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=village-3d-20261127');if(destroyed)return;
+    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=town-20261127');if(destroyed)return;
       explorer=createExplorerLayer(gl,{reducedMotion,onFailure:()=>{element.classList.remove('has-explorer-model');onNotice('Model penjelajah tidak tersedia. Penanda avatar digunakan.') }});
       map.addLayer(explorer.layer);explorer.setMood?.(lookId);explorer.setFrameRate?.(graphics.fps);element.classList.add('has-explorer-model');if(pending)sync(pending);reportViewport();
     }catch{if(!destroyed){explorer=null;element.classList.remove('has-explorer-model');onNotice('Penanda avatar digunakan pada peranti ini.')}}
@@ -137,5 +147,5 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
   function paintWorldLook(){applySceneLook(map,lookId);paintGameWorld(map,lookId);applyWeatherScene(map,lookId,weatherState);village?.setMood(lookId)}
   function refreshWaves(){clearInterval(waveTimer);waveTimer=null;if(!surroundings||graphics.level==='eco'||reducedMotion||destroyed||!map.getLayer('labuan-waves'))return;waveTimer=setInterval(()=>{if(typeof document!=='undefined'&&document.hidden)return;wavePhase=(wavePhase+1)%64;map.setPaintProperty('labuan-waves','fill-translate',[0,-wavePhase])},weatherState?.windKmh>20?115:160)}
   function chase(position,close=false){director.follow(position,heading)}
-  return {sync,fit,previewVillage,setLayers(value){visibleLayers=viewerPreferences({layers:value}).layers;if(loaded)applyViewerLayers(map,markers,visibleLayers)},follow(position,close=false){following=true;if(loaded)chase(position,close)},setFollowing(value){following=!!value;director.setFollowing(value)},setCameraMode(id){director.setMode(id)},setBasemap(id){basemapId=['game','street','satellite'].includes(id)?id:'game';satelliteErrors=0;if(loaded){switchBasemap(map,basemapId);ensureVillage();applyVillageState()}},setQuality(id){graphics=qualityProfile(id,device);director.setFrameRate(graphics.fps);explorer?.setFrameRate?.(graphics.fps);if(loaded){applyAdvancedQuality(map,graphics,surroundings);village?.setQuality(graphics.level);applyVillageState()}refreshWaves()},setWeather(data){weatherState=data;if(loaded){paintWorldLook();refreshWaves()}},setLook(id){lookId=SCENE_LOOKS[id]?id:'dusk';if(loaded){paintWorldLook();explorer?.setMood?.(lookId)}},setSurroundings(value){surroundings=!!value;if(loaded){setSurroundingsVisible(map,surroundings);applyAdvancedQuality(map,graphics,surroundings);applyVillageState()}refreshWaves()},resize(){map.resize()},destroy(){destroyed=true;container?.removeEventListener('pointerdown',beforeNavigation,true);container?.removeEventListener('click',beforeNavigation,true);director.destroy();clearInterval(waveTimer);environmentAbort.abort();element.classList.remove('has-explorer-model');clearTimeout(timeout);map.remove()}};
+  return {sync,fit,previewVillage,focusPlace,setLayers(value){visibleLayers=viewerPreferences({layers:value}).layers;if(loaded){applyViewerLayers(map,markers,visibleLayers);refreshTownLabels()}},follow(position,close=false){following=true;if(loaded)chase(position,close)},setFollowing(value){following=!!value;director.setFollowing(value)},setCameraMode(id){director.setMode(id)},setBasemap(id){basemapId=['game','street','satellite'].includes(id)?id:'game';satelliteErrors=0;if(loaded){switchBasemap(map,basemapId);ensureVillage();applyVillageState()}},setQuality(id){graphics=qualityProfile(id,device);director.setFrameRate(graphics.fps);explorer?.setFrameRate?.(graphics.fps);if(loaded){applyAdvancedQuality(map,graphics,surroundings);village?.setQuality(graphics.level);applyVillageState()}refreshWaves()},setWeather(data){weatherState=data;if(loaded){paintWorldLook();refreshWaves()}},setLook(id){lookId=SCENE_LOOKS[id]?id:'dusk';if(loaded){paintWorldLook();explorer?.setMood?.(lookId)}},setSurroundings(value){surroundings=!!value;if(loaded){setSurroundingsVisible(map,surroundings);applyAdvancedQuality(map,graphics,surroundings);applyVillageState()}refreshWaves()},resize(){map.resize()},destroy(){destroyed=true;container?.removeEventListener('pointerdown',beforeNavigation,true);container?.removeEventListener('click',beforeNavigation,true);director.destroy();clearInterval(waveTimer);environmentAbort.abort();element.classList.remove('has-explorer-model');clearTimeout(timeout);map.remove()}};
 }
