@@ -1,11 +1,11 @@
 {
   "version": 1,
   "provider": "metar",
-  "observedAt": 1795737600000,
-  "fetchedAt": 1795740324534,
-  "condition": "cloudy",
+  "observedAt": 1795770000000,
+  "fetchedAt": 1795770529819,
+  "condition": "storm",
   "raining": false,
   "cloudCover": 20,
-  "temperatureC": 28,
-  "windKmh": 3.704
+  "temperatureC": 31,
+  "windKmh": 5.556
 }
