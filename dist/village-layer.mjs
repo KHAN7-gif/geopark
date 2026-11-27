@@ -1,5 +1,5 @@
 import * as THREE from './vendor/three.module.js';
-import {buildVillageScene} from './village-model.mjs?v=perbadanan-20261127';
+import {buildVillageScene} from './village-model.mjs?v=explore-20261127';
 export function createVillageLayer(gl,{data,roads,quality='balanced',onFailure=()=>{}}){
  let map,renderer,scene,camera,model,origin,enabled=false,disposed=false,anchor=null,anchorZoom=null,timer=null,ambient,sun,firstIdle=true;
  const limits=()=>quality==='high'?{buildingLimit:130,treeLimit:150}:quality==='eco'?{buildingLimit:35,treeLimit:45}:{buildingLimit:75,treeLimit:95};

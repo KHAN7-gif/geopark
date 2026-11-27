@@ -1,4 +1,4 @@
-import {MERDEKA_LAYOUT as layout} from './merdeka-layout.mjs?v=perbadanan-20261127';
+import {MERDEKA_LAYOUT as layout} from './merdeka-layout.mjs?v=explore-20261127';
 // Original reference-based geometry: open lattice bowls, spotted columns and
 // a small central fountain. No measured-architecture claim is made.
 export function addMerdekaRoundabout({local,heightAt,triangle,quad,stats}){

@@ -1,14 +1,14 @@
-import {TOWN_PLACES} from './town-scene.mjs?v=perbadanan-20261127';
-import {addGameWorld,paintGameWorld} from './game-world.mjs?v=perbadanan-20261127';
-import {viewerPreferences,applyViewerLayers} from './map-viewer.mjs?v=perbadanan-20261127';
-import {MARINE_DATA} from './marine-data.mjs?v=perbadanan-20261127';
-import {jettyFeatures} from './jetty-scene.mjs?v=perbadanan-20261127';
-import {applyWeatherScene} from './weather-scene.mjs?v=perbadanan-20261127';
-import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=perbadanan-20261127';
-import {createCameraDirector} from './camera-director.mjs?v=perbadanan-20261127';
-import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=perbadanan-20261127';
-import {navigationHUD} from './navigation-hud.mjs?v=perbadanan-20261127';
-import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=perbadanan-20261127';
+import {TOWN_PLACES} from './town-scene.mjs?v=explore-20261127';
+import {addGameWorld,paintGameWorld} from './game-world.mjs?v=explore-20261127';
+import {viewerPreferences,applyViewerLayers} from './map-viewer.mjs?v=explore-20261127';
+import {MARINE_DATA} from './marine-data.mjs?v=explore-20261127';
+import {jettyFeatures} from './jetty-scene.mjs?v=explore-20261127';
+import {applyWeatherScene} from './weather-scene.mjs?v=explore-20261127';
+import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=explore-20261127';
+import {createCameraDirector} from './camera-director.mjs?v=explore-20261127';
+import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=explore-20261127';
+import {navigationHUD} from './navigation-hud.mjs?v=explore-20261127';
+import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=explore-20261127';
 // All geographic data uses WGS84 coordinates. No invented coastlines or roads.
 export const TERRAIN_TILES='https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png';
 export const BASEMAP_TILES='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -132,11 +132,11 @@ export async function createJourney3D({element,onSelect,onInteract,onPlace=()=>{
   }
   async function ensureVillage(){
     if(village){applyVillageState();return}if(villageLoading||!environmentData||!roadData||basemapId!=='game'||destroyed)return;villageLoading=true;
-    try{const {createVillageLayer}=await import('./village-layer.mjs?v=perbadanan-20261127');if(destroyed)return;village=createVillageLayer(gl,{data:environmentData,roads:roadData,quality:graphics.level,onFailure:()=>{villageFailed=true;applyVillageState();onNotice('Perincian kampung tidak tersedia. Bangunan asas dan peta dikekalkan.')}});map.addLayer(village.layer);applyVillageState()}
+    try{const {createVillageLayer}=await import('./village-layer.mjs?v=explore-20261127');if(destroyed)return;village=createVillageLayer(gl,{data:environmentData,roads:roadData,quality:graphics.level,onFailure:()=>{villageFailed=true;applyVillageState();onNotice('Perincian kampung tidak tersedia. Bangunan asas dan peta dikekalkan.')}});map.addLayer(village.layer);applyVillageState()}
     catch{villageFailed=true;onNotice('Bangunan asas digunakan pada peranti ini.')}
   }
   async function loadExplorer(){
-    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=perbadanan-20261127');if(destroyed)return;
+    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=explore-20261127');if(destroyed)return;
       explorer=createExplorerLayer(gl,{reducedMotion,onFailure:()=>{element.classList.remove('has-explorer-model');onNotice('Model penjelajah tidak tersedia. Penanda avatar digunakan.') }});
       map.addLayer(explorer.layer);explorer.setMood?.(lookId);explorer.setFrameRate?.(graphics.fps);element.classList.add('has-explorer-model');if(pending)sync(pending);reportViewport();
     }catch{if(!destroyed){explorer=null;element.classList.remove('has-explorer-model');onNotice('Penanda avatar digunakan pada peranti ini.')}}
