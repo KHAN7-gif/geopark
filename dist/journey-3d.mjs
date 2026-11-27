@@ -1,12 +1,13 @@
-import {viewerPreferences,applyViewerLayers} from './map-viewer.mjs?v=zoom-fix-20261127';
-import {MARINE_DATA} from './marine-data.mjs?v=zoom-fix-20261127';
-import {jettyFeatures} from './jetty-scene.mjs?v=zoom-fix-20261127';
-import {applyWeatherScene} from './weather-scene.mjs?v=zoom-fix-20261127';
-import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=zoom-fix-20261127';
-import {createCameraDirector} from './camera-director.mjs?v=zoom-fix-20261127';
-import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=zoom-fix-20261127';
-import {navigationHUD} from './navigation-hud.mjs?v=zoom-fix-20261127';
-import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=zoom-fix-20261127';
+import {addGameWorld,paintGameWorld} from './game-world.mjs?v=village-3d-20261127';
+import {viewerPreferences,applyViewerLayers} from './map-viewer.mjs?v=village-3d-20261127';
+import {MARINE_DATA} from './marine-data.mjs?v=village-3d-20261127';
+import {jettyFeatures} from './jetty-scene.mjs?v=village-3d-20261127';
+import {applyWeatherScene} from './weather-scene.mjs?v=village-3d-20261127';
+import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=village-3d-20261127';
+import {createCameraDirector} from './camera-director.mjs?v=village-3d-20261127';
+import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=village-3d-20261127';
+import {navigationHUD} from './navigation-hud.mjs?v=village-3d-20261127';
+import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=village-3d-20261127';
 // All geographic data uses WGS84 coordinates. No invented coastlines or roads.
 export const TERRAIN_TILES='https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png';
 export const BASEMAP_TILES='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -24,20 +25,21 @@ function loadLibrary(){
   }).catch(error=>{library=null;throw error});return library;
 }
 export async function createJourney3D({element,onSelect,onInteract,onNotice,onFailure,onEnvironment=()=>{},onViewport=()=>{},layers=null,look='dusk',cameraMode='close',basemap='satellite',quality='auto',onBasemapChange=()=>{},reducedMotion=false}){
-  const gl=await loadLibrary();const device={ratio:window.devicePixelRatio||1,memory:typeof navigator!=='undefined'?navigator.deviceMemory:0,cores:typeof navigator!=='undefined'?navigator.hardwareConcurrency:0};let graphics=qualityProfile(quality,device),basemapId=basemap==='street'?'street':'satellite';
+  const gl=await loadLibrary();const device={ratio:window.devicePixelRatio||1,memory:typeof navigator!=='undefined'?navigator.deviceMemory:0,cores:typeof navigator!=='undefined'?navigator.hardwareConcurrency:0};let graphics=qualityProfile(quality,device),basemapId=['game','street','satellite'].includes(basemap)?basemap:'game';
   const map=new gl.Map({container:element,center:[115.23,5.30],zoom:11.5,pitch:52,bearing:0,maxPitch:75,maxZoom:20,minZoom:8,
     maxBounds:[[114.85,4.95],[115.65,5.7]],canvasContextAttributes:{antialias:true},
     style:{version:8,sky:{'sky-color':'#80b4d6','horizon-color':'#e8e9c7','fog-color':'#d5dfcc','sky-horizon-blend':.55,'horizon-fog-blend':.6,'fog-ground-blend':.25},light:{anchor:'map',color:'#fff2d3',intensity:.45,position:[1.5,150,45]},sources:{
       basemap:{type:'raster',tiles:[BASEMAP_TILES],tileSize:256,maxzoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'},
       satellite:{type:'raster',tiles:[SATELLITE_TILES],tileSize:256,maxzoom:19,attribution:'Imagery © Esri, Vantor, Earthstar Geographics, and the GIS User Community'},
       elevation:{type:'raster-dem',tiles:[TERRAIN_TILES],tileSize:256,maxzoom:15,encoding:'terrarium',attribution:'Terrain: <a href="https://github.com/tilezen/joerd/blob/master/docs/attribution.md" target="_blank" rel="noopener">Mapzen / AWS Open Data</a>'}
-    },layers:[{id:'base',type:'raster',source:'basemap',layout:{visibility:basemapId==='street'?'visible':'none'}},{id:'base-satellite',type:'raster',source:'satellite',layout:{visibility:basemapId==='satellite'?'visible':'none'}},{id:'relief',type:'hillshade',source:'elevation',paint:{'hillshade-shadow-color':'#536747','hillshade-highlight-color':'#fff8df','hillshade-exaggeration':.3}}],terrain:{source:'elevation',exaggeration:1}}
+    },layers:[{id:'base',type:'raster',source:'basemap',layout:{visibility:basemapId!=='satellite'?'visible':'none'}},{id:'base-satellite',type:'raster',source:'satellite',layout:{visibility:basemapId==='satellite'?'visible':'none'}},{id:'relief',type:'hillshade',source:'elevation',paint:{'hillshade-shadow-color':'#536747','hillshade-highlight-color':'#fff8df','hillshade-exaggeration':.3}}],terrain:{source:'elevation',exaggeration:1}}
   });
+  let environmentData=null,roadData=null,village=null,villageLoading=false,villageFailed=false;
   let weatherState=null,visibleLayers=viewerPreferences({layers}).layers;
   function reportViewport(){if(destroyed)return;const center=map.getCenter?.()||{lat:5.30,lng:115.23};onViewport({lat:center.lat,lng:center.lng,zoom:map.getZoom?.()||11.5,bearing:map.getBearing(),pitch:map.getPitch?.()||52})}
   map.on('moveend',reportViewport);
   let lookId=SCENE_LOOKS[look]?look:'dusk',waveTimer=null,wavePhase=0;
-  let loaded=false,destroyed=false,pending=null,lastRoute=null,lastDone='',terrainErrors=0,tileErrors=0,satelliteErrors=0;
+  let loaded=false,destroyed=false,pending=null,previewRequested=false,lastRoute=null,lastDone='',terrainErrors=0,tileErrors=0,satelliteErrors=0;
   const markers=new Map();let player=null,explorer=null,following=false,surroundings=true,environmentReady=false,heading=0;const environmentAbort=new AbortController();
   const director=createCameraDirector(map,{getState:()=>pending,isReady:()=>loaded,reducedMotion,frameRate:graphics.fps});director.setMode(cameraMode);
   const timeout=setTimeout(()=>{if(!loaded&&!destroyed)onFailure('Paparan 3D tidak dapat dimuatkan. Peta 2D dipulihkan.')},25000);
@@ -64,8 +66,8 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
     map.addLayer({id:'route-halo',type:'line',source:'route',paint:{'line-color':'#fff9e8','line-width':9}});
     map.addLayer({id:'route-line',type:'line',source:'route',paint:{'line-color':'#315d3d','line-width':5,'line-dasharray':[2,1]}});
     map.addLayer({id:'travelled-line',type:'line',source:'travelled',paint:{'line-color':'#a46b32','line-width':5}});
-    if(pending){sync(pending);if(!following)fit(pending.journey?.route.path||pending.sites.map(s=>[s.lat,s.lng]))}
-    loadSurroundings();loadCoast();loadExplorer();reportViewport();
+    if(pending){sync(pending);if(!following&&!previewRequested)fit(pending.journey?.route.path||pending.sites.map(s=>[s.lat,s.lng]))}
+    loadSurroundings();loadCoast();loadRoads();loadExplorer();reportViewport();if(previewRequested)previewVillage();
   });
   function sync(state){
     pending=state;if(!loaded||destroyed)return;
@@ -96,6 +98,7 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
       player.setLngLat(lngLat(position));
     }else if(player){player.remove();player=null}
   }
+  function previewVillage(){following=false;director.setFollowing(false);previewRequested=true;if(!loaded)return;previewRequested=false;map.easeTo({center:[115.246,5.284],zoom:18.4,pitch:52,bearing:25,padding:{top:0,right:0,bottom:100,left:0},duration:reducedMotion?0:1000})}
   function fit(path){following=false;director.setFollowing(false);if(!loaded||!path?.length)return;const bounds=new gl.LngLatBounds();path.forEach(p=>bounds.extend(lngLat(p)));map.fitBounds(bounds,{padding:{top:110,right:60,bottom:window.innerWidth<760?290:200,left:60},maxZoom:14.5,pitch:52,bearing:map.getBearing(),duration:reducedMotion?0:700})}
   async function loadSurroundings(){
     onEnvironment('Memuatkan bangunan dan kawasan hijau…');
@@ -103,21 +106,36 @@ export async function createJourney3D({element,onSelect,onInteract,onNotice,onFa
       const response=await fetch(new URL('environment/labuan.geojson',import.meta.url),{signal:environmentAbort.signal});
       if(!response.ok)throw Error('Environment unavailable');const data=await response.json();if(destroyed)return;
       if(data.type!=='FeatureCollection'||!Array.isArray(data.features))throw Error('Invalid environment');
-      addSurroundingLayers(map,data);environmentReady=true;setSurroundingsVisible(map,surroundings);applyAdvancedQuality(map,graphics,surroundings);paintWorldLook();
-      onEnvironment('Tapak bangunan dan kawasan hijau berpandukan OSM. Warna, ketinggian tanpa data dan gaya pokok ialah ilustrasi. Ombak ialah kesan visual.');
+      environmentData=data;addSurroundingLayers(map,data);environmentReady=true;setSurroundingsVisible(map,surroundings);applyAdvancedQuality(map,graphics,surroundings);paintWorldLook();ensureVillage();
+      onEnvironment('Dunia game berpandukan jalan, pantai dan tapak bangunan OSM. Bumbung cerun, tingkap, warna dan pokok tepi jalan ialah ilustrasi. Liputan bangunan OSM belum lengkap; kawasan tanpa data tidak ditambah rumah rekaan.');
     }catch(error){if(!destroyed&&error.name!=='AbortError')onEnvironment('Bangunan dan tumbuhan belum dimuatkan. Peta dan perjalanan kekal tersedia.')}
   }
+  async function loadRoads(){
+    try{const response=await fetch(new URL('environment/game-roads.geojson',import.meta.url),{signal:environmentAbort.signal});if(!response.ok)throw Error('Road scene unavailable');const data=await response.json();if(destroyed)return;if(data.type!=='FeatureCollection')throw Error('Invalid roads');roadData=data;addGameWorld(map,data);switchBasemap(map,basemapId);paintWorldLook();ensureVillage()}
+    catch(error){if(!destroyed&&error.name!=='AbortError'){if(basemapId==='game'){basemapId='street';switchBasemap(map,'street');onBasemapChange('street')}onNotice('Dunia game belum dimuatkan. Peta jalan digunakan sementara.')}}
+  }
+  function applyVillageState(){
+    const active=basemapId==='game'&&surroundings&&!!village&&!villageFailed;
+    if(map.getLayer('game-building-shadows'))map.setLayoutProperty('game-building-shadows','visibility',basemapId==='game'&&surroundings?'visible':'none');
+    village?.setEnabled(active);village?.setMood(lookId);
+    for(const id of ['labuan-roofs','labuan-trunks','labuan-canopies','labuan-crown-tops','labuan-palm-fronds'])if(map.getLayer(id))map.setLayoutProperty(id,'visibility',active?'none':surroundings&&(graphics.details||!['labuan-roofs','labuan-crown-tops','labuan-palm-fronds'].includes(id))?'visible':'none');
+  }
+  async function ensureVillage(){
+    if(village){applyVillageState();return}if(villageLoading||!environmentData||!roadData||basemapId!=='game'||destroyed)return;villageLoading=true;
+    try{const {createVillageLayer}=await import('./village-layer.mjs?v=village-3d-20261127');if(destroyed)return;village=createVillageLayer(gl,{data:environmentData,roads:roadData,quality:graphics.level,onFailure:()=>{villageFailed=true;applyVillageState();onNotice('Perincian kampung tidak tersedia. Bangunan asas dan peta dikekalkan.')}});map.addLayer(village.layer);applyVillageState()}
+    catch{villageFailed=true;onNotice('Bangunan asas digunakan pada peranti ini.')}
+  }
   async function loadExplorer(){
-    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=zoom-fix-20261127');if(destroyed)return;
+    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=village-3d-20261127');if(destroyed)return;
       explorer=createExplorerLayer(gl,{reducedMotion,onFailure:()=>{element.classList.remove('has-explorer-model');onNotice('Model penjelajah tidak tersedia. Penanda avatar digunakan.') }});
       map.addLayer(explorer.layer);explorer.setMood?.(lookId);explorer.setFrameRate?.(graphics.fps);element.classList.add('has-explorer-model');if(pending)sync(pending);reportViewport();
     }catch{if(!destroyed){explorer=null;element.classList.remove('has-explorer-model');onNotice('Penanda avatar digunakan pada peranti ini.')}}
   }
   async function loadCoast(){
-    try{const response=await fetch(new URL('environment/shoreline.geojson',import.meta.url),{signal:environmentAbort.signal});if(!response.ok)throw Error('Coast unavailable');const data=await response.json();if(destroyed)return;if(data.type!=='FeatureCollection')throw Error('Invalid coast');addCoastalScenery(map,data);setSurroundingsVisible(map,surroundings);applyAdvancedQuality(map,graphics,surroundings);paintWorldLook();refreshWaves()}catch(error){if(!destroyed&&error.name!=='AbortError')onNotice('Kesan laut belum dimuatkan. Garis pantai peta asal dikekalkan.')}
+    try{const response=await fetch(new URL('environment/shoreline.geojson',import.meta.url),{signal:environmentAbort.signal});if(!response.ok)throw Error('Coast unavailable');const data=await response.json();if(destroyed)return;if(data.type!=='FeatureCollection')throw Error('Invalid coast');addCoastalScenery(map,data);setSurroundingsVisible(map,surroundings);applyAdvancedQuality(map,graphics,surroundings);paintWorldLook();applyVillageState();refreshWaves()}catch(error){if(!destroyed&&error.name!=='AbortError')onNotice('Kesan laut belum dimuatkan. Garis pantai peta asal dikekalkan.')}
   }
-  function paintWorldLook(){applySceneLook(map,lookId);applyWeatherScene(map,lookId,weatherState)}
+  function paintWorldLook(){applySceneLook(map,lookId);paintGameWorld(map,lookId);applyWeatherScene(map,lookId,weatherState);village?.setMood(lookId)}
   function refreshWaves(){clearInterval(waveTimer);waveTimer=null;if(!surroundings||graphics.level==='eco'||reducedMotion||destroyed||!map.getLayer('labuan-waves'))return;waveTimer=setInterval(()=>{if(typeof document!=='undefined'&&document.hidden)return;wavePhase=(wavePhase+1)%64;map.setPaintProperty('labuan-waves','fill-translate',[0,-wavePhase])},weatherState?.windKmh>20?115:160)}
   function chase(position,close=false){director.follow(position,heading)}
-  return {sync,fit,setLayers(value){visibleLayers=viewerPreferences({layers:value}).layers;if(loaded)applyViewerLayers(map,markers,visibleLayers)},follow(position,close=false){following=true;if(loaded)chase(position,close)},setFollowing(value){following=!!value;director.setFollowing(value)},setCameraMode(id){director.setMode(id)},setBasemap(id){basemapId=id==='street'?'street':'satellite';satelliteErrors=0;if(loaded)switchBasemap(map,basemapId)},setQuality(id){graphics=qualityProfile(id,device);director.setFrameRate(graphics.fps);explorer?.setFrameRate?.(graphics.fps);if(loaded)applyAdvancedQuality(map,graphics,surroundings);refreshWaves()},setWeather(data){weatherState=data;if(loaded){paintWorldLook();refreshWaves()}},setLook(id){lookId=SCENE_LOOKS[id]?id:'dusk';if(loaded){paintWorldLook();explorer?.setMood?.(lookId)}},setSurroundings(value){surroundings=!!value;if(loaded){setSurroundingsVisible(map,surroundings);applyAdvancedQuality(map,graphics,surroundings)}refreshWaves()},resize(){map.resize()},destroy(){destroyed=true;container?.removeEventListener('pointerdown',beforeNavigation,true);container?.removeEventListener('click',beforeNavigation,true);director.destroy();clearInterval(waveTimer);environmentAbort.abort();element.classList.remove('has-explorer-model');clearTimeout(timeout);map.remove()}};
+  return {sync,fit,previewVillage,setLayers(value){visibleLayers=viewerPreferences({layers:value}).layers;if(loaded)applyViewerLayers(map,markers,visibleLayers)},follow(position,close=false){following=true;if(loaded)chase(position,close)},setFollowing(value){following=!!value;director.setFollowing(value)},setCameraMode(id){director.setMode(id)},setBasemap(id){basemapId=['game','street','satellite'].includes(id)?id:'game';satelliteErrors=0;if(loaded){switchBasemap(map,basemapId);ensureVillage();applyVillageState()}},setQuality(id){graphics=qualityProfile(id,device);director.setFrameRate(graphics.fps);explorer?.setFrameRate?.(graphics.fps);if(loaded){applyAdvancedQuality(map,graphics,surroundings);village?.setQuality(graphics.level);applyVillageState()}refreshWaves()},setWeather(data){weatherState=data;if(loaded){paintWorldLook();refreshWaves()}},setLook(id){lookId=SCENE_LOOKS[id]?id:'dusk';if(loaded){paintWorldLook();explorer?.setMood?.(lookId)}},setSurroundings(value){surroundings=!!value;if(loaded){setSurroundingsVisible(map,surroundings);applyAdvancedQuality(map,graphics,surroundings);applyVillageState()}refreshWaves()},resize(){map.resize()},destroy(){destroyed=true;container?.removeEventListener('pointerdown',beforeNavigation,true);container?.removeEventListener('click',beforeNavigation,true);director.destroy();clearInterval(waveTimer);environmentAbort.abort();element.classList.remove('has-explorer-model');clearTimeout(timeout);map.remove()}};
 }

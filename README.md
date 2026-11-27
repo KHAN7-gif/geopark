@@ -118,3 +118,13 @@ UI / UX diilhamkan oleh [rolux/gtamaplib-vc](https://github.com/rolux/gtamaplib-
 Butang **Kawalan** membuka panel lapisan misi, jeti dan laluan, kamera Dekat / Dron / Orbit, latar satelit / jalan serta kualiti grafik. **Labuan** memusatkan semua pulau dan menghentikan kamera ikut. **Kamera bebas / Ikut penjelajah** menukar kawalan pandangan sahaja. Koordinat pada penjuru peta ialah pusat kamera, bukannya GPS pemain. Pilihan lapisan disimpan pada `jelajah-labuan-map-ui-v1`; geometri perjalanan, pemasa, XP, kilometer dan inventori kekal berasingan.
 
 Pintasan desktop: **L** kawalan, **R** pusatkan Labuan, **F** fokus. Pintasan tidak aktif semasa menaip atau membuka dialog. **Escape** menutup panel peta sebelum membuka menu permainan. Telefon menggunakan kawalan sentuh MapLibre. Mod 2D kekal tersedia sebagai gantian WebGL.
+
+### Dunia game dan kamera Kampung (27 November 2026)
+
+Pilihan **Dunia game** menampilkan daratan hijau mengikut pantai OSM, 5,036 garisan jalan OSM, permukaan jalan bergaya permainan dan penandaan lorong ilustrasi. Lebar tanpa tag menggunakan andaian; ini tidak menggantikan rangkaian OSRM untuk pengiraan perjalanan. Data jalan beratribusi ODbL tersimpan di `environment/game-roads.geojson` beserta metadata snapshot. Jana semula daripada Overpass dengan `python3 scripts/prepare-game-roads.py <snapshot.json>`.
+
+Kamera **Kampung** menggunakan sudut 52°, zum 18.4 dan orientasi serong 25° supaya rumah serta kawasan sekitar lebih kelihatan. **Kawalan → Lihat kampung · 3D** mengalih kamera ke kawasan berdata OSM berhampiran bandar, bukan memindahkan pemain atau menambah jarak / XP. Satelit, peta jalan dan kamera lama tetap boleh dipilih. Pilihan visual lama beralih sekali ke default baharu melalui `visualVersion: 2`; rekod pemain tidak ditukar.
+
+`village-model.mjs` menambah bumbung cerun pada tapak bangunan empat sisi rendah, tingkap / pintu serta palma / pokok berdaun bersegi. Reka bentuk, warna, bumbung dan tingkap ialah ilustrasi, bukan rekonstruksi seni bina sebenar. Pokok hiasan tambahan di tepi jalan dihadkan ke daratan dipetakan dan di luar jalan / tapak bangunan dipetakan. Tidak semua bangunan Labuan dipetakan; kawasan tanpa data tidak diisi rumah rekaan.
+
+Model dimuatkan secara setempat sekitar kamera (bajet 35 / 75 / 130 bangunan mengikut kualiti), digabungkan mengikut bahan supaya tidak menghasilkan satu draw call bagi setiap tingkap. Kamera bergerak menjana semula kawasan setempat; sumber geografi asal tidak dimutasi. Bangunan asas digunakan jika perincian Three.js gagal. Pratonton pelayar bagi keluaran ini belum disahkan kerana relay preview tidak tersedia; ujian geometri, data, mod kamera, lapisan dan perjalanan automatik dijalankan.

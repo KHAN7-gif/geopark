@@ -52,6 +52,7 @@ test('3D view preserves route coordinates, destination pins and teardown',async(
       map.camera={zoom:control.endsWith('in')?20:18};const manual=map.camera;
       view.sync(state);assert.equal(map.camera,manual,'follow must not restore preset zoom after manual +/-');assert.deepEqual(map.sources.route.data,routeFeature(path));
     }
+    view.previewVillage();assert.equal(map.camera.pitch,52);assert.equal(map.camera.zoom,18.4);assert.deepEqual(map.camera.center,[115.246,5.284]);assert.deepEqual(map.sources.route.data,routeFeature(path));
     const before=interactions;controlEvents.get('pointerdown')({target:{closest:()=>null}});assert.equal(interactions,before);
 
     for(let i=0;i<3;i++)map.events.error({sourceId:'satellite'});assert.deepEqual(basemapChanges,['street']);assert.equal(map.layers.base.visibility,'visible');assert.equal(map.layers['base-satellite'].visibility,'none');map.contextLost();assert.ok(failed.includes('2D'));

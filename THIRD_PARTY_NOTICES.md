@@ -21,3 +21,7 @@ Avatar, ilustrasi Jejak dan templat sijil disertakan sebagai aset aplikasi. Tiad
 ## gtamaplib-vc — rujukan UI / UX
 
 [rolux/gtamaplib-vc](https://github.com/rolux/gtamaplib-vc), Robert Luxemburg, Unlicense. Dirujuk pada 26 November 2026 untuk pola kanvas penuh, kawalan terapung dan data pandangan kamera (`ui/map3d.css`, `ui/map3d.js`). Modul `map-viewer.mjs` dan stylesheet Labuan ialah pelaksanaan asal; tiada aset GTA, dataset, enjin triangulasi atau pelayan Python disalin / diperlukan.
+
+## Jalan Dunia game
+
+`dist/environment/game-roads.geojson`: OpenStreetMap contributors, ODbL-1.0, diperoleh melalui Overpass pada 27 November 2026. Timestamp sumber dan andaian lebar / tanda jalan dalam fail metadata bersebelahan. Geometri seni bina serta vegetasi tambahan ialah ilustrasi prosedural asal, bukan model atau tekstur daripada gambar rujukan.

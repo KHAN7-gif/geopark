@@ -1,0 +1,8 @@
+{
+  "source": "OpenStreetMap contributors via Overpass API",
+  "license": "ODbL-1.0",
+  "attribution": "https://www.openstreetmap.org/copyright",
+  "osmTimestamp": "2026-11-27T00:17:04Z",
+  "roads": 5036,
+  "note": "OSM road centre lines. Surface colours, widths without tags and lane markings are game illustrations, not surveyed lane data."
+}

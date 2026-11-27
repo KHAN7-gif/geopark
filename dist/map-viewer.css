@@ -117,3 +117,8 @@
  .game-home [data-map-style="atlas"] .hud-telemetry{display:none}
 }
 @media(max-width:370px){[data-map-style="atlas"] #hudInfoCode,[data-map-style="atlas"] #toggleMapFocus b{display:none}[data-map-style="atlas"] #toggleMapFocus{min-width:44px;padding:8px}[data-map-style="atlas"] .viewer-actions button{font-size:13px;padding:9px 8px}.game-home [data-map-style="atlas"] .stage-header h2{font-size:15px}}
+/* A neighbourhood-scale camera and a fully rendered game map. */
+[data-map-style="atlas"] .advanced-tool-group[aria-label="Kamera 3D"]{grid-template-columns:repeat(2,1fr)}[data-map-style="atlas"] .advanced-tool-group.map-base-options{grid-template-columns:repeat(3,1fr)}[data-map-style="atlas"] [data-basemap="game"]{border-color:#b9ce77}
+
+/* Keep a cloudy-day report readable without whitening the whole game world. */
+.journey-stage[data-world-base="game"] .weather-clouds{opacity:calc(var(--weather-cloud-cover,0) * .35)}
