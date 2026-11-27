@@ -1,11 +1,11 @@
-import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=dataran-20261127';
-import {addDataranStructures} from './dataran-model.mjs?v=dataran-20261127';
-import {TOWN_DATA} from './environment/town-data.mjs?v=dataran-20261127';
-import {plazaCentre} from './town-scene.mjs?v=dataran-20261127';
-import {buildingStyle,buildingHeight} from './building-types.mjs?v=dataran-20261127';
+import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=flag-center-20261127';
+import {addDataranStructures} from './dataran-model.mjs?v=flag-center-20261127';
+import {TOWN_DATA} from './environment/town-data.mjs?v=flag-center-20261127';
+import {plazaCentre} from './town-scene.mjs?v=flag-center-20261127';
+import {buildingStyle,buildingHeight} from './building-types.mjs?v=flag-center-20261127';
 import * as THREE from './vendor/three.module.js';
-import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=dataran-20261127';
-import {landAt} from './marine-geometry.mjs?v=dataran-20261127';
+import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=flag-center-20261127';
+import {landAt} from './marine-geometry.mjs?v=flag-center-20261127';
 const SY=111320;
 export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildingLimit=80,treeLimit=100,roads=null}={}){
  const sx=SY*Math.cos(anchor[1]*Math.PI/180),local=p=>[(p[0]-anchor[0])*sx,(anchor[1]-p[1])*SY],world=p=>[anchor[0]+p[0]/sx,anchor[1]-p[1]/SY];
@@ -72,8 +72,8 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
  for(const feature of TOWN_DATA.features.filter(f=>f.geometry.type==='Polygon')){
   const point=plazaCentre(feature.geometry.coordinates[0]);if(Math.hypot(...local(point))>radius)continue;stats.plazas++;
   addDataranStructures({local,heightAt,solid,quad,triangle,geometries,stats});
-  const flagPoint=dataranPoint(DATARAN_LAYOUT.flag.u,DATARAN_LAYOUT.flag.v),[x,z]=local(flagPoint),ground=heightAt(flagPoint)||0;
-  solid(geometries.box,'#c4b18e',[x,ground+.15,z],[2.5,.3,2.5]);solid(geometries.trunk,'#e5e5d6',[x,ground+5,z],[.65,10,.65]);
+  const flagPoint=dataranPoint(DATARAN_LAYOUT.flag.u,DATARAN_LAYOUT.flag.v),[x,z]=local(flagPoint),ground=(heightAt(dataranPoint(DATARAN_LAYOUT.monument.u,DATARAN_LAYOUT.monument.v))||0)+DATARAN_LAYOUT.monument.platformHeight;
+  solid(geometries.trunk,'#e5e5d6',[x,ground+5,z],[.65,10,.65]);
   const flag=(left,bottom,width,height,colour,offset=0)=>quad(colour,[x+left,ground+bottom,z+offset],[x+left+width,ground+bottom,z+offset],[x+left+width,ground+bottom+height,z+offset],[x+left,ground+bottom+height,z+offset]);
   for(let i=0;i<14;i++)flag(.1,9.65-(i+1)*1.55/14,3.1,1.55/14,i%2?'#f4ead2':'#c73e42');for(const side of [-1,1])flag(.1,9.65-1.55/2,1.55,1.55/2,'#254984',side*.025);
   const disc=(cx,cy,r,colour,offset)=>{for(let n=0;n<24;n++){const a=n*Math.PI/12,b=(n+1)*Math.PI/12;triangle(colour,[x+cx,ground+cy,z+offset],[x+cx+Math.cos(a)*r,ground+cy+Math.sin(a)*r,z+offset],[x+cx+Math.cos(b)*r,ground+cy+Math.sin(b)*r,z+offset])}};

@@ -16,11 +16,12 @@ test('Dataran open field excludes automatic trees in basic and detailed renderer
  assert.equal(dataranTreeAllowed([115.23,5.3]),true);
 });
 test('monument and flag are at the western end, grandstand is at the southern side, and no central plinth remains',()=>{
- const {monument:m,flag:f,grandstand:g}=DATARAN_LAYOUT;assert(m.u<40&&f.u<40);assert(g.u>80&&g.v<-80);for(const p of [m,f,g])assert(insideDataran(dataranPoint(p.u,p.v)));
+ const {monument:m,flag:f,grandstand:g}=DATARAN_LAYOUT;assert(m.u<40&&f.u<40);assert.equal(f.u,m.u+m.platformOffset);assert.equal(f.v,m.v);assert(g.u>80&&g.v<-80);for(const p of [m,f,g])assert(insideDataran(dataranPoint(p.u,p.v)));
  const forecourt=dataranForecourt();assert(forecourt.every(insideDataran));assert(forecourt.every(p=>dataranUV(p)[0]<40));
  const ground=townGround(),plinth=ground.features.find(f=>f.properties.part==='plinth');assert.deepEqual(plinth.geometry.coordinates[0],forecourt);assert.deepEqual(ground.features.find(f=>f.properties.part==='grass').geometry.coordinates[0],DATARAN_RING);
 });
 test('reference-based grandstand and monument geometry leave the middle of the field empty',()=>{
  const anchor=dataranPoint(112,-46),model=buildVillageScene({type:'FeatureCollection',features:[]},anchor),sx=111320*Math.cos(anchor[1]*Math.PI/180);assert.equal(model.stats.grandstands,1);assert.equal(model.stats.monuments,1);
+ const pole=model.root.children.find(mesh=>mesh.material.color.getHexString()==='e5e5d6');assert(pole);const attr=pole.geometry.attributes.position,centre=dataranPoint(DATARAN_LAYOUT.flag.u,DATARAN_LAYOUT.flag.v);let minY=Infinity;for(let i=0;i<attr.count;i++){const point=[anchor[0]+attr.getX(i)/sx,anchor[1]-attr.getZ(i)/111320];assert(Math.hypot((point[0]-centre[0])*sx,(point[1]-centre[1])*111320)<.3);minY=Math.min(minY,attr.getY(i))}assert(Math.abs(minY-DATARAN_LAYOUT.monument.platformHeight)<.01);
  let centralVertices=0;model.root.traverse(o=>{if(!o.isMesh)return;const a=o.geometry.attributes.position;for(let i=0;i<a.count;i++){assert(Number.isFinite(a.getY(i)));const point=[anchor[0]+a.getX(i)/sx,anchor[1]-a.getZ(i)/111320],[u,v]=dataranUV(point);if(u>45&&u<185&&v>-75&&v<-15)centralVertices++}});assert.equal(centralVertices,0);model.dispose();
 });

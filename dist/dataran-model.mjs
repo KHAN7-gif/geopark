@@ -1,4 +1,4 @@
-import {DATARAN_LAYOUT,dataranPoint} from './dataran-layout.mjs?v=dataran-20261127';
+import {DATARAN_LAYOUT,dataranPoint} from './dataran-layout.mjs?v=flag-center-20261127';
 // Approximate reference-based public-square structures, separate from OSM
 // building footprints. Nothing is added to the centre of the playing field.
 export function addDataranStructures({local,heightAt,quad,triangle,stats}){
@@ -17,9 +17,9 @@ export function addDataranStructures({local,heightAt,quad,triangle,stats}){
  box(g.u,front,g.width+2.8,.3,gg+4.35,.5,'#3a6b88');
  for(const sign of [-1,1])box(g.u+sign*(g.width/2+.2),g.v,.18,g.depth+.5,gg+1.8,.15,'#798b8a');
  // West-end fan-shaped forecourt, low white curved monument and colonnade.
- const stageU=m.u+5,stageV=m.v;
+ const stageU=m.u+m.platformOffset,stageV=m.v;
  for(let tier=0;tier<3;tier++)arc(stageU,stageV,7-tier*.8,1.7,mg+tier*.24,.24,-Math.PI,Math.PI,'#e2ddca',36);
- box(stageU,stageV,8,8,mg,.65,'#e9e5d5');
+ box(stageU,stageV,8,8,mg,m.platformHeight,'#e9e5d5');
  for(const [radius,height]of [[5.5,3.7],[8,2.9],[10.5,2]])arc(stageU-3,stageV,radius,.65,mg+.65,height,-Math.PI*.38,Math.PI*.38,'#f2eee0');
  const positions=[];for(let n=0;n<9;n++){const a=Math.PI*.55+n*Math.PI*.9/8,u=m.u+Math.cos(a)*25,v=m.v+Math.sin(a)*25;positions.push([u,v]);box(u,v,1.3,1.3,mg,4.3,'#9d664d');box(u,v,1.8,1.8,mg+4.3,.35,'#dbc8a3')}
  for(let n=1;n<positions.length;n++){const a=positions[n-1],b=positions[n],dx=b[0]-a[0],dv=b[1]-a[1],length=Math.hypot(dx,dv),nx=-dv/length*.23,nv=dx/length*.23;quad('#cbbf9e',p(a[0]+nx,a[1]+nv,mg+4.4),p(b[0]+nx,b[1]+nv,mg+4.4),p(b[0]-nx,b[1]-nv,mg+4.4),p(a[0]-nx,a[1]-nv,mg+4.4))}
