@@ -1,14 +1,14 @@
-import {TOWN_PLACES} from './town-scene.mjs?v=flag-center-20261127';
-import {addGameWorld,paintGameWorld} from './game-world.mjs?v=flag-center-20261127';
-import {viewerPreferences,applyViewerLayers} from './map-viewer.mjs?v=flag-center-20261127';
-import {MARINE_DATA} from './marine-data.mjs?v=flag-center-20261127';
-import {jettyFeatures} from './jetty-scene.mjs?v=flag-center-20261127';
-import {applyWeatherScene} from './weather-scene.mjs?v=flag-center-20261127';
-import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=flag-center-20261127';
-import {createCameraDirector} from './camera-director.mjs?v=flag-center-20261127';
-import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=flag-center-20261127';
-import {navigationHUD} from './navigation-hud.mjs?v=flag-center-20261127';
-import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=flag-center-20261127';
+import {TOWN_PLACES} from './town-scene.mjs?v=marlin-20261127';
+import {addGameWorld,paintGameWorld} from './game-world.mjs?v=marlin-20261127';
+import {viewerPreferences,applyViewerLayers} from './map-viewer.mjs?v=marlin-20261127';
+import {MARINE_DATA} from './marine-data.mjs?v=marlin-20261127';
+import {jettyFeatures} from './jetty-scene.mjs?v=marlin-20261127';
+import {applyWeatherScene} from './weather-scene.mjs?v=marlin-20261127';
+import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=marlin-20261127';
+import {createCameraDirector} from './camera-director.mjs?v=marlin-20261127';
+import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=marlin-20261127';
+import {navigationHUD} from './navigation-hud.mjs?v=marlin-20261127';
+import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=marlin-20261127';
 // All geographic data uses WGS84 coordinates. No invented coastlines or roads.
 export const TERRAIN_TILES='https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png';
 export const BASEMAP_TILES='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -105,10 +105,10 @@ export async function createJourney3D({element,onSelect,onInteract,onPlace=()=>{
   function refreshTownLabels(){
     if(!loaded||destroyed)return;
     const centre=map.getCenter?.()||{lng:pending?.position?.[1]||115.245,lat:pending?.position?.[0]||5.276};
-    const near=!visibleLayers.places||(map.getZoom?.()||18)<15?[]:TOWN_PLACES.map(p=>({p,d:Math.hypot((p.geometry.coordinates[0]-centre.lng)*110850,(p.geometry.coordinates[1]-centre.lat)*111320)})).filter(o=>o.d<650).sort((a,b)=>({plaza:0,police:1,office:2,civic:3,shop:4}[a.p.properties.kind]-{plaza:0,police:1,office:2,civic:3,shop:4}[b.p.properties.kind])||a.d-b.d).slice(0,10);
+    const near=!visibleLayers.places||(map.getZoom?.()||18)<15?[]:TOWN_PLACES.map(p=>({p,d:Math.hypot((p.geometry.coordinates[0]-centre.lng)*110850,(p.geometry.coordinates[1]-centre.lat)*111320)})).filter(o=>o.d<650).sort((a,b)=>({plaza:0,landmark:1,police:1,office:2,civic:3,shop:4}[a.p.properties.kind]-{plaza:0,landmark:1,police:1,office:2,civic:3,shop:4}[b.p.properties.kind])||a.d-b.d).slice(0,10);
     const key=near.map(o=>o.p.properties.osm).join('|');if(key===townLabelKey)return;townLabelKey=key;
     for(const [id,marker]of markers)if(id.startsWith('T:')){marker.remove();markers.delete(id)}
-    for(const {p}of near){const button=document.createElement('button');button.type='button';button.className='town3d-label '+p.properties.kind;button.textContent=p.properties.name;button.title=p.properties.name;button.setAttribute('aria-label',p.properties.name);button.onclick=()=>onPlace(p);markers.set('T:'+p.properties.osm,new gl.Marker({element:button,anchor:'bottom',offset:[0,-18]}).setLngLat(p.geometry.coordinates).addTo(map))}
+    for(const {p}of near){const button=document.createElement('button');button.type='button';button.className='town3d-label '+p.properties.kind;button.textContent=p.properties.name;button.title=p.properties.name;button.setAttribute('aria-label',p.properties.name);button.onclick=()=>onPlace(p);markers.set('T:'+p.properties.osm,new gl.Marker({element:button,anchor:'bottom',offset:[0,p.properties.kind==='landmark'?-55:-18]}).setLngLat(p.geometry.coordinates).addTo(map))}
   }
   async function loadSurroundings(){
     onEnvironment('Memuatkan bangunan dan kawasan hijau…');
@@ -132,11 +132,11 @@ export async function createJourney3D({element,onSelect,onInteract,onPlace=()=>{
   }
   async function ensureVillage(){
     if(village){applyVillageState();return}if(villageLoading||!environmentData||!roadData||basemapId!=='game'||destroyed)return;villageLoading=true;
-    try{const {createVillageLayer}=await import('./village-layer.mjs?v=flag-center-20261127');if(destroyed)return;village=createVillageLayer(gl,{data:environmentData,roads:roadData,quality:graphics.level,onFailure:()=>{villageFailed=true;applyVillageState();onNotice('Perincian kampung tidak tersedia. Bangunan asas dan peta dikekalkan.')}});map.addLayer(village.layer);applyVillageState()}
+    try{const {createVillageLayer}=await import('./village-layer.mjs?v=marlin-20261127');if(destroyed)return;village=createVillageLayer(gl,{data:environmentData,roads:roadData,quality:graphics.level,onFailure:()=>{villageFailed=true;applyVillageState();onNotice('Perincian kampung tidak tersedia. Bangunan asas dan peta dikekalkan.')}});map.addLayer(village.layer);applyVillageState()}
     catch{villageFailed=true;onNotice('Bangunan asas digunakan pada peranti ini.')}
   }
   async function loadExplorer(){
-    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=flag-center-20261127');if(destroyed)return;
+    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=marlin-20261127');if(destroyed)return;
       explorer=createExplorerLayer(gl,{reducedMotion,onFailure:()=>{element.classList.remove('has-explorer-model');onNotice('Model penjelajah tidak tersedia. Penanda avatar digunakan.') }});
       map.addLayer(explorer.layer);explorer.setMood?.(lookId);explorer.setFrameRate?.(graphics.fps);element.classList.add('has-explorer-model');if(pending)sync(pending);reportViewport();
     }catch{if(!destroyed){explorer=null;element.classList.remove('has-explorer-model');onNotice('Penanda avatar digunakan pada peranti ini.')}}

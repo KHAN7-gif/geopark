@@ -1,11 +1,13 @@
-import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=flag-center-20261127';
-import {addDataranStructures} from './dataran-model.mjs?v=flag-center-20261127';
-import {TOWN_DATA} from './environment/town-data.mjs?v=flag-center-20261127';
-import {plazaCentre} from './town-scene.mjs?v=flag-center-20261127';
-import {buildingStyle,buildingHeight} from './building-types.mjs?v=flag-center-20261127';
+import {addMarlinMonument} from './marlin-model.mjs?v=marlin-20261127';
+import {marlinDistance,marlinTreeAllowed} from './marlin-layout.mjs?v=marlin-20261127';
+import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=marlin-20261127';
+import {addDataranStructures} from './dataran-model.mjs?v=marlin-20261127';
+import {TOWN_DATA} from './environment/town-data.mjs?v=marlin-20261127';
+import {plazaCentre} from './town-scene.mjs?v=marlin-20261127';
+import {buildingStyle,buildingHeight} from './building-types.mjs?v=marlin-20261127';
 import * as THREE from './vendor/three.module.js';
-import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=flag-center-20261127';
-import {landAt} from './marine-geometry.mjs?v=flag-center-20261127';
+import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=marlin-20261127';
+import {landAt} from './marine-geometry.mjs?v=marlin-20261127';
 const SY=111320;
 export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildingLimit=80,treeLimit=100,roads=null}={}){
  const sx=SY*Math.cos(anchor[1]*Math.PI/180),local=p=>[(p[0]-anchor[0])*sx,(anchor[1]-p[1])*SY],world=p=>[anchor[0]+p[0]/sx,anchor[1]-p[1]/SY];
@@ -46,7 +48,7 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
 
   }
  }
- function tree(point,variant,illustrative=false){if(!dataranTreeAllowed(point))return;const [x,z]=local(point),g=heightAt(point)||0,h=variant.height,colour=variant.colour;
+ function tree(point,variant,illustrative=false){if(!dataranTreeAllowed(point)||!marlinTreeAllowed(point))return;const [x,z]=local(point),g=heightAt(point)||0,h=variant.height,colour=variant.colour;
   if(variant.type==='palm'){
    solid(geometries.palmTrunk,'#997146',[x,g+h/2,z],[1,h,1]);
    for(let n=0;n<7;n++){const angle=n*Math.PI*2/7+(variant.seed%10)*.1,dir=[Math.cos(angle),Math.sin(angle)],side=[-dir[1],dir[0]],at=(r,w,y)=>[x+dir[0]*r+side[0]*w,g+h+y,z+dir[1]*r+side[1]*w];quad(colour,at(0,.1,0),at(2.2,.6,.5),at(4.3,0,-.8),at(2.2,-.6,.5))}
@@ -56,7 +58,7 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
   }
   stats.trees++;if(illustrative)stats.illustrativeRoadTrees++;
  }
- const trees=data.features.filter(f=>f.properties.kind==='canopy').map(f=>({f,p:treeCentre(f)})).map(o=>({...o,d:Math.hypot(...local(o.p))})).filter(o=>o.d<radius&&dataranTreeAllowed(o.p)).sort((a,b)=>a.d-b.d);
+ const trees=data.features.filter(f=>f.properties.kind==='canopy').map(f=>({f,p:treeCentre(f)})).map(o=>({...o,d:Math.hypot(...local(o.p))})).filter(o=>o.d<radius&&dataranTreeAllowed(o.p)&&marlinTreeAllowed(o.p)).sort((a,b)=>a.d-b.d);
  for(const {f,p}of trees.slice(0,treeLimit))tree(p,treeVariant(f));
  // Additional palms are game scenery, restricted to mapped land and clear of
  // mapped building footprints / road surfaces. They are not surveyed trees.
@@ -80,6 +82,7 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
   for(const side of [-1,1]){disc(.65,9.25,.26,'#efcf4f',side*.04);disc(.73,9.29,.23,'#254984',side*.055);}
   for(const side of [-1,1])for(let n=0;n<28;n++){const a=n*Math.PI/14,b=(n+1)*Math.PI/14,ra=n%2?.075:.16,rb=(n+1)%2?.075:.16;triangle('#efcf4f',[x+1.15,ground+9.25,z+side*.06],[x+1.15+Math.cos(a)*ra,ground+9.25+Math.sin(a)*ra,z+side*.06],[x+1.15+Math.cos(b)*rb,ground+9.25+Math.sin(b)*rb,z+side*.06])}
  }
+ if(marlinDistance(anchor)<radius)addMarlinMonument({local,heightAt,triangle,quad,stats});
  for(const [colour,points]of batches){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(points,3));geometry.computeVertexNormals();const material=new THREE.MeshLambertMaterial({color:colour,side:THREE.DoubleSide,flatShading:true}),mesh=new THREE.Mesh(geometry,material);mesh.frustumCulled=false;root.add(mesh)}
  for(const geometry of Object.values(geometries))geometry.dispose();
  return {root,stats,dispose(){root.traverse(o=>{o.geometry?.dispose();o.material?.dispose()});root.clear()}};
