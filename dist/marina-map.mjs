@@ -1,5 +1,5 @@
-import {MARINA_BERTHS,MARINA_PONTOONS} from './marina-layout.mjs?v=marinafix-20261127';
-import {toXY,fromXY} from './marine-geometry.mjs?v=marinafix-20261127';
+import {MARINA_BERTHS,MARINA_PONTOONS} from './marina-layout.mjs?v=depth3d-20261127';
+import {toXY,fromXY} from './marine-geometry.mjs?v=depth3d-20261127';
 export const MARINA_LAYERS=['marina-pontoons','marina-parked-boats'];
 export const MARINA_LIMITS={eco:6,balanced:10,high:12};
 export function marinaFeatures(quality='balanced'){
@@ -20,6 +20,6 @@ export function marinaFeatures(quality='balanced'){
 }
 export function addMarinaLayers(map,quality='balanced'){
  map.addSource('marina-scenery',{type:'geojson',data:marinaFeatures(quality),attribution:'Marina pontoon outlines © OpenStreetMap contributors; moored boats are game scenery'});
- for(const [id,entity]of [['marina-pontoons','pontoon'],['marina-parked-boats','boat']])map.addLayer({id,type:'fill-extrusion',source:'marina-scenery',minzoom:13.5,filter:['==',['get','entity'],entity],layout:{visibility:'visible'},paint:{'fill-extrusion-color':['get','color'],'fill-extrusion-height':['get','height'],'fill-extrusion-base':['get','base'],'fill-extrusion-opacity':1,'fill-extrusion-vertical-gradient':false}});
+ for(const [id,entity]of [['marina-pontoons','pontoon'],['marina-parked-boats','boat']])map.addLayer({id,type:'fill-extrusion',source:'marina-scenery',minzoom:13.5,filter:['==',['get','entity'],entity],layout:{visibility:'visible'},paint:{'fill-extrusion-color':['get','color'],'fill-extrusion-height':['get','height'],'fill-extrusion-base':['get','base'],'fill-extrusion-opacity':1,'fill-extrusion-vertical-gradient':true}});
 }
 export function setMarinaQuality(map,quality){map.getSource('marina-scenery')?.setData(marinaFeatures(quality))}

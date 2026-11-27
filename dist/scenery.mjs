@@ -1,18 +1,18 @@
-import {merdekaTreeAllowed} from './merdeka-layout.mjs?v=marinafix-20261127';
-import {marlinTreeAllowed} from './marlin-layout.mjs?v=marinafix-20261127';
-import {dataranTreeAllowed} from './dataran-layout.mjs?v=marinafix-20261127';
-import {buildingStyle,buildingHeight} from './building-types.mjs?v=marinafix-20261127';
-import {buildingPalette,treeVariant,treeCentre,shade} from './world-palette.mjs?v=marinafix-20261127';
+import {merdekaTreeAllowed} from './merdeka-layout.mjs?v=depth3d-20261127';
+import {marlinTreeAllowed} from './marlin-layout.mjs?v=depth3d-20261127';
+import {dataranTreeAllowed} from './dataran-layout.mjs?v=depth3d-20261127';
+import {buildingStyle,buildingHeight} from './building-types.mjs?v=depth3d-20261127';
+import {buildingPalette,treeVariant,treeCentre,shade} from './world-palette.mjs?v=depth3d-20261127';
 // Visual presets, not live weather or time of day.
 export const SCENE_LOOKS={
- day:{name:'Siang',sky:'#78bce8',horizon:'#e0eee1',fog:'#d4e4d3',light:'#fff4d6',intensity:.48,sun:[1.5,170,48],water:'#27c4be',shore:'#d4f6dd',green:'#789b55',brightness:1,saturation:.08},
- dusk:{name:'Senja',sky:'#8aa8c8',horizon:'#f4c69b',fog:'#d4cbb1',light:'#ffcf8c',intensity:.62,sun:[1.5,245,72],water:'#32b4b6',shore:'#e1f2cf',green:'#6d8a4e',brightness:.94,saturation:.13},
+ day:{name:'Siang',sky:'#78bce8',horizon:'#e0eee1',fog:'#d4e4d3',light:'#fff4d6',intensity:.68,sun:[1.5,225,48],water:'#27c4be',shore:'#d4f6dd',green:'#789b55',brightness:1,saturation:.08},
+ dusk:{name:'Senja',sky:'#8aa8c8',horizon:'#f4c69b',fog:'#d4cbb1',light:'#ffcf8c',intensity:.72,sun:[1.5,245,62],water:'#32b4b6',shore:'#e1f2cf',green:'#6d8a4e',brightness:.94,saturation:.13},
  night:{name:'Malam',sky:'#101f39',horizon:'#4b6280',fog:'#354f62',light:'#b1cce8',intensity:.32,sun:[1.5,145,48],water:'#287e96',shore:'#a6ddda',green:'#354e44',brightness:.55,saturation:-.22}
 };
 export function sceneLook(id){return SCENE_LOOKS[id]||SCENE_LOOKS.dusk}
 export function applySceneLook(map,id){
  const look=sceneLook(id);
- map.setSky?.({'sky-color':look.sky,'horizon-color':look.horizon,'fog-color':look.fog,'sky-horizon-blend':.65,'horizon-fog-blend':.6,'fog-ground-blend':.3});
+ map.setSky?.({'sky-color':look.sky,'horizon-color':look.horizon,'fog-color':look.fog,'sky-horizon-blend':.65,'horizon-fog-blend':.6,'fog-ground-blend':.12});
  map.setLight?.({anchor:'map',color:look.light,intensity:look.intensity,position:look.sun});
  const paint=(layer,key,value)=>{if(map.getLayer(layer))map.setPaintProperty?.(layer,key,value)};
  paint('base','raster-brightness-max',look.brightness);paint('base-satellite','raster-brightness-max',look.brightness);paint('base-satellite','raster-saturation',look.saturation);paint('base','raster-saturation',look.saturation);

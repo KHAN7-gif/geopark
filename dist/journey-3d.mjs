@@ -1,19 +1,20 @@
-import {addMarinaLayers,setMarinaQuality} from './marina-map.mjs?v=marinafix-20261127';
-import {createAmbientMap} from './ambient-scene.mjs?v=marinafix-20261127';
-import {captureMapPhoto} from './game-camera.mjs?v=marinafix-20261127';
-import {createTownInteractions} from './town-interactions.mjs?v=marinafix-20261127';
-import {createWalkingWorld,walkingSpawn,walkStep} from './free-roam.mjs?v=marinafix-20261127';
-import {TOWN_PLACES} from './town-scene.mjs?v=marinafix-20261127';
-import {addGameWorld,paintGameWorld} from './game-world.mjs?v=marinafix-20261127';
-import {viewerPreferences,applyViewerLayers} from './map-viewer.mjs?v=marinafix-20261127';
-import {MARINE_DATA} from './marine-data.mjs?v=marinafix-20261127';
-import {jettyFeatures} from './jetty-scene.mjs?v=marinafix-20261127';
-import {applyWeatherScene} from './weather-scene.mjs?v=marinafix-20261127';
-import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=marinafix-20261127';
-import {createCameraDirector} from './camera-director.mjs?v=marinafix-20261127';
-import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=marinafix-20261127';
-import {navigationHUD} from './navigation-hud.mjs?v=marinafix-20261127';
-import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=marinafix-20261127';
+import {addMarinaLayers,setMarinaQuality} from './marina-map.mjs?v=depth3d-20261127';
+import {createAmbientMap} from './ambient-scene.mjs?v=depth3d-20261127';
+import {captureMapPhoto} from './game-camera.mjs?v=depth3d-20261127';
+import {createTownInteractions} from './town-interactions.mjs?v=depth3d-20261127';
+import {createWalkingWorld,walkingSpawn,walkStep} from './free-roam.mjs?v=depth3d-20261127';
+import {TOWN_PLACES} from './town-scene.mjs?v=depth3d-20261127';
+import {addGameWorld,paintGameWorld} from './game-world.mjs?v=depth3d-20261127';
+import {viewerPreferences,applyViewerLayers} from './map-viewer.mjs?v=depth3d-20261127';
+import {MARINE_DATA} from './marine-data.mjs?v=depth3d-20261127';
+import {jettyFeatures} from './jetty-scene.mjs?v=depth3d-20261127';
+import {applyWeatherScene} from './weather-scene.mjs?v=depth3d-20261127';
+import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=depth3d-20261127';
+import {createCameraDirector} from './camera-director.mjs?v=depth3d-20261127';
+import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=depth3d-20261127';
+import {navigationHUD} from './navigation-hud.mjs?v=depth3d-20261127';
+import {paintDepthShadows} from './depth-scene.mjs?v=depth3d-20261127';
+import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=depth3d-20261127';
 // All geographic data uses WGS84 coordinates. No invented coastlines or roads.
 export const TERRAIN_TILES='https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png';
 export const BASEMAP_TILES='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -113,8 +114,8 @@ export async function createJourney3D({element,onSelect,onInteract,onPlace=()=>{
   function paintRoaming(force=false){if(!roaming||!loaded)return;explorer?.sync({position:roaming.position,heading:roaming.heading,mode:'walk',avatar:pending?.profile?.avatar||'rimba',journey:null,moving:roaming.moving});if(player)player.setLngLat(lngLat(roaming.position));if(roaming.moving||force){const current=map.getBearing(),bearing=current+((roaming.heading-current+540)%360-180)*.12;map.jumpTo({center:lngLat(roaming.position),zoom:19.2,pitch:65,bearing,padding:{top:0,right:0,bottom:140,left:0}})}}
   function startFreeRoam(point){following=false;director.setFollowing(false);roaming={position:walkingSpawn(point,walkingWorld),heading:map.getBearing(),distance:0,moving:false,speed:0};if(pending)sync(pending);paintRoaming(true);return {...roaming}}
   function stopFreeRoam(){roaming=null;for(const [id,marker]of markers)if(id.startsWith('T:'))marker.getElement()?.classList?.remove('in-reach');if(pending)sync(pending)}
-  function focusPlace(point,zoom=17.9){placeZoom=Number.isFinite(zoom)?Math.max(8,Math.min(20,zoom)):17.9;following=false;director.setFollowing(false);placeRequested=point;if(!loaded)return;placeRequested=null;map.easeTo({center:point,zoom:placeZoom,pitch:52,bearing:25,padding:{top:0,right:0,bottom:100,left:0},duration:reducedMotion?0:1000})}
-  function previewVillage(){placeRequested=null;following=false;director.setFollowing(false);previewRequested=true;if(!loaded)return;previewRequested=false;map.easeTo({center:[115.246,5.284],zoom:18.4,pitch:52,bearing:25,padding:{top:0,right:0,bottom:100,left:0},duration:reducedMotion?0:1000})}
+  function focusPlace(point,zoom=17.9){placeZoom=Number.isFinite(zoom)?Math.max(8,Math.min(20,zoom)):17.9;following=false;director.setFollowing(false);placeRequested=point;if(!loaded)return;placeRequested=null;map.easeTo({center:point,zoom:placeZoom,pitch:62,bearing:25,padding:{top:0,right:0,bottom:100,left:0},duration:reducedMotion?0:1000})}
+  function previewVillage(){placeRequested=null;following=false;director.setFollowing(false);previewRequested=true;if(!loaded)return;previewRequested=false;map.easeTo({center:[115.246,5.284],zoom:18.7,pitch:62,bearing:25,padding:{top:0,right:0,bottom:100,left:0},duration:reducedMotion?0:1000})}
   function fit(path){following=false;director.setFollowing(false);if(!loaded||!path?.length)return;const bounds=new gl.LngLatBounds();path.forEach(p=>bounds.extend(lngLat(p)));map.fitBounds(bounds,{padding:{top:110,right:60,bottom:window.innerWidth<760?290:200,left:60},maxZoom:14.5,pitch:52,bearing:map.getBearing(),duration:reducedMotion?0:700})}
   function refreshTownLabels(){
     if(!loaded||destroyed)return;
@@ -147,12 +148,12 @@ export async function createJourney3D({element,onSelect,onInteract,onPlace=()=>{
   }
   async function ensureVillage(){
     if(village){applyVillageState();return}if(villageLoading||!environmentData||!roadData||basemapId!=='game'||destroyed)return;villageLoading=true;
-    try{const {createVillageLayer}=await import('./village-layer.mjs?v=marinafix-20261127');if(destroyed)return;village=createVillageLayer(gl,{data:environmentData,roads:roadData,quality:graphics.level,onFailure:()=>{villageFailed=true;applyVillageState();onNotice('Perincian kampung tidak tersedia. Bangunan asas dan peta dikekalkan.')}});map.addLayer(village.layer);applyVillageState()}
+    try{const {createVillageLayer}=await import('./village-layer.mjs?v=depth3d-20261127');if(destroyed)return;village=createVillageLayer(gl,{data:environmentData,roads:roadData,quality:graphics.level,onFailure:()=>{villageFailed=true;applyVillageState();onNotice('Perincian kampung tidak tersedia. Bangunan asas dan peta dikekalkan.')}});map.addLayer(village.layer);applyVillageState()}
     catch{villageFailed=true;onNotice('Bangunan asas digunakan pada peranti ini.')}
   }
-  async function ensureTownLife(){if(townLife||townLifeLoading||!roadData||destroyed)return;townLifeLoading=true;try{const {createTownLifeLayer}=await import('./town-life-layer.mjs?v=marinafix-20261127');if(destroyed)return;townLife=createTownLifeLayer(gl,{roads:roadData,quality:graphics.level,reducedMotion,onFailure:()=>onNotice('Suasana bandar tidak tersedia pada peranti ini. Peta dan joystick kekal tersedia.')});map.addLayer(townLife.layer);townLife.setMood(lookId);applyVillageState()}catch{if(!destroyed)onNotice('Suasana bandar belum dimuatkan. Peta dan joystick kekal tersedia.')}}
+  async function ensureTownLife(){if(townLife||townLifeLoading||!roadData||destroyed)return;townLifeLoading=true;try{const {createTownLifeLayer}=await import('./town-life-layer.mjs?v=depth3d-20261127');if(destroyed)return;townLife=createTownLifeLayer(gl,{roads:roadData,quality:graphics.level,reducedMotion,onFailure:()=>onNotice('Suasana bandar tidak tersedia pada peranti ini. Peta dan joystick kekal tersedia.')});map.addLayer(townLife.layer);townLife.setMood(lookId);applyVillageState()}catch{if(!destroyed)onNotice('Suasana bandar belum dimuatkan. Peta dan joystick kekal tersedia.')}}
   async function loadExplorer(){
-    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=marinafix-20261127');if(destroyed)return;
+    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=depth3d-20261127');if(destroyed)return;
       explorer=createExplorerLayer(gl,{reducedMotion,onFailure:()=>{element.classList.remove('has-explorer-model');onNotice('Model penjelajah tidak tersedia. Penanda avatar digunakan.') }});
       map.addLayer(explorer.layer);explorer.setMood?.(lookId);explorer.setFrameRate?.(graphics.fps);element.classList.add('has-explorer-model');if(pending)sync(pending);if(roaming)paintRoaming(true);reportViewport();
     }catch{if(!destroyed){explorer=null;element.classList.remove('has-explorer-model');onNotice('Penanda avatar digunakan pada peranti ini.')}}
@@ -160,7 +161,7 @@ export async function createJourney3D({element,onSelect,onInteract,onPlace=()=>{
   async function loadCoast(){
     try{const response=await fetch(new URL('environment/shoreline.geojson',import.meta.url),{signal:environmentAbort.signal});if(!response.ok)throw Error('Coast unavailable');const data=await response.json();if(destroyed)return;if(data.type!=='FeatureCollection')throw Error('Invalid coast');addCoastalScenery(map,data);setSurroundingsVisible(map,surroundings);applyAdvancedQuality(map,graphics,surroundings);paintWorldLook();applyVillageState();refreshWaves()}catch(error){if(!destroyed&&error.name!=='AbortError')onNotice('Kesan laut belum dimuatkan. Garis pantai peta asal dikekalkan.')}
   }
-  function paintWorldLook(){applySceneLook(map,lookId);paintGameWorld(map,lookId);applyWeatherScene(map,lookId,weatherState);village?.setMood(lookId);townLife?.setMood(lookId)}
+  function paintWorldLook(){paintDepthShadows(map,environmentData,lookId,weatherState);applySceneLook(map,lookId);paintGameWorld(map,lookId);applyWeatherScene(map,lookId,weatherState);village?.setMood(lookId);townLife?.setMood(lookId)}
   function refreshWaves(){clearInterval(waveTimer);waveTimer=null;if(!surroundings||graphics.level==='eco'||reducedMotion||destroyed||!map.getLayer('labuan-waves'))return;waveTimer=setInterval(()=>{if(typeof document!=='undefined'&&document.hidden)return;wavePhase=(wavePhase+1)%64;map.setPaintProperty('labuan-waves','fill-translate',[0,-wavePhase])},weatherState?.windKmh>20?115:160)}
   function chase(position,close=false){director.follow(position,heading)}
   return {ambientScene(position){return ambientMap.at(position)},capturePhoto(title){return captureMapPhoto(map,{title,attribution:basemapId==='satellite'?'Imagery © Esri, Vantor, Earthstar Geographics, GIS User Community · © OpenStreetMap contributors':'© OpenStreetMap contributors · Terrain Mapzen/AWS'})},photoView(){const c=map.getCenter();return {lng:c.lng,lat:c.lat,zoom:map.getZoom(),bearing:map.getBearing(),pitch:map.getPitch()}},nearbyTown,setTownLife(value){townLifeEnabled=!!value;if(loaded)applyVillageState()},sync,fit,previewVillage,focusPlace,startFreeRoam,stopFreeRoam,getBearing(){return map.getBearing()},moveFreeRoam(input,seconds){if(!roaming)return null;roaming=walkStep(roaming,input,seconds,walkingWorld);paintRoaming();return {...roaming}},setLayers(value){visibleLayers=viewerPreferences({layers:value}).layers;if(loaded){applyViewerLayers(map,markers,visibleLayers);refreshTownLabels()}},follow(position,close=false){following=true;if(loaded)chase(position,close)},setFollowing(value){following=!!value;director.setFollowing(value)},setCameraMode(id){director.setMode(id)},setBasemap(id){basemapId=['game','street','satellite'].includes(id)?id:'game';satelliteErrors=0;if(loaded){switchBasemap(map,basemapId);ensureVillage();applyVillageState()}},setQuality(id){graphics=qualityProfile(id,device);director.setFrameRate(graphics.fps);explorer?.setFrameRate?.(graphics.fps);if(loaded){applyAdvancedQuality(map,graphics,surroundings);setMarinaQuality(map,graphics.level);village?.setQuality(graphics.level);townLife?.setQuality(graphics.level);applyVillageState()}refreshWaves()},setWeather(data){weatherState=data;if(loaded){paintWorldLook();refreshWaves()}},setLook(id){lookId=SCENE_LOOKS[id]?id:'dusk';if(loaded){paintWorldLook();explorer?.setMood?.(lookId)}},setSurroundings(value){surroundings=!!value;if(loaded){setSurroundingsVisible(map,surroundings);applyAdvancedQuality(map,graphics,surroundings);applyVillageState()}refreshWaves()},resize(){map.resize()},destroy(){destroyed=true;container?.removeEventListener('pointerdown',beforeNavigation,true);container?.removeEventListener('click',beforeNavigation,true);director.destroy();clearInterval(waveTimer);environmentAbort.abort();element.classList.remove('has-explorer-model');clearTimeout(timeout);map.remove()}};

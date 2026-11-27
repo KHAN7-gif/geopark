@@ -1,16 +1,16 @@
-import {addPerbadananFacades} from './perbadanan-model.mjs?v=marinafix-20261127';
-import {addMerdekaRoundabout} from './merdeka-model.mjs?v=marinafix-20261127';
-import {merdekaDistance,merdekaTreeAllowed} from './merdeka-layout.mjs?v=marinafix-20261127';
-import {addMarlinMonument} from './marlin-model.mjs?v=marinafix-20261127';
-import {marlinDistance,marlinTreeAllowed} from './marlin-layout.mjs?v=marinafix-20261127';
-import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=marinafix-20261127';
-import {addDataranStructures} from './dataran-model.mjs?v=marinafix-20261127';
-import {TOWN_DATA} from './environment/town-data.mjs?v=marinafix-20261127';
-import {plazaCentre} from './town-scene.mjs?v=marinafix-20261127';
-import {buildingStyle,buildingHeight} from './building-types.mjs?v=marinafix-20261127';
+import {addPerbadananFacades} from './perbadanan-model.mjs?v=depth3d-20261127';
+import {addMerdekaRoundabout} from './merdeka-model.mjs?v=depth3d-20261127';
+import {merdekaDistance,merdekaTreeAllowed} from './merdeka-layout.mjs?v=depth3d-20261127';
+import {addMarlinMonument} from './marlin-model.mjs?v=depth3d-20261127';
+import {marlinDistance,marlinTreeAllowed} from './marlin-layout.mjs?v=depth3d-20261127';
+import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=depth3d-20261127';
+import {addDataranStructures} from './dataran-model.mjs?v=depth3d-20261127';
+import {TOWN_DATA} from './environment/town-data.mjs?v=depth3d-20261127';
+import {plazaCentre} from './town-scene.mjs?v=depth3d-20261127';
+import {buildingStyle,buildingHeight} from './building-types.mjs?v=depth3d-20261127';
 import * as THREE from './vendor/three.module.js';
-import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=marinafix-20261127';
-import {landAt} from './marine-geometry.mjs?v=marinafix-20261127';
+import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=depth3d-20261127';
+import {landAt} from './marine-geometry.mjs?v=depth3d-20261127';
 const SY=111320;
 export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildingLimit=80,treeLimit=100,roads=null}={}){
  const sx=SY*Math.cos(anchor[1]*Math.PI/180),local=p=>[(p[0]-anchor[0])*sx,(anchor[1]-p[1])*SY],world=p=>[anchor[0]+p[0]/sx,anchor[1]-p[1]/SY];

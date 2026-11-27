@@ -11,7 +11,7 @@ test('game world uses an attributed Labuan road snapshot and switches without al
  const layers=new Map(['base','base-satellite','relief','route-halo'].map(id=>[id,{}])),sources=new Map(),changes=[];const map={getLayer:id=>layers.get(id),addSource:(id,source)=>sources.set(id,source),addLayer:layer=>layers.set(layer.id,layer),setLayoutProperty(id,key,value){changes.push(id);layers.get(id)[key]=value}};
  addGameWorld(map,roads);switchBasemap(map,'game');assert.equal(layers.get('base').visibility,'none');for(const id of GAME_MAP_LAYERS)assert.equal(layers.get(id).visibility,'visible');assert.equal(sources.get('game-roads').data,roads);assert.ok(!changes.includes('route-halo'));
  switchBasemap(map,'satellite');assert.equal(layers.get('base-satellite').visibility,'visible');for(const id of GAME_MAP_LAYERS)assert.equal(layers.get(id).visibility,'none');
- const pose=cameraPose({mode:'village',position:[5.284,115.246],heading:0});assert.equal(pose.pitch,52);assert.equal(pose.bearing,25);assert.equal(pose.zoom,18.4);
+ const pose=cameraPose({mode:'village',position:[5.284,115.246],heading:0});assert.equal(pose.pitch,62);assert.equal(pose.bearing,25);assert.equal(pose.zoom,18.7);
 });
 test('village roofs, facade windows and tropical trees are bounded, batched and dispose without mutating OSM data',()=>{
  const before=JSON.stringify(data),model=buildVillageScene(data,[115.246,5.284],{roads,buildingLimit:30,treeLimit:35,heightAt:()=>7});
