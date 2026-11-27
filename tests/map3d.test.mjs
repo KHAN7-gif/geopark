@@ -16,7 +16,7 @@ test('3D view preserves route coordinates, destination pins and teardown',async(
     getLayer(id){return this.layers?.[id]} setLayoutProperty(id,key,value){this.layers[id][key]=value}
     addSource(id,source){this.sources[id]={...source,setData(data){this.data=data}}}
     getSource(id){return this.sources[id]} addLayer(layer){this.layers??={};this.layers[layer.id]=layer} getBearing(){return 0}
-    fitBounds(bounds,options){this.bounds=bounds;this.fit=options} resize(){} easeTo(options){this.camera=options}
+    fitBounds(bounds,options){this.bounds=bounds;this.fit=options} resize(){} jumpTo(options){this.camera=options} easeTo(options){this.camera=options}
     setTerrain(terrain){this.terrain=terrain} remove(){this.removed=true}
   }
   class FakeMarker{
@@ -56,6 +56,12 @@ test('3D view preserves route coordinates, destination pins and teardown',async(
     view.previewVillage();assert.equal(map.camera.pitch,52);assert.equal(map.camera.zoom,18.4);assert.deepEqual(map.camera.center,[115.246,5.284]);assert.deepEqual(map.sources.route.data,routeFeature(path));
     const before=interactions;controlEvents.get('pointerdown')({target:{closest:()=>null}});assert.equal(interactions,before);
 
+    const routeBefore=JSON.stringify(map.sources.route.data),pendingBefore=JSON.stringify(state);
+    const roaming=view.startFreeRoam([5.27625,115.2449]);assert.equal(map.camera.pitch,65);assert.equal(map.camera.zoom,19.2);
+    const step=view.moveFreeRoam({x:0,y:-1,bearing:0},.1);assert.ok(step.position[0]>roaming.position[0]);
+    view.sync(state);assert.deepEqual(nodes[11].point,[step.position[1],step.position[0]],'mission ticks must not replace manual avatar position');
+    assert.equal(JSON.stringify(map.sources.route.data),routeBefore);assert.equal(JSON.stringify(state),pendingBefore);
+    view.stopFreeRoam();assert.deepEqual(nodes[11].point,[115.23,5.32]);
     for(let i=0;i<3;i++)map.events.error({sourceId:'satellite'});assert.deepEqual(basemapChanges,['street']);assert.equal(map.layers.base.visibility,'visible');assert.equal(map.layers['base-satellite'].visibility,'none');map.contextLost();assert.ok(failed.includes('2D'));
     assert.equal(JSON.stringify(path),snapshot);
   }finally{view.destroy();delete globalThis.window;delete globalThis.document;globalThis.fetch=previousFetch}

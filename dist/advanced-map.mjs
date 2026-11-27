@@ -1,4 +1,4 @@
-import {GAME_MAP_LAYERS} from './game-world.mjs?v=explore-20261127';
+import {GAME_MAP_LAYERS} from './game-world.mjs?v=joystick-20261127';
 export const SATELLITE_TILES='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 export const CAMERA_MODES={village:{name:'Kampung',pitch:52,zoom:18.4},close:{name:'Dekat',pitch:67,zoom:19.1},drone:{name:'Dron',pitch:48,zoom:17.1},orbit:{name:'Orbit',pitch:61,zoom:18.4}};
 export function qualityProfile(choice='auto',device={}){

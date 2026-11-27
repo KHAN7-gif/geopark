@@ -166,3 +166,11 @@ Tapak OSM `way/1412136971` yang bernama Menara Perbadanan Labuan diberi model kh
 Bilangan tingkat datang daripada pengguna; ketinggian badan 35.2 m menggunakan andaian 3.2 m setiap tingkat, bukan ukuran sebenar. Bahan, kedudukan sisi putih dan perincian fasad ialah anggaran visual daripada foto. `perbadanan-layout.mjs` menyimpan identiti, warna dan andaian; `perbadanan-model.mjs` membina sebelas jalur tingkap bagi setiap sisi kaca. Ketinggian / warna badan MapLibre dan perincian Three.js menggunakan konfigurasi yang sama.
 
 **Kawalan → Lihat Menara Perbadanan · 11 tingkat** memusatkan kamera pada bangunan dan membuka label / popup setempat. Fungsi ini tidak memindahkan pemain atau mengubah perjalanan, XP dan kilometer. Ujian memastikan semua 11 tingkat dilukis, satu sisi tidak berkaca, bangunan lain tidak tersalah diklasifikasi dan geometri asal kekal.
+
+### Joystick jelajah bebas
+
+Dalam dunia 3D, buka **Kawalan → Joystick jelajah bebas**. Seret pad sentuh atau gunakan WASD / kekunci anak panah. Berjalan pada 5 km/j; butang **Lari** atau Shift menggunakan 10 km/j. Arah joystick mengikut orientasi kamera ketika sentuhan bermula; kamera mengikuti posisi dan menghadap belakang watak. Tarik semula joystick untuk mengubah arah. Pelepasan sentuhan, kehilangan fokus, tab tersembunyi dan menu terbuka menghentikan input. Escape atau **Tamat jelajah** kembali kepada penjelajah misi; pertukaran ke 2D juga menutup joystick.
+
+Perjalanan misi yang masih bergerak perlu dijeda dahulu. Mod bebas tidak mengubah laluan, waktu, XP, cop atau log kilometer misi; jarak yang dipaparkan ialah jarak sesi jelajah bebas. Menyambung misi menamatkan joystick. Posisi terakhir disimpan berasingan di `jelajah-labuan-roam-v1`, dengan **Ke Dataran** sebagai titik pulih. Ia tidak menggunakan GPS.
+
+Kawalan berjalan mematuhi garis pantai Labuan dan mengelak poligon tapak bangunan OSM, termasuk ruang halaman dalam poligon. Liputan perlanggaran bergantung kepada bangunan yang tersedia dalam data; pokok dan perabot bandar bukan penghalang. Gerakan dihadkan kepada langkah 0.1 saat dan 30 kemas kini sesaat untuk mengelakkan lompatan selepas tab tidak aktif.
