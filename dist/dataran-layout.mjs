@@ -1,4 +1,4 @@
-import {TOWN_DATA} from './environment/town-data.mjs?v=ambient-20261127';
+import {TOWN_DATA} from './environment/town-data.mjs?v=soundfix-20261127';
 // Layout follows the user's satellite reference (27 Nov 2026), aligned to the
 // existing OSM outline. Furniture dimensions / positions are approximate.
 export const DATARAN_RING=TOWN_DATA.features.find(f=>f.geometry.type==='Polygon'&&f.properties.name==='Dataran Labuan').geometry.coordinates[0];

@@ -1,7 +1,9 @@
-import {landAt,nearestShore,toXY,inPolygon,metres} from './marine-geometry.mjs?v=ambient-20261127';
+import {landAt,nearestShore,toXY,inPolygon,metres} from './marine-geometry.mjs?v=soundfix-20261127';
 export function ambientPreferences(raw){return {enabled:raw?.enabled===true,volume:Number.isFinite(raw?.volume)?Math.max(0,Math.min(100,Math.round(raw.volume))):35}}
 export function createAmbientMap(environment){
  const greens=(environment?.features||[]).filter(f=>f.properties?.kind==='green'&&f.geometry?.type==='Polygon').map(f=>{const points=f.geometry.coordinates[0].map(([lng,lat])=>toXY([lat,lng]));return {points,minX:Math.min(...points.map(p=>p[0])),maxX:Math.max(...points.map(p=>p[0])),minY:Math.min(...points.map(p=>p[1])),maxY:Math.max(...points.map(p=>p[1]))}});let previous=null,cached=null;
  return {at(position){if(!Array.isArray(position)||position.length!==2||!position.every(Number.isFinite)||position[0]<4.95||position[0]>5.7||position[1]<114.85||position[1]>115.65)return {sea:0,green:false,town:false};if(previous&&metres(previous,position)<10)return cached;previous=[...position];const shore=nearestShore(position).distance,sea=landAt(position)<0?1:Math.max(0,1-shore/150),p=toXY(position);cached={sea,green:greens.some(g=>inPolygon(p,g)),town:position[1]>115.235&&position[1]<115.258&&position[0]>5.268&&position[0]<5.289};return cached}}
 }
 export function ambientMix(scene,{night=false,mode='walk',moving=false}={}){const sea=Math.max(0,Math.min(1,scene?.sea||0)),town=scene?.town?.55:0,birds=night?0:scene?.green?1:town?.25:.5,engine=moving&&['car','motor','bus','perahu','boat','boat_vip'].includes(mode)?1:0;return {sea,town:town*(1-sea*.6),birds:birds*(1-sea*.6),crickets:night?(scene?.green?.7:.2)*(1-sea):0,engine,footsteps:moving&&mode==='walk'?1:0,engineHz:{car:70,motor:120,bus:48,perahu:75,boat:95,boat_vip:110}[mode]||70,label:sea>.45?'Ombak laut':scene?.green?night?'Alam malam':'Burung & kawasan hijau':scene?.town?'Suasana bandar':night?'Alam malam':'Alam Labuan'}}
+
+export function ambientDemoURL(code){return ['sea','birds','night','town','steps','engine'].includes(code)?new URL('audio/'+code+'.wav',import.meta.url).href:null}
