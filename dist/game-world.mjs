@@ -1,7 +1,6 @@
-import {AIRPORT_LAYERS} from './airport-world.mjs?v=airport-20261127';
-import {TOWN_LAYERS,addTownSquare} from './town-scene.mjs?v=airport-20261127';
-import {LAND_RINGS} from './marine-coast.mjs?v=airport-20261127';
-export const GAME_MAP_LAYERS=['game-ocean','game-land','game-road-edge','game-roads','game-road-markings',...TOWN_LAYERS,...AIRPORT_LAYERS];
+import {TOWN_LAYERS,addTownSquare} from './town-scene.mjs?v=perbadanan-20261127';
+import {LAND_RINGS} from './marine-coast.mjs?v=perbadanan-20261127';
+export const GAME_MAP_LAYERS=['game-ocean','game-land','game-road-edge','game-roads','game-road-markings',...TOWN_LAYERS];
 export function addGameWorld(map,roads){
  map.addSource('game-land',{type:'geojson',data:{type:'FeatureCollection',features:LAND_RINGS.map(ring=>({type:'Feature',properties:{},geometry:{type:'Polygon',coordinates:[ring]}}))},attribution:'Land & roads © OpenStreetMap contributors (ODbL)'});
  map.addLayer({id:'game-ocean',type:'background',layout:{visibility:'none'},paint:{'background-color':'#2bc8c3'}},'base');
