@@ -230,3 +230,11 @@ Cabaran Superadmin boleh dimainkan dan disimpan secara berasingan; membuka prato
 Popup setiap destinasi menyediakan **Ikut perjalanan biasa** dan **Tiba terus di [kod]** di luar panel cabaran, supaya akses cabaran terbuka tidak menyembunyikan perancangan perjalanan. Perjalanan biasa menggunakan pengangkutan dipilih, semakan laluan asal dan nisbah masa 3:1; selepas semakan, tekan **Bertolak**. Pilihan ini juga tersedia melalui **Menu → Pilihan → Superadmin → Rancang perjalanan biasa**.
 
 Semasa perjalanan Superadmin berlangsung, **Tiba sekarang** tersedia dalam panel perjalanan, kawalan ringkas masa (label ringkas **Tiba** pada skrin kecil), dan panel Superadmin. Tindakan ini membersihkan perjalanan semasa, merekod ketibaan pada destinasi dan membuka petunjuk cabaran. Ia tidak menyiapkan cabaran atau menambah XP / kilometer untuk masa dan laluan yang dilangkau. Perjalanan boleh diteruskan sepenuhnya tanpa menggunakan butang tersebut. Mod pemain biasa tidak memperoleh kawalan lompat perjalanan ini.
+
+### Tambatan marina VIP
+
+Marina Labuan (J3) dalam gaya Dunia game 3D kini mempunyai kapal layar dan bot motor VIP berlabuh. Kapal layar dipaparkan dengan tiang, rigging dan layar bergulung; bot VIP mempunyai kabin berlapis, kaca biru dan ruang tempat duduk. Model menyertakan dek, pagar, tali tambatan, fender dan warna penutup yang berbeza. **Kawalan → Lihat marina VIP** memusatkan kamera pada ruang tambatan, tanpa menukar lokasi atau perjalanan pemain.
+
+Pontun dalaman mengikuti garis OSM `way/905756222` dan `way/905756221` yang sudah berada dalam snapshot jalan aplikasi. Kedudukan bot ialah ilustrasi suasana permainan, bukan inventori bot atau petak tambatan sebenar. Penempatan diperiksa supaya sampel badan bot berada di air, bot tidak bertindih dan koridor keluar J3 mempunyai ruang kosong. Garis pantai, jeti perjalanan dan laluan bot sedia ada tidak diubah.
+
+Jumlah bot: ringan 6, seimbang 10, tinggi 12. Semua permukaan dibatc mengikut bahan dalam renderer kampung yang sedia ada; tiada renderer atau gelung animasi tambahan. Model hanya dimuatkan dalam lingkungan marina apabila butiran Dunia game / Suasana diaktifkan, dan menggunakan pelupusan geometri biasa apabila kamera bergerak jauh atau paparan 3D ditutup.

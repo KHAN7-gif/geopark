@@ -1,4 +1,4 @@
-import {journeyAt} from './travel-engine.mjs?v=admintravel-20261127';
+import {journeyAt} from './travel-engine.mjs?v=marina-20261127';
 import * as THREE from './vendor/three.module.js';
 
 export function buildExplorerModel(mode='walk',avatar='rimba'){
