@@ -1,8 +1,8 @@
-import {merdekaTreeAllowed} from './merdeka-layout.mjs?v=soundfix2-20261127';
-import {marlinTreeAllowed} from './marlin-layout.mjs?v=soundfix2-20261127';
-import {dataranTreeAllowed} from './dataran-layout.mjs?v=soundfix2-20261127';
-import {buildingStyle,buildingHeight} from './building-types.mjs?v=soundfix2-20261127';
-import {buildingPalette,treeVariant,treeCentre,shade} from './world-palette.mjs?v=soundfix2-20261127';
+import {merdekaTreeAllowed} from './merdeka-layout.mjs?v=superadmin-20261127';
+import {marlinTreeAllowed} from './marlin-layout.mjs?v=superadmin-20261127';
+import {dataranTreeAllowed} from './dataran-layout.mjs?v=superadmin-20261127';
+import {buildingStyle,buildingHeight} from './building-types.mjs?v=superadmin-20261127';
+import {buildingPalette,treeVariant,treeCentre,shade} from './world-palette.mjs?v=superadmin-20261127';
 // Visual presets, not live weather or time of day.
 export const SCENE_LOOKS={
  day:{name:'Siang',sky:'#78bce8',horizon:'#e0eee1',fog:'#d4e4d3',light:'#fff4d6',intensity:.48,sun:[1.5,170,48],water:'#27c4be',shore:'#d4f6dd',green:'#789b55',brightness:1,saturation:.08},

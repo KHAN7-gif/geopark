@@ -214,3 +214,13 @@ Bunyi latar menggunakan sintesis asal Web Audio (noise ditapis, modulasi ombak, 
 Audio dihentikan apabila disenyapkan, tab tersembunyi atau pagehide. Suasana tersedia selagi peta permainan 2D atau 3D dibuka, dan dihentikan pada kelantangan sifar. Kelantangan beralih secara lembut; sumber burung / langkah dibersihkan selepas tamat. Pilihan disimpan berasingan sebagai `jelajah-labuan-ambient-v1`; laluan, masa, XP, cop dan log perjalanan tidak diubah.
 
 Pada Safari yang menyokong Audio Session API, pengaktifan pengguna memilih sesi `playback`. Context berstatus `interrupted` juga dicuba semula melalui `resume()`, selain context `suspended`, supaya audio boleh dipulihkan selepas gangguan telefon / aplikasi.
+
+### Mod Superadmin permainan
+
+Buka pautan dengan `?mode=superadmin` atau pilih **Menu → Pilihan → Masuk mod Superadmin**. Mod pemain menggunakan `?mode=player`; butang **Kembali ke mod pemain** menukar mod dan memuat semula halaman. Ini ialah mod permainan terbuka pada aplikasi statik, bukan peranan pentadbiran pelayan atau log masuk akaun.
+
+Superadmin mendapat 1,000,000 XP ujian, semua 7 pengangkutan, cabaran di semua 25 tapak tanpa perlu menunggu ketibaan, dan pratonton semua kad, lencana serta sijil. Panel Superadmin menyediakan pemilih 25 tapak, **Lompat ke lokasi**, **Buka cabaran terus** dan **Tiba sekarang**. Menukar pengangkutan semasa perjalanan Superadmin membatalkan perjalanan ujian itu dahulu; perancangan laluan darat / laut kekal mengikut geografi. Memulakan joystick semasa perjalanan Superadmin akan menjedakan perjalanan itu.
+
+Kemajuan misi, profil, lokasi, perjalanan, inventori, ganjaran dan posisi joystick Superadmin menggunakan awalan storan `superadmin:`. Foto Superadmin menggunakan IndexedDB album berasingan. Tetapan paparan / audio dikongsi. Mod pemain asal tidak ditulis semasa bermain dalam Superadmin. Laluan masa nyata pemain yang disimpan masih mengikut jam biasa apabila kembali, seperti selepas meninggalkan aplikasi.
+
+Cabaran Superadmin boleh dimainkan dan disimpan secara berasingan; membuka pratonton semua koleksi tidak menandakan cabaran telah diselesaikan dalam simpanan. Eksport Superadmin ditandakan `mode: superadmin` dan tidak boleh diimport terus ke mod pemain. Mod ini boleh dibuka oleh sesiapa yang menggunakan aplikasi, mengikut permintaan semua akses terbuka.

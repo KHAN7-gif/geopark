@@ -1,4 +1,4 @@
-import {joystickVector} from './free-roam.mjs?v=soundfix2-20261127';
+import {joystickVector} from './free-roam.mjs?v=superadmin-20261127';
 // Input is reset on interruption: returning to the app never resumes held movement.
 export function createRoamControls({pad,stick,run,document,window,getBearing,move,onUpdate,isBlocked}){
  let active=false,frame=null,last=null,pointer=null,vector={x:0,y:0},bearing=0,keys=new Set(),running=false;

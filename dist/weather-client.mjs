@@ -1,4 +1,4 @@
-import {MODEL_URL,WEATHER_SNAPSHOT_URL,normalizeModel,validateWeather} from './weather-engine.mjs?v=soundfix2-20261127';
+import {MODEL_URL,WEATHER_SNAPSHOT_URL,normalizeModel,validateWeather} from './weather-engine.mjs?v=superadmin-20261127';
 export function createWeatherClient({fetchFn=fetch,storage,onUpdate,onStatus=()=>{},now=Date.now,setIntervalFn,clearIntervalFn}){
  let disposed=false,current=null,pending=null,abort=null,timer=null;
  try{current=validateWeather(JSON.parse(storage?.getItem('jelajah-labuan-weather')||'null'),now())}catch{}

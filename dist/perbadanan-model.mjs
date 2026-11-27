@@ -1,4 +1,4 @@
-import {PERBADANAN_TOWER as tower} from './perbadanan-layout.mjs?v=soundfix2-20261127';
+import {PERBADANAN_TOWER as tower} from './perbadanan-layout.mjs?v=superadmin-20261127';
 export function addPerbadananFacades({ring,center,ground,triangle,quad,stats}){
  const height=tower.floors*tower.storeyHeight,top=ground+height;
  const area=ring.reduce((sum,a,i)=>{const b=ring[(i+1)%ring.length];return sum+a[0]*b[1]-b[0]*a[1]},0),sign=area>=0?1:-1;

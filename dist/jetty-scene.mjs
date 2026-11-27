@@ -1,4 +1,4 @@
-import {MARINE_DATA} from './marine-data.mjs?v=soundfix2-20261127';
+import {MARINE_DATA} from './marine-data.mjs?v=superadmin-20261127';
 // Virtual decks / shore connections on user-supplied venue pins, not surveyed infrastructure.
 export function jettyFeatures(){const features=[];for(const port of MARINE_DATA.jetties){const end=[port.lng,port.lat],start=[port.shore[1],port.shore[0]],dx=(end[0]-start[0])*110845,dy=(end[1]-start[1])*111320,len=Math.hypot(dx,dy)||1,nx=-dy/len*2.5/110845,ny=dx/len*2.5/111320;
  const polygon=(coordinates,color,height)=>({type:'Feature',properties:{color,height,base:0,port:port.id},geometry:{type:'Polygon',coordinates:[coordinates]}});
