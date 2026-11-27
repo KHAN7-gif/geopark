@@ -1,8 +1,8 @@
-import {PERBADANAN_PLACE} from './perbadanan-layout.mjs?v=interact-20261127';
-import {MERDEKA_PLACE} from './merdeka-layout.mjs?v=interact-20261127';
-import {MARLIN_PLACE} from './marlin-layout.mjs?v=interact-20261127';
-import {dataranForecourt} from './dataran-layout.mjs?v=interact-20261127';
-import {TOWN_DATA} from './environment/town-data.mjs?v=interact-20261127';
+import {PERBADANAN_PLACE} from './perbadanan-layout.mjs?v=camera-20261127';
+import {MERDEKA_PLACE} from './merdeka-layout.mjs?v=camera-20261127';
+import {MARLIN_PLACE} from './marlin-layout.mjs?v=camera-20261127';
+import {dataranForecourt} from './dataran-layout.mjs?v=camera-20261127';
+import {TOWN_DATA} from './environment/town-data.mjs?v=camera-20261127';
 export const TOWN_LAYERS=['town-square-grass','town-square-path','town-square-plinth'];
 export const TOWN_PLACES=[...TOWN_DATA.features.filter(f=>f.geometry.type==='Point'),MARLIN_PLACE,MERDEKA_PLACE,PERBADANAN_PLACE];
 export function plazaCentre(ring){const p=ring.slice(0,-1);return p.reduce((sum,q)=>[sum[0]+q[0]/p.length,sum[1]+q[1]/p.length],[0,0])}

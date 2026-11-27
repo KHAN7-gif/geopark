@@ -190,3 +190,13 @@ Semasa joystick aktif, panel **Berinteraksi** muncul dalam jarak 32 meter daripa
 Popup menyediakan **Kenali lokasi**, **Apa yang boleh dilihat?**, **Lihat objek dalam 3D** dan **Sambung berjalan**. Maklumat khusus Dataran, monumen marlin, Bulatan Merdeka dan Menara Perbadanan menggunakan rujukan yang telah diberikan; kemudahan lain menggunakan kategori dan tag awam OSM yang tersedia. Tiada nama operator, sejarah atau perkhidmatan baharu direka.
 
 Membuka popup mengosongkan input joystick dan menyimpan posisi watak. Pemeriksaan 3D hanya mengubah kamera; menggerakkan joystick semula kembali kepada kamera belakang. Klik label tempat yang masih jauh ketika mod berjalan meminta pemain mendekatinya. Di luar mod berjalan, popup peta asal dikekalkan. Interaksi tidak menambah XP atau mengubah cop, jarak dan masa misi.
+
+### Foto pemandangan 3D dan album jelajah
+
+**Kawalan → Ambil foto 3D** merakam peta yang sedang dilihat. Semasa menggunakan joystick, butang **Foto** juga tersedia. Popup foto menyediakan tajuk album, **Simpan dalam album** dan **Muat turun JPG**. Album berada dalam **Pasport → Album jelajah**; setiap foto boleh dibuka atau dipadam secara berasingan.
+
+Rakaman menyalin canvas MapLibre secara segerak semasa acara render, kemudian mengekod salinan canvas 2D sebagai JPEG maksimum 1600 piksel. Tiada `preserveDrawingBuffer` kekal digunakan. Foto merangkumi pemandangan peta dan model 3D; label / HUD dan kesan hujan DOM tidak dimasukkan. Footer menyimpan nama pemandangan, waktu Labuan dan kredit peta / imejan. Kamera sebenar peranti dan GPS tidak digunakan.
+
+Album menggunakan IndexedDB berasingan (`jelajah-labuan-album-v1`) dengan maksimum 12 foto; ia tidak mengisi localStorage misi. Had dan perlindungan pendua dilaksanakan dalam transaksi readwrite yang sama supaya dua tab tidak melebihi had. Foto lama tidak dipadam secara automatik. Jika storan ditolak atau penuh, pengguna masih boleh memuat turun JPG. Album kekal pada pelayar ini dan tidak disertakan dalam eksport JSON pasport; muat turun foto untuk sandaran.
+
+Input joystick dihentikan sementara mengambil / melihat foto. Kedudukan berjalan, XP, cop dan perjalanan misi tidak diubah. Kamera ikut pemain dipulihkan selepas popup ditutup jika ia aktif sebelum rakaman; waktu perjalanan misi terus berjalan seperti popup lain. Jika misi tiba ketika foto terbuka, paparan cabaran menunggu sehingga pengguna kembali ke permainan. Mod foto ini tidak memberikan XP tambahan.

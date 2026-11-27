@@ -1,5 +1,5 @@
-import {TOWN_LAYERS,addTownSquare} from './town-scene.mjs?v=interact-20261127';
-import {LAND_RINGS} from './marine-coast.mjs?v=interact-20261127';
+import {TOWN_LAYERS,addTownSquare} from './town-scene.mjs?v=camera-20261127';
+import {LAND_RINGS} from './marine-coast.mjs?v=camera-20261127';
 export const GAME_MAP_LAYERS=['game-ocean','game-land','game-road-edge','game-roads','game-road-markings',...TOWN_LAYERS];
 export function addGameWorld(map,roads){
  map.addSource('game-land',{type:'geojson',data:{type:'FeatureCollection',features:LAND_RINGS.map(ring=>({type:'Feature',properties:{},geometry:{type:'Polygon',coordinates:[ring]}}))},attribution:'Land & roads © OpenStreetMap contributors (ODbL)'});

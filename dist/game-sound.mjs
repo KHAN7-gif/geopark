@@ -1,5 +1,6 @@
 // Original short synth cues. No music files or copyrighted game audio.
 export const SOUND_CUES={
+ photo:[{hz:1200,at:0,duration:.04},{hz:750,at:.055,duration:.045}],
  depart:[{hz:392,at:0,duration:.13},{hz:523.25,at:.13,duration:.16},{hz:659.25,at:.29,duration:.22}],
  arrive:[{hz:523.25,at:0,duration:.16},{hz:659.25,at:.18,duration:.16},{hz:783.99,at:.36,duration:.18},{hz:1046.5,at:.56,duration:.36}],
  preview:[{hz:659.25,at:0,duration:.14},{hz:783.99,at:.16,duration:.2}]

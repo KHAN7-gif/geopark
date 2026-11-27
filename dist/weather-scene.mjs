@@ -1,4 +1,4 @@
-import {SCENE_LOOKS} from './scenery.mjs?v=interact-20261127';
+import {SCENE_LOOKS} from './scenery.mjs?v=camera-20261127';
 function blend(a,b,amount){const parts=hex=>hex.slice(1).match(/../g).map(v=>parseInt(v,16));const x=parts(a),y=parts(b);return '#'+x.map((v,i)=>Math.round(v+(y[i]-v)*amount).toString(16).padStart(2,'0')).join('')}
 export function applyWeatherScene(map,lookId,weather){
  if(!weather||weather.condition==='unknown')return;
