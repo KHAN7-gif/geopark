@@ -166,3 +166,13 @@ Tapak OSM `way/1412136971` yang bernama Menara Perbadanan Labuan diberi model kh
 Bilangan tingkat datang daripada pengguna; ketinggian badan 35.2 m menggunakan andaian 3.2 m setiap tingkat, bukan ukuran sebenar. Bahan, kedudukan sisi putih dan perincian fasad ialah anggaran visual daripada foto. `perbadanan-layout.mjs` menyimpan identiti, warna dan andaian; `perbadanan-model.mjs` membina sebelas jalur tingkap bagi setiap sisi kaca. Ketinggian / warna badan MapLibre dan perincian Three.js menggunakan konfigurasi yang sama.
 
 **Kawalan → Lihat Menara Perbadanan · 11 tingkat** memusatkan kamera pada bangunan dan membuka label / popup setempat. Fungsi ini tidak memindahkan pemain atau mengubah perjalanan, XP dan kilometer. Ujian memastikan semua 11 tingkat dilukis, satu sisi tidak berkaca, bangunan lain tidak tersalah diklasifikasi dan geometri asal kekal.
+
+### Pesawat Lapangan Terbang Labuan
+
+Pesawat ketibaan dan pelepasan dipaparkan terus dalam dunia 3D, tanpa tab jadual. Kawalan peta menyediakan **Lihat lapangan terbang**, **Pratonton mendarat / berlepas**, hentikan pratonton dan sorok pesawat. Pratonton hanya menggerakkan adegan pesawat; simpanan, XP dan perjalanan pemain kekal berasingan.
+
+Sumber penerbangan ialah komponen awam ketibaan dan pelepasan [ExploreLabuan.my](https://explorelabuan.my/?lang=en). `scripts/collect-flights.py` membaca kedua-dua arah; sesi dan token halaman awam hanya berada dalam memori. GitHub Actions meminta kemas kini setiap 10 minit ke cawangan `flight-data`, tanpa membina semula aplikasi; pelayar membaca semula setiap 5 minit. GitHub boleh melambatkan cron. Data tempatan menjadi gantian ketika rangkaian gagal.
+
+Semua pelayar menggunakan waktu sebenar UTC+8, berasingan daripada nisbah perjalanan pemain 3:1. Masa anggaran sumber diutamakan berbanding masa dijadualkan. Tarikh perkhidmatan disimpulkan daripada hari Labuan ketika halaman harian dibaca kerana sumber tidak membekalkan tarikh eksplisit. Data melebihi 60 minit atau dari hari lain tidak menjana pesawat automatik; penerbangan dibatalkan atau dialihkan tidak dianimasikan. Kelewatan tanpa masa anggaran juga ditahan.
+
+Animasi menggambarkan pendekatan dalam 5 minit sebelum ketibaan, pendaratan dan teksi ke apron awam; pelepasan bermula dengan teksi 5 minit sebelum waktu sumber dan pendakian sehingga 4 minit selepasnya. Kedudukan bukan data radar. Arah landasan 14 ialah pilihan visual tetap, bukan pengesahan ATC atau angin operasi. Landasan 14/32, apron awam dan laluan teksi berpandukan OSM; model pesawat asal berskala 1.6 untuk kebolehlihatan. Pratonton 35 saat mempunyai label kawalan tersendiri dan tidak mengubah jam bersama.

@@ -29,3 +29,6 @@ Avatar, ilustrasi Jejak dan templat sijil disertakan sebagai aset aplikasi. Tiad
 ## Bandar Labuan
 
 Metadata fungsi bangunan, label tempat bandar dan poligon Dataran Labuan: OpenStreetMap contributors, ODbL-1.0. Snapshot bandar diperoleh daripada [OSM API 0.6 map](https://api.openstreetmap.org/api/0.6/map?bbox=115.23,5.268,115.259,5.293) pada 27 November 2026. Financial Park ditandakan campuran pejabat / perniagaan menurut pengendali FPL; maklumat rujukan dalam README. Fasad, awning, tingkap, anggaran ketinggian dan hiasan dataran ialah geometri permainan asal.
+
+## Airport flight activity
+Flight facts: [ExploreLabuan.my public flight board](https://explorelabuan.my/?lang=en). Snapshots retain source, retrieval time and inferred local service date. No source imagery or aircraft assets reused. Airport geometry © OpenStreetMap contributors, ODbL 1.0, https://www.openstreetmap.org/copyright . Identifiers and geometry date are retained in `dist/environment/airport.geojson` and `airport-layout.mjs`. Aircraft meshes are original project geometry.

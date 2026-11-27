@@ -1,3 +1,4 @@
+import {addAirportWorld} from '../dist/airport-world.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -9,7 +10,7 @@ test('game world uses an attributed Labuan road snapshot and switches without al
  const meta=JSON.parse(await readFile(new URL('../dist/environment/game-roads-metadata.json',import.meta.url)));assert.equal(meta.roads,roads.features.length);assert.ok(meta.osmTimestamp);assert.equal(meta.license,'ODbL-1.0');assert.ok(roads.features.length>4000);
  for(const f of roads.features){assert.match(f.properties.osm,/^way\/\d+$/);assert.ok(f.properties.width>=1&&f.properties.width<=20);assert.ok(f.geometry.coordinates.length>=2);for(const [lng,lat]of f.geometry.coordinates){assert.ok(lng>115&&lng<115.5);assert.ok(lat>5&&lat<5.6)}}
  const layers=new Map(['base','base-satellite','relief','route-halo'].map(id=>[id,{}])),sources=new Map(),changes=[];const map={getLayer:id=>layers.get(id),addSource:(id,source)=>sources.set(id,source),addLayer:layer=>layers.set(layer.id,layer),setLayoutProperty(id,key,value){changes.push(id);layers.get(id)[key]=value}};
- addGameWorld(map,roads);switchBasemap(map,'game');assert.equal(layers.get('base').visibility,'none');for(const id of GAME_MAP_LAYERS)assert.equal(layers.get(id).visibility,'visible');assert.equal(sources.get('game-roads').data,roads);assert.ok(!changes.includes('route-halo'));
+ addGameWorld(map,roads);addAirportWorld(map,JSON.parse(await readFile(new URL('../dist/environment/airport.geojson',import.meta.url))));switchBasemap(map,'game');assert.equal(layers.get('base').visibility,'none');for(const id of GAME_MAP_LAYERS)assert.equal(layers.get(id).visibility,'visible');assert.equal(sources.get('game-roads').data,roads);assert.ok(!changes.includes('route-halo'));
  switchBasemap(map,'satellite');assert.equal(layers.get('base-satellite').visibility,'visible');for(const id of GAME_MAP_LAYERS)assert.equal(layers.get(id).visibility,'none');
  const pose=cameraPose({mode:'village',position:[5.284,115.246],heading:0});assert.equal(pose.pitch,52);assert.equal(pose.bearing,25);assert.equal(pose.zoom,18.4);
 });

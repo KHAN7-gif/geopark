@@ -1,0 +1,30 @@
+name: Update Labuan flights
+on:
+  schedule:
+    - cron: '3,13,23,33,43,53 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: labuan-flights
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            /scripts/
+            /dist/flights-engine.mjs
+            /dist/environment/airport-layout.mjs
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Read ExploreLabuan public arrivals and departures
+        run: python3 scripts/collect-flights.py /tmp/geopark-flights.json
+      - name: Publish flights data separately from application code
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/publish-flights.mjs /tmp/geopark-flights.json
