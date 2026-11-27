@@ -233,8 +233,12 @@ Semasa perjalanan Superadmin berlangsung, **Tiba sekarang** tersedia dalam panel
 
 ### Tambatan marina VIP
 
-Marina Labuan (J3) dalam gaya Dunia game 3D kini mempunyai kapal layar dan bot motor VIP berlabuh. Kapal layar dipaparkan dengan tiang, rigging dan layar bergulung; bot VIP mempunyai kabin berlapis, kaca biru dan ruang tempat duduk. Model menyertakan dek, pagar, tali tambatan, fender dan warna penutup yang berbeza. **Kawalan → Lihat marina VIP** memusatkan kamera pada ruang tambatan, tanpa menukar lokasi atau perjalanan pemain.
+Marina Labuan (J3) mempunyai bot motor VIP dan kapal layar berlabuh. **Kawalan → Lihat marina VIP** memusatkan kamera pada ruang tambatan, tanpa menukar lokasi atau perjalanan pemain. Bot mempunyai bentuk badan, dek kayu, kabin putih, kaca biru, bumbung berwarna dan fender. Kapal layar mempunyai tiang dan layar bergulung; bot VIP mempunyai dek atas.
 
-Pontun dalaman mengikuti garis OSM `way/905756222` dan `way/905756221` yang sudah berada dalam snapshot jalan aplikasi. Kedudukan bot ialah ilustrasi suasana permainan, bukan inventori bot atau petak tambatan sebenar. Penempatan diperiksa supaya sampel badan bot berada di air, bot tidak bertindih dan koridor keluar J3 mempunyai ruang kosong. Garis pantai, jeti perjalanan dan laluan bot sedia ada tidak diubah.
+Pautan dengan `?view=marina` membuka pemandangan 3D marina pada zum dekat sekali ketika halaman dibuka, tanpa memindahkan penjelajah.
 
-Jumlah bot: ringan 6, seimbang 10, tinggi 12. Semua permukaan dibatc mengikut bahan dalam renderer kampung yang sedia ada; tiada renderer atau gelung animasi tambahan. Model hanya dimuatkan dalam lingkungan marina apabila butiran Dunia game / Suasana diaktifkan, dan menggunakan pelupusan geometri biasa apabila kamera bergerak jauh atau paparan 3D ditutup.
+Bot dan pontun dipaparkan terus oleh lapisan `fill-extrusion` MapLibre, dimasukkan sebaik peta siap. Ia tidak bergantung pada muatan bangunan / jalan, renderer Three.js, atau suis Suasana. Oleh itu bot masih tersedia ketika perincian bangunan gagal, ketika Suasana ringan, dan dalam gaya jalan / satelit. Zum minimum 13.5, termasuk zum 16.3 yang dilaporkan oleh pengguna. Grafik ringan memaparkan 6 bot, seimbang 10 dan tinggi 12.
+
+Pontun dalaman mengikuti garis OSM `way/905756222` dan `way/905756221` yang sudah berada dalam snapshot jalan aplikasi. Kedudukan bot ialah ilustrasi suasana permainan, bukan inventori bot atau petak tambatan sebenar. Penempatan diperiksa supaya badan bot berada di air, bot tidak bertindih dan koridor keluar J3 mempunyai ruang kosong. Garis pantai, jeti perjalanan dan laluan bot sedia ada tidak diubah.
+
+Lapisan marina menggunakan sumber GeoJSON sebaris tanpa permintaan aset tambahan. Semua objek menggunakan ketinggian / tapak ekstrusi asli peta supaya sejajar dengan permukaan peta, dan dibersihkan bersama peta. Model marina lama yang terikat kepada renderer kampung telah digantikan untuk mengelakkan kehilangan semua bot apabila renderer perincian tidak tersedia.

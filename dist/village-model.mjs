@@ -1,20 +1,18 @@
-import {addMarinaScenery} from './marina-model.mjs?v=marina-20261127';
-import {marinaDistance} from './marina-layout.mjs?v=marina-20261127';
-import {addPerbadananFacades} from './perbadanan-model.mjs?v=marina-20261127';
-import {addMerdekaRoundabout} from './merdeka-model.mjs?v=marina-20261127';
-import {merdekaDistance,merdekaTreeAllowed} from './merdeka-layout.mjs?v=marina-20261127';
-import {addMarlinMonument} from './marlin-model.mjs?v=marina-20261127';
-import {marlinDistance,marlinTreeAllowed} from './marlin-layout.mjs?v=marina-20261127';
-import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=marina-20261127';
-import {addDataranStructures} from './dataran-model.mjs?v=marina-20261127';
-import {TOWN_DATA} from './environment/town-data.mjs?v=marina-20261127';
-import {plazaCentre} from './town-scene.mjs?v=marina-20261127';
-import {buildingStyle,buildingHeight} from './building-types.mjs?v=marina-20261127';
+import {addPerbadananFacades} from './perbadanan-model.mjs?v=marinafix-20261127';
+import {addMerdekaRoundabout} from './merdeka-model.mjs?v=marinafix-20261127';
+import {merdekaDistance,merdekaTreeAllowed} from './merdeka-layout.mjs?v=marinafix-20261127';
+import {addMarlinMonument} from './marlin-model.mjs?v=marinafix-20261127';
+import {marlinDistance,marlinTreeAllowed} from './marlin-layout.mjs?v=marinafix-20261127';
+import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=marinafix-20261127';
+import {addDataranStructures} from './dataran-model.mjs?v=marinafix-20261127';
+import {TOWN_DATA} from './environment/town-data.mjs?v=marinafix-20261127';
+import {plazaCentre} from './town-scene.mjs?v=marinafix-20261127';
+import {buildingStyle,buildingHeight} from './building-types.mjs?v=marinafix-20261127';
 import * as THREE from './vendor/three.module.js';
-import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=marina-20261127';
-import {landAt} from './marine-geometry.mjs?v=marina-20261127';
+import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=marinafix-20261127';
+import {landAt} from './marine-geometry.mjs?v=marinafix-20261127';
 const SY=111320;
-export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildingLimit=80,treeLimit=100,roads=null,marinaLimit=10}={}){
+export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildingLimit=80,treeLimit=100,roads=null}={}){
  const sx=SY*Math.cos(anchor[1]*Math.PI/180),local=p=>[(p[0]-anchor[0])*sx,(anchor[1]-p[1])*SY],world=p=>[anchor[0]+p[0]/sx,anchor[1]-p[1]/SY];
  const root=new THREE.Group(),batches=new Map(),stats={buildings:0,pitchedRoofs:0,windows:0,trees:0,illustrativeRoadTrees:0,byType:{},shopfronts:0,officeBands:0,policeBands:0,plazas:0};
  const batch=colour=>{if(!batches.has(colour))batches.set(colour,[]);return batches.get(colour)};
@@ -90,7 +88,6 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
  }
  if(merdekaDistance(anchor)<radius)addMerdekaRoundabout({local,heightAt,triangle,quad,stats});
  if(marlinDistance(anchor)<radius)addMarlinMonument({local,heightAt,triangle,quad,stats});
- if(marinaDistance(anchor)<radius)addMarinaScenery({local,triangle,quad,stats,limit:marinaLimit});
  for(const [colour,points]of batches){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(points,3));geometry.computeVertexNormals();const material=new THREE.MeshLambertMaterial({color:colour,side:THREE.DoubleSide,flatShading:true}),mesh=new THREE.Mesh(geometry,material);mesh.frustumCulled=false;root.add(mesh)}
  for(const geometry of Object.values(geometries))geometry.dispose();
  return {root,stats,dispose(){root.traverse(o=>{o.geometry?.dispose();o.material?.dispose()});root.clear()}};

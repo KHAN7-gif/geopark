@@ -1,7 +1,7 @@
-import {MARINE_DATA} from './marine-data.mjs?v=marina-20261127';
-import {pathMetres,metres} from './marine-geometry.mjs?v=marina-20261127';
-import {modeDuration} from './transport-shop.mjs?v=marina-20261127';
-import {validateRoute,combineRouteLegs,normaliseRoadResponse,routeURL} from './travel-engine.mjs?v=marina-20261127';
+import {MARINE_DATA} from './marine-data.mjs?v=marinafix-20261127';
+import {pathMetres,metres} from './marine-geometry.mjs?v=marinafix-20261127';
+import {modeDuration} from './transport-shop.mjs?v=marinafix-20261127';
+import {validateRoute,combineRouteLegs,normaliseRoadResponse,routeURL} from './travel-engine.mjs?v=marinafix-20261127';
 export {MARINE_DATA};
 const key=(a,b)=>[a,b].sort().join(':');
 function corridor(a,b,collection){const r=collection[key(a,b)];if(!r)throw Error('Corridor unavailable');return r.from===a?r.path:[...r.path].reverse()}

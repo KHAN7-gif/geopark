@@ -1,8 +1,8 @@
 import * as THREE from './vendor/three.module.js';
-import {buildVillageScene} from './village-model.mjs?v=marina-20261127';
+import {buildVillageScene} from './village-model.mjs?v=marinafix-20261127';
 export function createVillageLayer(gl,{data,roads,quality='balanced',onFailure=()=>{}}){
  let map,renderer,scene,camera,model,origin,enabled=false,disposed=false,anchor=null,anchorZoom=null,timer=null,ambient,sun,firstIdle=true;
- const limits=()=>quality==='high'?{buildingLimit:130,treeLimit:150,marinaLimit:12}:quality==='eco'?{buildingLimit:35,treeLimit:45,marinaLimit:6}:{buildingLimit:75,treeLimit:95,marinaLimit:10};
+ const limits=()=>quality==='high'?{buildingLimit:130,treeLimit:150}:quality==='eco'?{buildingLimit:35,treeLimit:45}:{buildingLimit:75,treeLimit:95};
  function refresh(force=false){if(disposed||!enabled||!map)return;const centre=map.getCenter(),zoom=map.getZoom(),point=[centre.lng,centre.lat];if(!force&&anchor&&Math.hypot((point[0]-anchor[0])*110850,(point[1]-anchor[1])*111320)<85&&Math.abs(zoom-anchorZoom)<1.2)return;
   if(zoom<15){if(model)model.root.visible=false;return}anchor=point;anchorZoom=zoom;
   try{const next=buildVillageScene(data,anchor,{...limits(),roads,radius:zoom<17?600:420,heightAt:p=>map.queryTerrainElevation?.(p)||0});if(model){scene.remove(model.root);model.dispose()}model=next;scene.add(model.root);origin=gl.MercatorCoordinate.fromLngLat(anchor,0);map.triggerRepaint()}catch(error){enabled=false;onFailure(error)}
