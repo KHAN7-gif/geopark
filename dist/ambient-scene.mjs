@@ -1,4 +1,4 @@
-import {landAt,nearestShore,toXY,inPolygon,metres} from './marine-geometry.mjs?v=superadmin-20261127';
+import {landAt,nearestShore,toXY,inPolygon,metres} from './marine-geometry.mjs?v=admintravel-20261127';
 export function ambientPreferences(raw){return {enabled:raw?.enabled===true,volume:Number.isFinite(raw?.volume)?Math.max(0,Math.min(100,Math.round(raw.volume))):35}}
 export function createAmbientMap(environment){
  const greens=(environment?.features||[]).filter(f=>f.properties?.kind==='green'&&f.geometry?.type==='Polygon').map(f=>{const points=f.geometry.coordinates[0].map(([lng,lat])=>toXY([lat,lng]));return {points,minX:Math.min(...points.map(p=>p[0])),maxX:Math.max(...points.map(p=>p[0])),minY:Math.min(...points.map(p=>p[1])),maxY:Math.max(...points.map(p=>p[1]))}});let previous=null,cached=null;

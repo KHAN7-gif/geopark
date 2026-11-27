@@ -224,3 +224,9 @@ Superadmin mendapat 1,000,000 XP ujian, semua 7 pengangkutan, cabaran di semua 2
 Kemajuan misi, profil, lokasi, perjalanan, inventori, ganjaran dan posisi joystick Superadmin menggunakan awalan storan `superadmin:`. Foto Superadmin menggunakan IndexedDB album berasingan. Tetapan paparan / audio dikongsi. Mod pemain asal tidak ditulis semasa bermain dalam Superadmin. Laluan masa nyata pemain yang disimpan masih mengikut jam biasa apabila kembali, seperti selepas meninggalkan aplikasi.
 
 Cabaran Superadmin boleh dimainkan dan disimpan secara berasingan; membuka pratonton semua koleksi tidak menandakan cabaran telah diselesaikan dalam simpanan. Eksport Superadmin ditandakan `mode: superadmin` dan tidak boleh diimport terus ke mod pemain. Mod ini boleh dibuka oleh sesiapa yang menggunakan aplikasi, mengikut permintaan semua akses terbuka.
+
+#### Pilihan perjalanan Superadmin
+
+Popup setiap destinasi menyediakan **Ikut perjalanan biasa** dan **Tiba terus di [kod]** di luar panel cabaran, supaya akses cabaran terbuka tidak menyembunyikan perancangan perjalanan. Perjalanan biasa menggunakan pengangkutan dipilih, semakan laluan asal dan nisbah masa 3:1; selepas semakan, tekan **Bertolak**. Pilihan ini juga tersedia melalui **Menu → Pilihan → Superadmin → Rancang perjalanan biasa**.
+
+Semasa perjalanan Superadmin berlangsung, **Tiba sekarang** tersedia dalam panel perjalanan, kawalan ringkas masa (label ringkas **Tiba** pada skrin kecil), dan panel Superadmin. Tindakan ini membersihkan perjalanan semasa, merekod ketibaan pada destinasi dan membuka petunjuk cabaran. Ia tidak menyiapkan cabaran atau menambah XP / kilometer untuk masa dan laluan yang dilangkau. Perjalanan boleh diteruskan sepenuhnya tanpa menggunakan butang tersebut. Mod pemain biasa tidak memperoleh kawalan lompat perjalanan ini.
