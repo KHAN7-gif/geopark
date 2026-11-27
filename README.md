@@ -148,3 +148,11 @@ Pengemaskinian Dataran menapis 29 pokok hiasan lama daripada bahagian dalaman ta
 Model marlin ditempatkan di pusat geometri bulatan jalan OSM `way/28717159`, berhampiran Dataran Labuan: 115.24593584524419, 5.27631508292888. Tapak jubin bulat bertingkat, arca ombak biru, tiga ikan berparuh panjang dan tanaman rendah ialah geometri ilustrasi asal berdasarkan gambar rujukan pengguna, bukan rekonstruksi ukuran sebenar. Tapak / tanaman kekal dalam pulau tengah; geometri jalan dan pengiraan perjalanan tidak berubah. Pokok hiasan automatik dikecualikan daripada kawasan arca.
 
 **Kawalan → Lihat monumen ikan marlin** mengalih kamera sahaja. Label monumen membuka popup setempat, termasuk maklumat ilustrasi dan butang lihat dekat. Tiada misi / XP baharu atau perubahan kedudukan pemain. `marlin-layout.mjs` menyimpan koordinat dan rujukan bulatan; `marlin-model.mjs` membina geometri yang digabungkan mengikut bahan bersama dunia 3D sedia ada. Ujian menyemak tiga ikan, geometri terhingga dan bahawa model / tanaman tidak memasuki jalan bulatan.
+
+### Bulatan Merdeka
+
+Bulatan utama dikemas kini daripada gambar udara dan pandangan jalan pengguna: tiga tiang bercorak hitam-putih dengan kanopi payung jejaring terbuka, taman rumput, batu hiasan, jubin merah-kelabu, kerb berselang serta kolam pancutan di tengah dengan tulisan LABUAN. Ini ialah model ilustrasi asal; dimensi, susun atur hiasan dan pancutan tidak didakwa sebagai ukuran / aliran sebenar.
+
+Pusatnya 115.24334281764924, 5.277003319599451, dikira daripada lapan segmen bulatan jalan OSM sedia ada. `merdeka-layout.mjs` menyimpan rujukan segmen dan susun atur; `merdeka-model.mjs` membina geometri yang digabungkan mengikut bahan. Geometri jalan dan bulatan marlin tidak diubah. Pokok automatik dikecualikan daripada pulau tengah supaya kanopi hiasan tidak ditutup pokok generik.
+
+**Kawalan → Lihat Bulatan Merdeka** membuka pandangan kamera dekat tanpa menukar lokasi pemain, masa, XP atau jarak. Label bulatan mempunyai popup setempat. Ujian menyemak sambungan tepat segmen OSM, tiga kanopi, satu kolam dan sempadan model di dalam pulau tengah.

@@ -1,7 +1,8 @@
-import {marlinTreeAllowed} from './marlin-layout.mjs?v=marlin-20261127';
-import {dataranTreeAllowed} from './dataran-layout.mjs?v=marlin-20261127';
-import {buildingStyle,buildingHeight} from './building-types.mjs?v=marlin-20261127';
-import {buildingPalette,treeVariant,treeCentre,shade} from './world-palette.mjs?v=marlin-20261127';
+import {merdekaTreeAllowed} from './merdeka-layout.mjs?v=merdeka-20261127';
+import {marlinTreeAllowed} from './marlin-layout.mjs?v=merdeka-20261127';
+import {dataranTreeAllowed} from './dataran-layout.mjs?v=merdeka-20261127';
+import {buildingStyle,buildingHeight} from './building-types.mjs?v=merdeka-20261127';
+import {buildingPalette,treeVariant,treeCentre,shade} from './world-palette.mjs?v=merdeka-20261127';
 // Visual presets, not live weather or time of day.
 export const SCENE_LOOKS={
  day:{name:'Siang',sky:'#78bce8',horizon:'#e0eee1',fog:'#d4e4d3',light:'#fff4d6',intensity:.48,sun:[1.5,170,48],water:'#27c4be',shore:'#d4f6dd',green:'#789b55',brightness:1,saturation:.08},
@@ -33,7 +34,7 @@ export function scenicDetails(data){
   if(p.kind==='building'){
    const palette=buildingPalette(p.osm),style=buildingStyle(p),height=buildingHeight(p);palette.roof=style.roof||palette.roof;
    features.push({type:'Feature',properties:{kind:'roof',height:height+.55,base:height,roofColor:palette.roof,roofNightColor:shade(palette.roof,.82)},geometry:{type:'Polygon',coordinates:[insetRing(ring,.94)]}});
-  }else if(p.kind==='canopy'&&dataranTreeAllowed(treeCentre(feature))&&marlinTreeAllowed(treeCentre(feature))){
+  }else if(p.kind==='canopy'&&dataranTreeAllowed(treeCentre(feature))&&marlinTreeAllowed(treeCentre(feature))&&merdekaTreeAllowed(treeCentre(feature))){
    const tree=treeVariant(feature),height=tree.height;
    features.push({type:'Feature',properties:{kind:'crown-top',height:height+(tree.type==='dense'?1.8:.8),base:height-.5,colour:tree.colour,nightColor:shade(tree.colour,.8)},geometry:{type:'Polygon',coordinates:[insetRing(ring,tree.type==='palm'?.38:tree.type==='dense'?.55:.75)]}});
    if(tree.type==='palm'){
