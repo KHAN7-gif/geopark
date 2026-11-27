@@ -1,5 +1,7 @@
+import {isPerbadanan,PERBADANAN_TOWER} from './perbadanan-layout.mjs?v=perbadanan-20261127';
 // Function comes from OSM tags, never an arbitrary colour / random category.
 export function buildingType(properties={}){
+ if(isPerbadanan(properties))return 'perbadanan';
  if(properties.roleOverride)return properties.roleOverride;
  const t=properties.tags||{},b=t.building||'',a=t.amenity||'';
  if(a==='police')return 'police';
@@ -14,6 +16,7 @@ export function buildingType(properties={}){
  return properties.inTown?'urban':'residential';
 }
 const STYLES={
+ perbadanan:{facade:PERBADANAN_TOWER.facade,roof:'#aebbc0',pitched:false,window:PERBADANAN_TOWER.glass,frame:PERBADANAN_TOWER.silver,floors:PERBADANAN_TOWER.floors},
  residential:{facade:null,roof:null,pitched:true,window:'#326b7d',frame:'#f3e4c8',floors:2},
  urban:{facade:'#d7d3bf',roof:'#7e8b8b',pitched:false,window:'#386b7b',frame:'#ebeadc',floors:3},
  shop:{facade:'#eed0a2',roof:'#7d8f8a',pitched:false,window:'#335e6d',frame:'#f6e8cf',awning:'#c36e49',floors:3},
@@ -28,4 +31,4 @@ const STYLES={
 };
 export function buildingStyle(p){const kind=buildingType(p),style={kind,...STYLES[kind]},seed=[...String(p.osm||'')].reduce((n,c)=>(Math.imul(n,31)+c.charCodeAt(0))>>>0,0);if(kind==='urban')style.facade=['#d7d3bf','#bfd0c4','#c5d1dc','#d8c1ad'][seed%4];if(kind==='shop')style.facade=['#eed0a2','#c3d8c7','#c3d7dd','#e6c7b2'][seed%4];return style}
 
-export function buildingHeight(p){if(p.heightSource!=='estimate')return p.height;return Math.max(p.height||6,({mixed:12,shop:8,office:12,police:9,civic:8,hotel:18,school:7,industrial:7,urban:9})[buildingType(p)]||6)}
+export function buildingHeight(p){if(isPerbadanan(p))return PERBADANAN_TOWER.floors*PERBADANAN_TOWER.storeyHeight;if(p.heightSource!=='estimate')return p.height;return Math.max(p.height||6,({mixed:12,shop:8,office:12,police:9,civic:8,hotel:18,school:7,industrial:7,urban:9})[buildingType(p)]||6)}

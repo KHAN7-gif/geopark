@@ -158,3 +158,11 @@ Pusatnya 115.24334281764924, 5.277003319599451, dikira daripada lapan segmen bul
 **Kawalan → Lihat Bulatan Merdeka** membuka pandangan kamera dekat tanpa menukar lokasi pemain, masa, XP atau jarak. Label bulatan mempunyai popup setempat. Ujian menyemak sambungan tepat segmen OSM, empat kanopi, satu kolam dan sempadan model di dalam pulau tengah.
 
 Reka bentuk Bulatan Merdeka diselaraskan dengan rujukan terbaharu pengguna: empat struktur mengelilingi kolam, jejaring kanopi sel tidak seragam, gelung hujung runcing, batang putih dengan tompok gelap tidak sekata serta glob jejaring di tengah. Susun atur dan dimensi masih anggaran visual.
+
+### Menara Perbadanan Labuan — 11 tingkat
+
+Tapak OSM `way/1412136971` yang bernama Menara Perbadanan Labuan diberi model khas berdasarkan gambar dan pembetulan pengguna: **11 tingkat**, fasad putih/perak, tiga sisi jalur kaca biru gelap, satu dinding sisi putih penuh dengan sambungan panel, bumbung rata serta teras servis / antena kecil. Tapak dan orientasi poligon asal tidak diubah; Wisma Perbadanan dan bangunan bersebelahan tidak ditukar kepada menara.
+
+Bilangan tingkat datang daripada pengguna; ketinggian badan 35.2 m menggunakan andaian 3.2 m setiap tingkat, bukan ukuran sebenar. Bahan, kedudukan sisi putih dan perincian fasad ialah anggaran visual daripada foto. `perbadanan-layout.mjs` menyimpan identiti, warna dan andaian; `perbadanan-model.mjs` membina sebelas jalur tingkap bagi setiap sisi kaca. Ketinggian / warna badan MapLibre dan perincian Three.js menggunakan konfigurasi yang sama.
+
+**Kawalan → Lihat Menara Perbadanan · 11 tingkat** memusatkan kamera pada bangunan dan membuka label / popup setempat. Fungsi ini tidak memindahkan pemain atau mengubah perjalanan, XP dan kilometer. Ujian memastikan semua 11 tingkat dilukis, satu sisi tidak berkaca, bangunan lain tidak tersalah diklasifikasi dan geometri asal kekal.

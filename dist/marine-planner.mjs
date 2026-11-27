@@ -1,7 +1,7 @@
-import {MARINE_DATA} from './marine-data.mjs?v=merdeka-four-20261127';
-import {pathMetres,metres} from './marine-geometry.mjs?v=merdeka-four-20261127';
-import {modeDuration} from './transport-shop.mjs?v=merdeka-four-20261127';
-import {validateRoute,combineRouteLegs,normaliseRoadResponse,routeURL} from './travel-engine.mjs?v=merdeka-four-20261127';
+import {MARINE_DATA} from './marine-data.mjs?v=perbadanan-20261127';
+import {pathMetres,metres} from './marine-geometry.mjs?v=perbadanan-20261127';
+import {modeDuration} from './transport-shop.mjs?v=perbadanan-20261127';
+import {validateRoute,combineRouteLegs,normaliseRoadResponse,routeURL} from './travel-engine.mjs?v=perbadanan-20261127';
 export {MARINE_DATA};
 const key=(a,b)=>[a,b].sort().join(':');
 function corridor(a,b,collection){const r=collection[key(a,b)];if(!r)throw Error('Corridor unavailable');return r.from===a?r.path:[...r.path].reverse()}

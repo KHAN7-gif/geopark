@@ -1,15 +1,16 @@
-import {addMerdekaRoundabout} from './merdeka-model.mjs?v=merdeka-four-20261127';
-import {merdekaDistance,merdekaTreeAllowed} from './merdeka-layout.mjs?v=merdeka-four-20261127';
-import {addMarlinMonument} from './marlin-model.mjs?v=merdeka-four-20261127';
-import {marlinDistance,marlinTreeAllowed} from './marlin-layout.mjs?v=merdeka-four-20261127';
-import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=merdeka-four-20261127';
-import {addDataranStructures} from './dataran-model.mjs?v=merdeka-four-20261127';
-import {TOWN_DATA} from './environment/town-data.mjs?v=merdeka-four-20261127';
-import {plazaCentre} from './town-scene.mjs?v=merdeka-four-20261127';
-import {buildingStyle,buildingHeight} from './building-types.mjs?v=merdeka-four-20261127';
+import {addPerbadananFacades} from './perbadanan-model.mjs?v=perbadanan-20261127';
+import {addMerdekaRoundabout} from './merdeka-model.mjs?v=perbadanan-20261127';
+import {merdekaDistance,merdekaTreeAllowed} from './merdeka-layout.mjs?v=perbadanan-20261127';
+import {addMarlinMonument} from './marlin-model.mjs?v=perbadanan-20261127';
+import {marlinDistance,marlinTreeAllowed} from './marlin-layout.mjs?v=perbadanan-20261127';
+import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=perbadanan-20261127';
+import {addDataranStructures} from './dataran-model.mjs?v=perbadanan-20261127';
+import {TOWN_DATA} from './environment/town-data.mjs?v=perbadanan-20261127';
+import {plazaCentre} from './town-scene.mjs?v=perbadanan-20261127';
+import {buildingStyle,buildingHeight} from './building-types.mjs?v=perbadanan-20261127';
 import * as THREE from './vendor/three.module.js';
-import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=merdeka-four-20261127';
-import {landAt} from './marine-geometry.mjs?v=merdeka-four-20261127';
+import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=perbadanan-20261127';
+import {landAt} from './marine-geometry.mjs?v=perbadanan-20261127';
 const SY=111320;
 export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildingLimit=80,treeLimit=100,roads=null}={}){
  const sx=SY*Math.cos(anchor[1]*Math.PI/180),local=p=>[(p[0]-anchor[0])*sx,(anchor[1]-p[1])*SY],world=p=>[anchor[0]+p[0]/sx,anchor[1]-p[1]/SY];
@@ -27,6 +28,7 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
 
  for(const {f,ring,center,distance}of buildings){if(distance>radius||stats.buildings>=buildingLimit)break;stats.buildings++;
   const p=f.properties,style=buildingStyle(p),height=buildingHeight(p),ground=heightAt(world(center))||0,top=ground+height+.08,palette=buildingPalette(p.osm);palette.roof=style.roof||palette.roof;stats.byType[style.kind]=(stats.byType[style.kind]||0)+1;
+  if(style.kind==='perbadanan'){addPerbadananFacades({ring,center,ground,triangle,quad,stats});continue}
   if(style.pitched&&ring.length===4&&height<=14){let longest=0;for(let i=1;i<4;i++)if(Math.hypot(...ring[(i+1)%4].map((v,j)=>v-ring[i][j]))>Math.hypot(...ring[(longest+1)%4].map((v,j)=>v-ring[longest][j])))longest=i;
    const [a,b,c,d]=Array.from({length:4},(_,i)=>ring[(i+longest)%4]),mid=(u,v)=>[(u[0]+v[0])/2,(u[1]+v[1])/2],ad=mid(a,d),bc=mid(b,c),rise=Math.min(3,Math.max(.9,Math.hypot(a[0]-d[0],a[1]-d[1])*.28)),point=(q,y)=>[q[0],y,q[1]];
    quad(palette.roof,point(a,top),point(b,top),point(bc,top+rise),point(ad,top+rise));quad(palette.roof,point(d,top),point(c,top),point(bc,top+rise),point(ad,top+rise));triangle('#f0dfba',point(a,top),point(d,top),point(ad,top+rise));triangle('#f0dfba',point(b,top),point(c,top),point(bc,top+rise));stats.pitchedRoofs++;
