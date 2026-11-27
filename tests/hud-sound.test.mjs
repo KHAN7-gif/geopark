@@ -36,3 +36,7 @@ test('unsupported or rejected audio stays silent without breaking the game',asyn
  class BlockedAudio{constructor(){this.state='suspended'}resume(){return Promise.reject(Error('Autoplay blocked'))}}
  const blocked=createGameSound({AudioContextClass:BlockedAudio});assert.equal(await blocked.unlock(),false);assert.equal(await blocked.play('depart',{gesture:true}),false);assert.equal(await blocked.play('arrive'),false);
 });
+
+test('user activation resumes an interrupted mobile audio context',async()=>{
+ let resumed=0;class MobileAudio{constructor(){this.state='interrupted'}async resume(){resumed++;this.state='running'}}const sound=createGameSound({AudioContextClass:MobileAudio});assert.equal(await sound.unlock(),true);assert.equal(resumed,1);assert.equal(sound.audioContext().state,'running');
+});

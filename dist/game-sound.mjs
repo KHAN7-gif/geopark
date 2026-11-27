@@ -9,7 +9,7 @@ export function createGameSound({enabled=true,AudioContextClass=globalThis.Audio
  let context=null,on=!!enabled,lastCue=null;const active=new Set();
  async function unlock(){
   if(!on||!AudioContextClass)return false;
-  try{if(!context||context.state==='closed')context=new AudioContextClass();if(context.state==='suspended')await context.resume();return context.state==='running'}catch{return false}
+  try{try{const session=globalThis.navigator?.audioSession;if(session)session.type='playback'}catch{}if(!context||context.state==='closed')context=new AudioContextClass();if(context.state!=='running')await context.resume();return context.state==='running'}catch{return false}
  }
  function schedule(kind,key){
   if(!on||context?.state!=='running'||!SOUND_CUES[kind]||key&&lastCue===key)return false;

@@ -212,3 +212,5 @@ Campuran bunyi latar mengikut kedudukan watak permainan: ombak bertambah dalam l
 Bunyi latar menggunakan sintesis asal Web Audio (noise ditapis, modulasi ombak, chirp dan nada enjin). Ujian menggunakan fail WAV asal yang boleh dimainkan terus oleh pelayar. Tiada muzik atau audio pihak ketiga digunakan; ini bukan rakaman hidupan sebenar atau trafik langsung. Audio latar berkongsi AudioContext permainan yang dibuka melalui gerak isyarat pengguna. Tiada permintaan mikrofon atau GPS.
 
 Audio dihentikan apabila disenyapkan, tab tersembunyi atau pagehide. Suasana tersedia selagi peta permainan 2D atau 3D dibuka, dan dihentikan pada kelantangan sifar. Kelantangan beralih secara lembut; sumber burung / langkah dibersihkan selepas tamat. Pilihan disimpan berasingan sebagai `jelajah-labuan-ambient-v1`; laluan, masa, XP, cop dan log perjalanan tidak diubah.
+
+Pada Safari yang menyokong Audio Session API, pengaktifan pengguna memilih sesi `playback`. Context berstatus `interrupted` juga dicuba semula melalui `resume()`, selain context `suspended`, supaya audio boleh dipulihkan selepas gangguan telefon / aplikasi.
