@@ -182,3 +182,11 @@ Dunia game 3D memaparkan pejalan kaki, kereta, bas dan motosikal berhampiran kaw
 Laluan berpandukan garis jalan / laluan pejalan kaki OSM. Promenad Dataran ialah laluan ilustrasi di sepanjang pinggir poligon Dataran yang dipetakan; padang tengah kekal terbuka. Kenderaan diletakkan di sebelah kiri arah perjalanan. Gerakan ini suasana permainan, bukan trafik langsung atau model peraturan setiap simpang dan jalan sehala. Pelakon bukan penghalang fizikal kepada pemain dan tidak mempengaruhi misi, XP, kilometer atau waktu perjalanan.
 
 Jumlah maksimum berdekatan kamera: ringan 4, seimbang 8, tinggi 12 (separuh pejalan kaki, separuh kenderaan). Model asal berwarna berbeza, animasi anggota / tayar, jeda dan pudar di hujung laluan; tiada kapal terbang atau feed penerbangan digunakan. Animasi berhenti apabila lapisan disembunyikan, kamera dijauhkan atau tab tidak aktif. Tetapan reduced motion mengekalkan model statik. Renderer dan geometri dilepaskan apabila keluar daripada 3D.
+
+### Interaksi lokasi ketika berjalan
+
+Semasa joystick aktif, panel **Berinteraksi** muncul dalam jarak 32 meter daripada lokasi bandar yang dipetakan. Tekan butang atau **E**; jika ada beberapa tempat berdekatan, gunakan **Lokasi lain**. Jarak bangunan dikira daripada pinggir tapak bangunan OSM apabila datanya tersedia supaya pemain tidak perlu memasuki bangunan. Untuk Dataran, ruang dalam poligon dikira sudah berada di lokasi.
+
+Popup menyediakan **Kenali lokasi**, **Apa yang boleh dilihat?**, **Lihat objek dalam 3D** dan **Sambung berjalan**. Maklumat khusus Dataran, monumen marlin, Bulatan Merdeka dan Menara Perbadanan menggunakan rujukan yang telah diberikan; kemudahan lain menggunakan kategori dan tag awam OSM yang tersedia. Tiada nama operator, sejarah atau perkhidmatan baharu direka.
+
+Membuka popup mengosongkan input joystick dan menyimpan posisi watak. Pemeriksaan 3D hanya mengubah kamera; menggerakkan joystick semula kembali kepada kamera belakang. Klik label tempat yang masih jauh ketika mod berjalan meminta pemain mendekatinya. Di luar mod berjalan, popup peta asal dikekalkan. Interaksi tidak menambah XP atau mengubah cop, jarak dan masa misi.

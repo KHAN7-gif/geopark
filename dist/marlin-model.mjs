@@ -1,4 +1,4 @@
-import {MARLIN_MONUMENT} from './marlin-layout.mjs?v=townlife-20261127';
+import {MARLIN_MONUMENT} from './marlin-layout.mjs?v=interact-20261127';
 // Faceted sculpture, not a photogrammetric or measured replica.
 export function addMarlinMonument({local,heightAt,triangle,quad,stats}){
  const [cx,cz]=local(MARLIN_MONUMENT.centre),ground=heightAt(MARLIN_MONUMENT.centre)||0;
