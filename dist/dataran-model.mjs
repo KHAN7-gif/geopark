@@ -1,4 +1,4 @@
-import {DATARAN_LAYOUT,dataranPoint} from './dataran-layout.mjs?v=camera-20261127';
+import {DATARAN_LAYOUT,dataranPoint} from './dataran-layout.mjs?v=ambient-20261127';
 // Approximate reference-based public-square structures, separate from OSM
 // building footprints. Nothing is added to the centre of the playing field.
 export function addDataranStructures({local,heightAt,quad,triangle,stats}){

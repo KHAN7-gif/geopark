@@ -200,3 +200,13 @@ Rakaman menyalin canvas MapLibre secara segerak semasa acara render, kemudian me
 Album menggunakan IndexedDB berasingan (`jelajah-labuan-album-v1`) dengan maksimum 12 foto; ia tidak mengisi localStorage misi. Had dan perlindungan pendua dilaksanakan dalam transaksi readwrite yang sama supaya dua tab tidak melebihi had. Foto lama tidak dipadam secara automatik. Jika storan ditolak atau penuh, pengguna masih boleh memuat turun JPG. Album kekal pada pelayar ini dan tidak disertakan dalam eksport JSON pasport; muat turun foto untuk sandaran.
 
 Input joystick dihentikan sementara mengambil / melihat foto. Kedudukan berjalan, XP, cop dan perjalanan misi tidak diubah. Kamera ikut pemain dipulihkan selepas popup ditutup jika ia aktif sebelum rakaman; waktu perjalanan misi terus berjalan seperti popup lain. Jika misi tiba ketika foto terbuka, paparan cabaran menunggu sehingga pengguna kembali ke permainan. Mod foto ini tidak memberikan XP tambahan.
+
+### Audio suasana mengikut lokasi
+
+Dalam **Dunia 3D → Kawalan**, gunakan **Audio suasana** dan gelangsar kelantangan. Suasana bermula senyap, dengan kelantangan tersimpan 35%. Aktifkan melalui sentuhan / klik untuk membuka kunci audio pelayar. Jika pilihan aktif disimpan tetapi halaman dimuatkan semula, butang **Sambung audio suasana** membenarkan audio semula. Bunyi utama dalam Menu mengawal kedua-dua cue permainan dan suasana.
+
+Campuran bunyi mengikut kedudukan watak permainan: ombak bertambah dalam lingkungan 150 meter dari garis pantai atau ketika di laut; kawasan hijau berpandukan poligon OSM, dan suasana bandar dalam kawasan pusat bandar. Burung siang diganti suasana serangga malam apabila rupa malam dipilih / waktu automatik berubah. Langkah kaki hanya dimainkan semasa berjalan; nada enjin dibezakan mengikut pengangkutan ketika bergerak. Kamera bebas tidak menukar kedudukan pendengar.
+
+Semua bunyi ialah sintesis asal Web Audio (noise ditapis, modulasi ombak, chirp dan nada enjin); ia bukan rakaman hidupan sebenar atau trafik langsung. Tiada fail muzik / audio pihak ketiga dimuat turun. Ia berkongsi AudioContext permainan yang dibuka melalui gerak isyarat pengguna, tanpa permintaan mikrofon atau GPS.
+
+Audio dan semua nod sumber dihentikan apabila senyap, kelantangan sifar, tab tersembunyi, meninggalkan paparan 3D atau pagehide. Kelantangan beralih secara lembut; sumber burung / langkah dibersihkan selepas tamat. Pilihan disimpan berasingan sebagai `jelajah-labuan-ambient-v1`; laluan, masa, XP, cop dan log perjalanan tidak diubah.
