@@ -151,8 +151,10 @@ Model marlin ditempatkan di pusat geometri bulatan jalan OSM `way/28717159`, ber
 
 ### Bulatan Merdeka
 
-Bulatan utama dikemas kini daripada gambar udara dan pandangan jalan pengguna: tiga tiang bercorak hitam-putih dengan kanopi payung jejaring terbuka, taman rumput, batu hiasan, jubin merah-kelabu, kerb berselang serta kolam pancutan di tengah dengan tulisan LABUAN. Ini ialah model ilustrasi asal; dimensi, susun atur hiasan dan pancutan tidak didakwa sebagai ukuran / aliran sebenar.
+Bulatan utama dikemas kini daripada gambar udara dan pandangan jalan pengguna: empat tiang bercorak hitam-putih dengan kanopi payung jejaring sel terbuka, taman rumput, batu hiasan, jubin merah-kelabu, kerb berselang serta kolam pancutan di tengah dengan tulisan LABUAN. Ini ialah model ilustrasi asal; dimensi, susun atur hiasan dan pancutan tidak didakwa sebagai ukuran / aliran sebenar.
 
 Pusatnya 115.24334281764924, 5.277003319599451, dikira daripada lapan segmen bulatan jalan OSM sedia ada. `merdeka-layout.mjs` menyimpan rujukan segmen dan susun atur; `merdeka-model.mjs` membina geometri yang digabungkan mengikut bahan. Geometri jalan dan bulatan marlin tidak diubah. Pokok automatik dikecualikan daripada pulau tengah supaya kanopi hiasan tidak ditutup pokok generik.
 
-**Kawalan → Lihat Bulatan Merdeka** membuka pandangan kamera dekat tanpa menukar lokasi pemain, masa, XP atau jarak. Label bulatan mempunyai popup setempat. Ujian menyemak sambungan tepat segmen OSM, tiga kanopi, satu kolam dan sempadan model di dalam pulau tengah.
+**Kawalan → Lihat Bulatan Merdeka** membuka pandangan kamera dekat tanpa menukar lokasi pemain, masa, XP atau jarak. Label bulatan mempunyai popup setempat. Ujian menyemak sambungan tepat segmen OSM, empat kanopi, satu kolam dan sempadan model di dalam pulau tengah.
+
+Reka bentuk Bulatan Merdeka diselaraskan dengan rujukan terbaharu pengguna: empat struktur mengelilingi kolam, jejaring kanopi sel tidak seragam, gelung hujung runcing, batang putih dengan tompok gelap tidak sekata serta glob jejaring di tengah. Susun atur dan dimensi masih anggaran visual.
