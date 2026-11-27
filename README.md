@@ -174,3 +174,11 @@ Dalam dunia 3D, buka **Kawalan → Joystick jelajah bebas**. Seret pad sentuh at
 Perjalanan misi yang masih bergerak perlu dijeda dahulu. Mod bebas tidak mengubah laluan, waktu, XP, cop atau log kilometer misi; jarak yang dipaparkan ialah jarak sesi jelajah bebas. Menyambung misi menamatkan joystick. Posisi terakhir disimpan berasingan di `jelajah-labuan-roam-v1`, dengan **Ke Dataran** sebagai titik pulih. Ia tidak menggunakan GPS.
 
 Kawalan berjalan mematuhi garis pantai Labuan dan mengelak poligon tapak bangunan OSM, termasuk ruang halaman dalam poligon. Liputan perlanggaran bergantung kepada bangunan yang tersedia dalam data; pokok dan perabot bandar bukan penghalang. Gerakan dihadkan kepada langkah 0.1 saat dan 30 kemas kini sesaat untuk mengelakkan lompatan selepas tab tidak aktif.
+
+### Penduduk dan trafik bandar
+
+Dunia game 3D memaparkan pejalan kaki, kereta, bas dan motosikal berhampiran kawasan bandar (sekitar Dataran Labuan dan pusat bandar). Ia diaktifkan secara lalai; **Kawalan → Penduduk & trafik** menyimpan pilihan sorok / aktif pada pelayar ini. Lapisan hanya muncul dalam gaya **Dunia game**, dengan suasana diaktifkan dan zum sekurang-kurangnya 15. Gunakan joystick dan **Ke Dataran** untuk meneroka berhampiran dataran.
+
+Laluan berpandukan garis jalan / laluan pejalan kaki OSM. Promenad Dataran ialah laluan ilustrasi di sepanjang pinggir poligon Dataran yang dipetakan; padang tengah kekal terbuka. Kenderaan diletakkan di sebelah kiri arah perjalanan. Gerakan ini suasana permainan, bukan trafik langsung atau model peraturan setiap simpang dan jalan sehala. Pelakon bukan penghalang fizikal kepada pemain dan tidak mempengaruhi misi, XP, kilometer atau waktu perjalanan.
+
+Jumlah maksimum berdekatan kamera: ringan 4, seimbang 8, tinggi 12 (separuh pejalan kaki, separuh kenderaan). Model asal berwarna berbeza, animasi anggota / tayar, jeda dan pudar di hujung laluan; tiada kapal terbang atau feed penerbangan digunakan. Animasi berhenti apabila lapisan disembunyikan, kamera dijauhkan atau tab tidak aktif. Tetapan reduced motion mengekalkan model statik. Renderer dan geometri dilepaskan apabila keluar daripada 3D.

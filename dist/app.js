@@ -1,4 +1,4 @@
-import {createRoamControls,TOWN_PLACES,viewerPreferences,viewportLabel,MARINE_DATA,prepareMarineRoute,createWeatherClient,weatherPresentation,labuanTimePhase,hudPreferences,toggleHudPart,createGameSound,travelOptions,requiresWalkingApproach,accessDescription,combineRouteLegs,distanceTotals,navigationHUD,certificateState,certificateSVG,GUIDE_TOPICS,guideAdvice,achievementState,challengeSpec,challengeLabel,scoreChallenge,defaultRewards,rewardTotals,validateRewards,creditRewards,mergeRewards,TRANSPORTS,defaultShop,earnedXP,spentXP,availableXP,validateShop,purchaseTransport,mergeShop,TIME_RATIO,ISLAND_SITES,distanceMetres,normaliseRoadResponse,validateJourney,journeyAt,formatClock,routeURL} from './travel-engine.mjs?v=joystick-20261127';
+import {createRoamControls,TOWN_PLACES,viewerPreferences,viewportLabel,MARINE_DATA,prepareMarineRoute,createWeatherClient,weatherPresentation,labuanTimePhase,hudPreferences,toggleHudPart,createGameSound,travelOptions,requiresWalkingApproach,accessDescription,combineRouteLegs,distanceTotals,navigationHUD,certificateState,certificateSVG,GUIDE_TOPICS,guideAdvice,achievementState,challengeSpec,challengeLabel,scoreChallenge,defaultRewards,rewardTotals,validateRewards,creditRewards,mergeRewards,TRANSPORTS,defaultShop,earnedXP,spentXP,availableXP,validateShop,purchaseTransport,mergeShop,TIME_RATIO,ISLAND_SITES,distanceMetres,normaliseRoadResponse,validateJourney,journeyAt,formatClock,routeURL} from './travel-engine.mjs?v=townlife-20261127';
 const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const cats={G:{name:'Geotapak',color:'#b8427a',icon:'◆',total:11},B:{name:'Biotapak',color:'#226da8',icon:'❋',total:4},C:{name:'Tapak Budaya',color:'#237b54',icon:'⌂',total:10}};
 const KEY='jelajah-labuan-v1',PLAYER='jelajah-labuan-player',PROFILE='jelajah-labuan-profile-v1';
@@ -13,6 +13,7 @@ let hudPrefs=hudPreferences(null);try{hudPrefs=hudPreferences(JSON.parse(localSt
 let weatherMode='auto',weatherLightning=true,latestWeather=null,weatherClient=null;try{const saved=JSON.parse(localStorage.getItem('jelajah-labuan-weather-settings')||'{}');if(saved.mode==='manual')weatherMode='manual';if(typeof saved.lightning==='boolean')weatherLightning=saved.lightning}catch{}
 let viewerPrefs=viewerPreferences(null);try{viewerPrefs=viewerPreferences(JSON.parse(localStorage.getItem('jelajah-labuan-map-ui-v1')||'null'))}catch{}
 let roamActive=false,roamState=null,roamSavedAt=0;
+let townLifeEnabled=true;try{townLifeEnabled=localStorage.getItem('jelajah-labuan-town-life')!=='off'}catch{}
 let mileageViewKey=null;
 let destinationFlag=null;
 let hudMiniMap=null,hudMiniPlayer=null,hudMiniRoute=null,hudMiniPath=null,hudIdentityKey=null;
@@ -83,9 +84,9 @@ async function set3DMode(enabled){
  if(!enabled){stopRoam();view3D?.destroy();view3D=null;$('map3d').replaceChildren();$('threeDHint').hidden=true;map?.invalidateSize();return}
  threeDNotice('Memuatkan peta 3D…');
  try{
-  const {createJourney3D}=await import('./journey-3d.mjs?v=joystick-20261127');if(request!==threeDRequest)return;
+  const {createJourney3D}=await import('./journey-3d.mjs?v=townlife-20261127');if(request!==threeDRequest)return;
   const controller=await createJourney3D({element:$('map3d'),look:sceneLook,cameraMode,basemap:mapBase,quality:graphicsQuality,layers:viewerPrefs.layers,onViewport:view=>{const label=viewportLabel(view);if($('viewerCoordinates').textContent!==label)$('viewerCoordinates').textContent=label},onBasemapChange:id=>{mapBase=id;reflectAdvancedMap()},onSelect:openSite,onPlace:openTownPlace,onInteract:()=>setStageFollow(false),onNotice:threeDNotice,onEnvironment:message=>{if(request===threeDRequest)$('environmentStatus').textContent=message+' Mod Auto mengikuti waktu tempatan Labuan; sumber cuaca dipaparkan dalam Menu.'},reducedMotion,onFailure:message=>{if(request!==threeDRequest)return;set3DMode(false);threeDNotice(message);toast(message)}});
-  if(request!==threeDRequest){controller.destroy();return}view3D=controller;sync3D();controller.resize();controller.setSurroundings?.(surroundingsEnabled);controller.setWeather?.(weatherPresentation(latestWeather));controller.setLayers?.(viewerPrefs.layers);if(journey||gameHome&&currentSite()){const here=currentSite(),point=journey?journeyAt(journey).position:[here.lat,here.lng];setStageFollow(true);controller.follow(point,true)}
+  if(request!==threeDRequest){controller.destroy();return}view3D=controller;sync3D();controller.resize();controller.setSurroundings?.(surroundingsEnabled);controller.setTownLife?.(townLifeEnabled);controller.setWeather?.(weatherPresentation(latestWeather));controller.setLayers?.(viewerPrefs.layers);if(journey||gameHome&&currentSite()){const here=currentSite(),point=journey?journeyAt(journey).position:[here.lat,here.lng];setStageFollow(true);controller.follow(point,true)}
   threeDNotice('Peta 3D: seret untuk teroka, pilih kamera dan lapisan di Kawalan. Pusatkan Labuan untuk melihat semua pulau.');
  }catch{if(request!==threeDRequest)return;set3DMode(false);const message='Mod 3D tidak tersedia pada peranti ini. Anda boleh terus menjelajah dengan peta 2D.';threeDNotice(message);toast(message)}
 }
@@ -97,6 +98,8 @@ $('startRoam').onclick=()=>roamActive?stopRoam():startRoam();$('roamExit').oncli
 window.addEventListener?.('pagehide',()=>{roamControls.reset();saveRoam()});
 $('enterJourney3D').onclick=()=>{selectPage('map');setView('map');enterJourney2D();if(journey2D)set3DMode(true)};
 $('toggleJourney3D').onclick=()=>set3DMode(!threeDActive);
+function reflectTownLife(){$('toggleTownLife').setAttribute('aria-pressed',String(townLifeEnabled));$('toggleTownLife').textContent=townLifeEnabled?'Penduduk & trafik: aktif':'Penduduk & trafik: sorok';view3D?.setTownLife?.(townLifeEnabled)}
+$('toggleTownLife').onclick=()=>{townLifeEnabled=!townLifeEnabled;try{localStorage.setItem('jelajah-labuan-town-life',townLifeEnabled?'on':'off')}catch{}reflectTownLife()};reflectTownLife();
 $('toggleSurroundings').onclick=()=>{surroundingsEnabled=!surroundingsEnabled;view3D?.setSurroundings?.(surroundingsEnabled);$('toggleSurroundings').setAttribute('aria-pressed',String(surroundingsEnabled));$('toggleSurroundings').textContent=surroundingsEnabled?'Suasana: aktif':'Suasana: ringan'};
 
 
