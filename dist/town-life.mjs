@@ -1,5 +1,5 @@
-import {DATARAN_RING} from './dataran-layout.mjs?v=townlife-20261128';
-import {toXY,fromXY,landAt} from './marine-geometry.mjs?v=townlife-20261128';
+import {DATARAN_RING} from './dataran-layout.mjs?v=townlife-20261128b';
+import {toXY,fromXY,landAt} from './marine-geometry.mjs?v=townlife-20261128b';
 const metres=(a,b)=>Math.hypot(b[0]-a[0],b[1]-a[1]);
 const town=([lng,lat])=>lng>115.235&&lng<115.258&&lat>5.268&&lat<5.289;
 export const LIFE_LIMITS={eco:12,balanced:24,high:36};
@@ -34,7 +34,7 @@ export function selectTownActors(paths,anchor,quality='balanced'){
    if(path.foot!==foot||selected.length>=budget||slot>0&&path.length<(foot?55:100))continue;
    const key=(path.promenade?path.id:path.source)+':'+slot;if(used.has(key))continue;used.add(key);
    const seed=hash(path.id),n=selected.length,id=path.id+':actor:'+slot;let mode=foot?'walk':fleet[n%fleet.length];
-   if(['truck','bus'].includes(mode)&&(path.width<7||path.length<70))mode='pickup';
+   if(['truck','bus'].includes(mode)&&(path.width<7||path.length<70))continue;
    selected.push({id,path,mode,variant:(seed+n)%6,direction:slot%2?-(seed%2?1:-1):seed%2?1:-1,speed:foot?.9+(seed%5)*.12:mode==='truck'?4.6:mode==='bus'?5.2:mode==='motor'?6.2:mode==='sport'?7.2:6,offset:((seed%997)/997+slot*.43)%1});
   }actors.push(...selected);
  }

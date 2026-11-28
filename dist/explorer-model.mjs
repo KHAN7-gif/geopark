@@ -1,5 +1,5 @@
-import {addVehicleLights} from './vehicle-lights.mjs?v=townlife-20261128';
-import {journeyAt} from './travel-engine.mjs?v=townlife-20261128';
+import {addVehicleLights} from './vehicle-lights.mjs?v=townlife-20261128b';
+import {journeyAt} from './travel-engine.mjs?v=townlife-20261128b';
 import * as THREE from './vendor/three.module.js';
 
 export function buildExplorerModel(mode='walk',avatar='rimba'){

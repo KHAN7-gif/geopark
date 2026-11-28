@@ -1,4 +1,4 @@
-import {addVehicleLights} from './vehicle-lights.mjs?v=townlife-20261128';
+import {addVehicleLights} from './vehicle-lights.mjs?v=townlife-20261128b';
 import * as THREE from './vendor/three.module.js';
 export function buildTownActor(mode='walk',variant=0){
  const root=new THREE.Group(),materials=new Map(),animated=[],colours=[0xcb7054,0x638b91,0xdbba65,0x7c9b66,0xe0d9c3,0x6e83a8],colour=colours[variant%colours.length];let lights=null;

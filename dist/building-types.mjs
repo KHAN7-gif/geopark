@@ -1,4 +1,4 @@
-import {isPerbadanan,PERBADANAN_TOWER} from './perbadanan-layout.mjs?v=townlife-20261128';
+import {isPerbadanan,PERBADANAN_TOWER} from './perbadanan-layout.mjs?v=townlife-20261128b';
 // Function comes from OSM tags, never an arbitrary colour / random category.
 export function buildingType(properties={}){
  if(isPerbadanan(properties))return 'perbadanan';
