@@ -1,4 +1,4 @@
-import {DATARAN_LAYOUT,dataranPoint} from './dataran-layout.mjs?v=navui-20261128';
+import {DATARAN_LAYOUT,dataranPoint} from './dataran-layout.mjs?v=annur-20261128';
 // Approximate reference-based public-square structures, separate from OSM
 // building footprints. Nothing is added to the centre of the playing field.
 export function addDataranStructures({local,heightAt,quad,triangle,stats}){

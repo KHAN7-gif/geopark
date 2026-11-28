@@ -1,4 +1,4 @@
-import {decorateEnvironment} from './world-palette.mjs?v=navui-20261128';
+import {decorateEnvironment} from './world-palette.mjs?v=annur-20261128';
 // Ground shadows in metres, so orbiting/zooming cannot detach them from objects.
 // Their footprints are visual only; navigation and source geography stay intact.
 const SUN={day:{azimuth:225,altitude:42},dusk:{azimuth:245,altitude:28},night:{azimuth:145,altitude:42}};

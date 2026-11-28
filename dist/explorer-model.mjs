@@ -1,5 +1,5 @@
-import {addVehicleLights} from './vehicle-lights.mjs?v=navui-20261128';
-import {journeyAt} from './travel-engine.mjs?v=navui-20261128';
+import {addVehicleLights} from './vehicle-lights.mjs?v=annur-20261128';
+import {journeyAt} from './travel-engine.mjs?v=annur-20261128';
 import * as THREE from './vendor/three.module.js';
 
 export function buildExplorerModel(mode='walk',avatar='rimba'){

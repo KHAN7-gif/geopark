@@ -1,22 +1,23 @@
-import {addCityFacade,addCityFrontage} from './city-facade.mjs?v=navui-20261128';
-import {cityTexture,surfaceUV} from './city-materials.mjs?v=navui-20261128';
-import {addPerbadananFacades} from './perbadanan-model.mjs?v=navui-20261128';
-import {addMerdekaRoundabout} from './merdeka-model.mjs?v=navui-20261128';
-import {merdekaDistance,merdekaTreeAllowed} from './merdeka-layout.mjs?v=navui-20261128';
-import {addMarlinMonument} from './marlin-model.mjs?v=navui-20261128';
-import {marlinDistance,marlinTreeAllowed} from './marlin-layout.mjs?v=navui-20261128';
-import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=navui-20261128';
-import {addDataranStructures} from './dataran-model.mjs?v=navui-20261128';
-import {TOWN_DATA} from './environment/town-data.mjs?v=navui-20261128';
-import {plazaCentre} from './town-scene.mjs?v=navui-20261128';
-import {buildingStyle,buildingHeight} from './building-types.mjs?v=navui-20261128';
+import {ANNUR_OSM,ANNUR_PLACE,buildAnnurModel} from './annur-model.mjs?v=annur-20261128';
+import {addCityFacade,addCityFrontage} from './city-facade.mjs?v=annur-20261128';
+import {cityTexture,surfaceUV} from './city-materials.mjs?v=annur-20261128';
+import {addPerbadananFacades} from './perbadanan-model.mjs?v=annur-20261128';
+import {addMerdekaRoundabout} from './merdeka-model.mjs?v=annur-20261128';
+import {merdekaDistance,merdekaTreeAllowed} from './merdeka-layout.mjs?v=annur-20261128';
+import {addMarlinMonument} from './marlin-model.mjs?v=annur-20261128';
+import {marlinDistance,marlinTreeAllowed} from './marlin-layout.mjs?v=annur-20261128';
+import {DATARAN_LAYOUT,dataranPoint,dataranTreeAllowed} from './dataran-layout.mjs?v=annur-20261128';
+import {addDataranStructures} from './dataran-model.mjs?v=annur-20261128';
+import {TOWN_DATA} from './environment/town-data.mjs?v=annur-20261128';
+import {plazaCentre} from './town-scene.mjs?v=annur-20261128';
+import {buildingStyle,buildingHeight} from './building-types.mjs?v=annur-20261128';
 import * as THREE from './vendor/three.module.js';
-import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=navui-20261128';
-import {landAt} from './marine-geometry.mjs?v=navui-20261128';
+import {buildingPalette,treeVariant,treeCentre} from './world-palette.mjs?v=annur-20261128';
+import {landAt} from './marine-geometry.mjs?v=annur-20261128';
 const SY=111320;
 export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildingLimit=80,treeLimit=100,roads=null}={}){
  const sx=SY*Math.cos(anchor[1]*Math.PI/180),local=p=>[(p[0]-anchor[0])*sx,(anchor[1]-p[1])*SY],world=p=>[anchor[0]+p[0]/sx,anchor[1]-p[1]/SY];
- const root=new THREE.Group(),batches=new Map(),roofColours=new Set(),facadeColours=new Set(),stats={buildings:0,pitchedRoofs:0,windows:0,trees:0,illustrativeRoadTrees:0,byType:{},shopfronts:0,officeBands:0,policeBands:0,plazas:0};
+ let annur=null;const root=new THREE.Group(),batches=new Map(),roofColours=new Set(),facadeColours=new Set(),stats={buildings:0,pitchedRoofs:0,windows:0,trees:0,illustrativeRoadTrees:0,byType:{},shopfronts:0,officeBands:0,policeBands:0,plazas:0};
  const batch=colour=>{if(!batches.has(colour))batches.set(colour,[]);return batches.get(colour)};
  const triangle=(colour,a,b,c)=>batch(colour).push(...a,...b,...c);
  const quad=(colour,a,b,c,d)=>{triangle(colour,a,b,c);triangle(colour,a,c,d)};
@@ -31,6 +32,7 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
  const streetSegments=(roads?.features||[]).filter(f=>!f.properties.foot).flatMap(f=>{const line=f.geometry.coordinates.map(local);return line.slice(1).map((b,i)=>[line[i],b,f.properties.width||6]).filter(([a,b])=>Math.hypot((a[0]+b[0])/2,(a[1]+b[1])/2)<radius+200)});
 
  for(const {f,ring,center,distance}of buildings){if(distance>radius||stats.buildings>=buildingLimit)break;stats.buildings++;
+  if(f.properties.osm===ANNUR_OSM)continue;
   const p=f.properties,style=buildingStyle(p),height=buildingHeight(p),ground=heightAt(world(center))||0,top=ground+height+.08,palette=buildingPalette(p.osm);palette.roof=style.roof||palette.roof;roofColours.add(palette.roof);facadeColours.add(style.facade||palette.facade);stats.byType[style.kind]=(stats.byType[style.kind]||0)+1;
   if(style.kind==='perbadanan'){addPerbadananFacades({ring,center,ground,triangle,quad,stats});continue}
   if(style.pitched&&ring.length===4&&height<=14){let longest=0;for(let i=1;i<4;i++)if(Math.hypot(...ring[(i+1)%4].map((v,j)=>v-ring[i][j]))>Math.hypot(...ring[(longest+1)%4].map((v,j)=>v-ring[longest][j])))longest=i;
@@ -94,6 +96,7 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
  }
  if(merdekaDistance(anchor)<radius)addMerdekaRoundabout({local,heightAt,triangle,quad,stats});
  if(marlinDistance(anchor)<radius)addMarlinMonument({local,heightAt,triangle,quad,stats});
+ const mosque=data.features.find(f=>f.properties.osm===ANNUR_OSM);if(mosque&&Math.hypot(...local(ANNUR_PLACE.geometry.coordinates))<radius){annur=buildAnnurModel(mosque,{local,heightAt});root.add(annur.root);Object.assign(stats,annur.stats)}
  const roofTexture=cityTexture('roof'),wallTexture=cityTexture('plaster');
  // Vertex colours combine hundreds of architectural colours into three draw
  // calls (solid, roof and plaster), rather than one call per colour or window.
@@ -102,5 +105,5 @@ export function buildVillageScene(data,anchor,{heightAt=()=>0,radius=420,buildin
  for(const [type,{positions,colours}]of surfaces){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute('color',new THREE.Float32BufferAttribute(colours,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(surfaceUV(positions),2));geometry.computeVertexNormals();const material=new THREE.MeshLambertMaterial({vertexColors:true,map:type==='roof'?roofTexture:type==='wall'?wallTexture:null,side:THREE.DoubleSide,flatShading:true}),mesh=new THREE.Mesh(geometry,material);mesh.frustumCulled=false;root.add(mesh)}
  stats.drawCalls=surfaces.size;
  for(const geometry of Object.values(geometries))geometry.dispose();
- return {root,stats,dispose(){roofTexture.dispose();wallTexture.dispose();root.traverse(o=>{o.geometry?.dispose();o.material?.dispose()});root.clear()}};
+ return {root,stats,setMood(id){annur?.setMood(id)},setNightColour(id){annur?.setNightColour(id)},dispose(){if(annur){root.remove(annur.root);annur.dispose()}roofTexture.dispose();wallTexture.dispose();root.traverse(o=>{o.geometry?.dispose();o.material?.dispose()});root.clear()}};
 }

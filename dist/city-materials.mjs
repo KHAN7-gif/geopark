@@ -1,6 +1,6 @@
 import * as THREE from './vendor/three.module.js';
 // Small deterministic textures, generated locally: no downloads or image licences.
-import {surfacePixels} from './surface-textures.mjs?v=navui-20261128';
+import {surfacePixels} from './surface-textures.mjs?v=annur-20261128';
 export {surfacePixels};
 export function cityTexture(kind){const pixels=surfacePixels(kind),texture=new THREE.DataTexture(pixels.data,pixels.width,pixels.height);texture.wrapS=texture.wrapT=THREE.RepeatWrapping;texture.magFilter=THREE.LinearFilter;texture.minFilter=THREE.LinearMipmapLinearFilter;texture.generateMipmaps=true;texture.colorSpace=THREE.SRGBColorSpace;texture.needsUpdate=true;return texture}
 export function surfaceUV(points,scale=2){
