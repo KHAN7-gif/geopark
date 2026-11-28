@@ -1,5 +1,5 @@
-import {toXY,inPolygon,metres} from './marine-geometry.mjs?v=annur-20261128';
-import {DATARAN_RING} from './dataran-layout.mjs?v=annur-20261128';
+import {toXY,inPolygon,metres} from './marine-geometry.mjs?v=annurauto-20261128';
+import {DATARAN_RING} from './dataran-layout.mjs?v=annurauto-20261128';
 export const INTERACTION_RADIUS=32;
 const polygon=ring=>{const points=ring.map(([lng,lat])=>toXY([lat,lng]));return {points,minX:Math.min(...points.map(p=>p[0])),maxX:Math.max(...points.map(p=>p[0])),minY:Math.min(...points.map(p=>p[1])),maxY:Math.max(...points.map(p=>p[1]))}};
 function edgeDistance(point,ring){const p=toXY(point),poly=polygon(ring);if(inPolygon(p,poly))return 0;let distance=Infinity;for(let n=1;n<poly.points.length;n++){const a=poly.points[n-1],b=poly.points[n],dx=b[0]-a[0],dy=b[1]-a[1],q=Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dy)/(dx*dx+dy*dy||1)));distance=Math.min(distance,Math.hypot(p[0]-a[0]-q*dx,p[1]-a[1]-q*dy))}return distance}

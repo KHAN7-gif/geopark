@@ -1,5 +1,5 @@
 import * as THREE from './vendor/three.module.js';
-import {ANNUR_OSM,ANNUR_PLACE,ANNUR_LIGHTS} from './annur-layout.mjs?v=annur-20261128';
+import {ANNUR_OSM,ANNUR_PLACE,ANNUR_LIGHTS} from './annur-layout.mjs?v=annurauto-20261128';
 export {ANNUR_OSM,ANNUR_PLACE,ANNUR_LIGHTS};
 // Architectural proportions are a photo-based illustration on the OSM footprint.
 export function buildAnnurModel(feature,{local,heightAt=()=>0}={}){

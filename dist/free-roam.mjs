@@ -1,4 +1,4 @@
-import {landAt,toXY,fromXY,inPolygon,metres} from './marine-geometry.mjs?v=annur-20261128';
+import {landAt,toXY,fromXY,inPolygon,metres} from './marine-geometry.mjs?v=annurauto-20261128';
 export const ROAM_START=[5.27625,115.2449];
 export function joystickVector(x,y,radius=48){const length=Math.hypot(x,y),amount=Math.min(1,length/radius);if(amount<.14)return {x:0,y:0};const gain=(amount-.14)/.86;return {x:x/length*gain,y:y/length*gain}}
 export function createWalkingWorld(data){

@@ -1,6 +1,6 @@
-import {journeyAt} from './travel-engine.mjs?v=annur-20261128';
-import {navigationHUD} from './navigation-hud.mjs?v=annur-20261128';
-import {CAMERA_MODES,cameraPose} from './advanced-map.mjs?v=annur-20261128';
+import {journeyAt} from './travel-engine.mjs?v=annurauto-20261128';
+import {navigationHUD} from './navigation-hud.mjs?v=annurauto-20261128';
+import {CAMERA_MODES,cameraPose} from './advanced-map.mjs?v=annurauto-20261128';
 
 export function createCameraDirector(map,{getState,isReady,reducedMotion=false,frameRate=30}){
  let enabled=false,disposed=false,frame=null,last=0,angle=0,mode='close',fallbackPosition=null,fallbackHeading=0,fps=frameRate;

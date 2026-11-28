@@ -1,4 +1,4 @@
-import {MARLIN_MONUMENT} from './marlin-layout.mjs?v=annur-20261128';
+import {MARLIN_MONUMENT} from './marlin-layout.mjs?v=annurauto-20261128';
 // Faceted sculpture, not a photogrammetric or measured replica.
 export function addMarlinMonument({local,heightAt,triangle,quad,stats}){
  const [cx,cz]=local(MARLIN_MONUMENT.centre),ground=heightAt(MARLIN_MONUMENT.centre)||0;

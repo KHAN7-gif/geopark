@@ -1,5 +1,5 @@
-import {DATARAN_RING} from './dataran-layout.mjs?v=annur-20261128';
-import {toXY,fromXY,landAt} from './marine-geometry.mjs?v=annur-20261128';
+import {DATARAN_RING} from './dataran-layout.mjs?v=annurauto-20261128';
+import {toXY,fromXY,landAt} from './marine-geometry.mjs?v=annurauto-20261128';
 const metres=(a,b)=>Math.hypot(b[0]-a[0],b[1]-a[1]);
 const town=([lng,lat])=>lng>115.235&&lng<115.258&&lat>5.268&&lat<5.289;
 export const LIFE_LIMITS={eco:12,balanced:24,high:36};

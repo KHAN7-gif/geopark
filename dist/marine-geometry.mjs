@@ -1,4 +1,4 @@
-import {LAND_RINGS} from './marine-coast.mjs?v=annur-20261128';
+import {LAND_RINGS} from './marine-coast.mjs?v=annurauto-20261128';
 const SX=111320*Math.cos(5.3*Math.PI/180),SY=111320;
 export const toXY=([lat,lng])=>[(lng-115)*SX,(lat-5.1)*SY];
 export const fromXY=([x,y])=>[y/SY+5.1,x/SX+115];
