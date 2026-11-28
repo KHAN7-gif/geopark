@@ -1,5 +1,5 @@
-import {MARINE_DATA} from './marine-data.mjs?v=townlife-20261128b';
-import {toXY,fromXY,landAt} from './marine-geometry.mjs?v=townlife-20261128b';
+import {MARINE_DATA} from './marine-data.mjs?v=navui-20261128';
+import {toXY,fromXY,landAt} from './marine-geometry.mjs?v=navui-20261128';
 export const MARINA_VIEW=[115.2480,5.27297];
 // Existing OSM marina footway/pontoon centre lines; scenery, not surveyed berths.
 export const MARINA_PONTOONS=[{osm:'way/905756222',path:[[115.2489874,5.2731723],[115.2488264,5.2727438],[115.2480922,5.2730015],[115.2473978,5.2732453]]},{osm:'way/905756221',path:[[115.2480922,5.2730015],[115.2479285,5.2725676]]}];

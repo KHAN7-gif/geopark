@@ -1,4 +1,4 @@
-import {joystickVector} from './free-roam.mjs?v=townlife-20261128b';
+import {joystickVector} from './free-roam.mjs?v=navui-20261128';
 // Input is reset on interruption: returning to the app never resumes held movement.
 export function createRoamControls({pad,stick,run,document,window,getBearing,move,onUpdate,isBlocked}){
  let active=false,frame=null,last=null,pointer=null,vector={x:0,y:0},bearing=0,keys=new Set(),running=false;

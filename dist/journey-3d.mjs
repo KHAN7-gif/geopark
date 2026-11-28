@@ -1,20 +1,20 @@
-import {addMarinaLayers,setMarinaQuality} from './marina-map.mjs?v=townlife-20261128b';
-import {createAmbientMap} from './ambient-scene.mjs?v=townlife-20261128b';
-import {captureMapPhoto} from './game-camera.mjs?v=townlife-20261128b';
-import {createTownInteractions} from './town-interactions.mjs?v=townlife-20261128b';
-import {createWalkingWorld,walkingSpawn,walkStep} from './free-roam.mjs?v=townlife-20261128b';
-import {TOWN_PLACES} from './town-scene.mjs?v=townlife-20261128b';
-import {addGameWorld,paintGameWorld} from './game-world.mjs?v=townlife-20261128b';
-import {viewerPreferences,applyViewerLayers} from './map-viewer.mjs?v=townlife-20261128b';
-import {MARINE_DATA} from './marine-data.mjs?v=townlife-20261128b';
-import {jettyFeatures} from './jetty-scene.mjs?v=townlife-20261128b';
-import {applyWeatherScene} from './weather-scene.mjs?v=townlife-20261128b';
-import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=townlife-20261128b';
-import {createCameraDirector} from './camera-director.mjs?v=townlife-20261128b';
-import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=townlife-20261128b';
-import {navigationHUD} from './navigation-hud.mjs?v=townlife-20261128b';
-import {paintDepthShadows} from './depth-scene.mjs?v=townlife-20261128b';
-import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=townlife-20261128b';
+import {addMarinaLayers,setMarinaQuality} from './marina-map.mjs?v=navui-20261128';
+import {createAmbientMap} from './ambient-scene.mjs?v=navui-20261128';
+import {captureMapPhoto} from './game-camera.mjs?v=navui-20261128';
+import {createTownInteractions} from './town-interactions.mjs?v=navui-20261128';
+import {createWalkingWorld,walkingSpawn,walkStep} from './free-roam.mjs?v=navui-20261128';
+import {TOWN_PLACES} from './town-scene.mjs?v=navui-20261128';
+import {addGameWorld,paintGameWorld} from './game-world.mjs?v=navui-20261128';
+import {viewerPreferences,applyViewerLayers} from './map-viewer.mjs?v=navui-20261128';
+import {MARINE_DATA} from './marine-data.mjs?v=navui-20261128';
+import {jettyFeatures} from './jetty-scene.mjs?v=navui-20261128';
+import {applyWeatherScene} from './weather-scene.mjs?v=navui-20261128';
+import {SATELLITE_TILES,qualityProfile,applyAdvancedQuality,switchBasemap} from './advanced-map.mjs?v=navui-20261128';
+import {createCameraDirector} from './camera-director.mjs?v=navui-20261128';
+import {SCENE_LOOKS,applySceneLook,missionBeacons,addCoastalScenery} from './scenery.mjs?v=navui-20261128';
+import {navigationHUD} from './navigation-hud.mjs?v=navui-20261128';
+import {paintDepthShadows} from './depth-scene.mjs?v=navui-20261128';
+import {addSurroundingLayers,setSurroundingsVisible} from './surroundings.mjs?v=navui-20261128';
 // All geographic data uses WGS84 coordinates. No invented coastlines or roads.
 export const TERRAIN_TILES='https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png';
 export const BASEMAP_TILES='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -149,12 +149,12 @@ export async function createJourney3D({element,onSelect,onInteract,onPlace=()=>{
   }
   async function ensureVillage(){
     if(village){applyVillageState();return}if(villageLoading||!environmentData||!roadData||basemapId!=='game'||destroyed)return;villageLoading=true;
-    try{const {createVillageLayer}=await import('./village-layer.mjs?v=townlife-20261128b');if(destroyed)return;village=createVillageLayer(gl,{data:environmentData,roads:roadData,quality:graphics.level,onFailure:()=>{villageFailed=true;applyVillageState();onNotice('Perincian kampung tidak tersedia. Bangunan asas dan peta dikekalkan.')}});map.addLayer(village.layer);applyVillageState()}
+    try{const {createVillageLayer}=await import('./village-layer.mjs?v=navui-20261128');if(destroyed)return;village=createVillageLayer(gl,{data:environmentData,roads:roadData,quality:graphics.level,onFailure:()=>{villageFailed=true;applyVillageState();onNotice('Perincian kampung tidak tersedia. Bangunan asas dan peta dikekalkan.')}});map.addLayer(village.layer);applyVillageState()}
     catch{villageFailed=true;onNotice('Bangunan asas digunakan pada peranti ini.')}
   }
-  async function ensureTownLife(){if(townLife||townLifeLoading||!roadData||destroyed)return;townLifeLoading=true;try{const {createTownLifeLayer}=await import('./town-life-layer.mjs?v=townlife-20261128b');if(destroyed)return;townLife=createTownLifeLayer(gl,{roads:roadData,quality:graphics.level,reducedMotion,onFailure:()=>onNotice('Suasana bandar tidak tersedia pada peranti ini. Peta dan joystick kekal tersedia.')});map.addLayer(townLife.layer);townLife.setMood(lookId);applyVillageState()}catch{if(!destroyed)onNotice('Suasana bandar belum dimuatkan. Peta dan joystick kekal tersedia.')}}
+  async function ensureTownLife(){if(townLife||townLifeLoading||!roadData||destroyed)return;townLifeLoading=true;try{const {createTownLifeLayer}=await import('./town-life-layer.mjs?v=navui-20261128');if(destroyed)return;townLife=createTownLifeLayer(gl,{roads:roadData,quality:graphics.level,reducedMotion,onFailure:()=>onNotice('Suasana bandar tidak tersedia pada peranti ini. Peta dan joystick kekal tersedia.')});map.addLayer(townLife.layer);townLife.setMood(lookId);applyVillageState()}catch{if(!destroyed)onNotice('Suasana bandar belum dimuatkan. Peta dan joystick kekal tersedia.')}}
   async function loadExplorer(){
-    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=townlife-20261128b');if(destroyed)return;
+    try{const {createExplorerLayer}=await import('./explorer-model.mjs?v=navui-20261128');if(destroyed)return;
       explorer=createExplorerLayer(gl,{reducedMotion,onFailure:()=>{element.classList.remove('has-explorer-model');onNotice('Model penjelajah tidak tersedia. Penanda avatar digunakan.') }});
       map.addLayer(explorer.layer);explorer.setMood?.(lookId);explorer.setFrameRate?.(graphics.fps);element.classList.add('has-explorer-model');if(pending)sync(pending);if(roaming)paintRoaming(true);reportViewport();
     }catch{if(!destroyed){explorer=null;element.classList.remove('has-explorer-model');onNotice('Penanda avatar digunakan pada peranti ini.')}}

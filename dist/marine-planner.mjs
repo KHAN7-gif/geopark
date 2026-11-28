@@ -1,7 +1,7 @@
-import {MARINE_DATA} from './marine-data.mjs?v=townlife-20261128b';
-import {pathMetres,metres} from './marine-geometry.mjs?v=townlife-20261128b';
-import {modeDuration} from './transport-shop.mjs?v=townlife-20261128b';
-import {validateRoute,combineRouteLegs,normaliseRoadResponse,routeURL} from './travel-engine.mjs?v=townlife-20261128b';
+import {MARINE_DATA} from './marine-data.mjs?v=navui-20261128';
+import {pathMetres,metres} from './marine-geometry.mjs?v=navui-20261128';
+import {modeDuration} from './transport-shop.mjs?v=navui-20261128';
+import {validateRoute,combineRouteLegs,normaliseRoadResponse,routeURL} from './travel-engine.mjs?v=navui-20261128';
 export {MARINE_DATA};
 const key=(a,b)=>[a,b].sort().join(':');
 function corridor(a,b,collection){const r=collection[key(a,b)];if(!r)throw Error('Corridor unavailable');return r.from===a?r.path:[...r.path].reverse()}

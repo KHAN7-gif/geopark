@@ -1,7 +1,7 @@
-import {merdekaTreeAllowed} from './merdeka-layout.mjs?v=townlife-20261128b';
-import {marlinTreeAllowed} from './marlin-layout.mjs?v=townlife-20261128b';
-import {dataranTreeAllowed} from './dataran-layout.mjs?v=townlife-20261128b';
-import {buildingStyle,buildingHeight} from './building-types.mjs?v=townlife-20261128b';
+import {merdekaTreeAllowed} from './merdeka-layout.mjs?v=navui-20261128';
+import {marlinTreeAllowed} from './marlin-layout.mjs?v=navui-20261128';
+import {dataranTreeAllowed} from './dataran-layout.mjs?v=navui-20261128';
+import {buildingStyle,buildingHeight} from './building-types.mjs?v=navui-20261128';
 const FACADES=['#e9ae92','#9bcba9','#86c7cb','#a2c7e4','#efd294','#c0afd8','#d89d81','#eee2c6'];
 const ROOFS=['#b65e4d','#587b91','#b88155','#599475','#8d789d','#dbb971'];
 const GREENS=['#43885b','#69a052','#4b927e','#7da654','#39856e','#8bae62'];
