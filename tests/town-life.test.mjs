@@ -21,3 +21,11 @@ test('ambient motion is clock based, bounded and fades at route ends without cha
 test('people and different vehicle meshes animate and release all geometry',()=>{
  for(const mode of ['walk','car','bus','motor']){const model=buildTownActor(mode,3);let meshes=0,disposed=0;model.root.traverse(o=>{if(o.isMesh){meshes++;assert.ok([...o.geometry.attributes.position.array].every(Number.isFinite));o.geometry.addEventListener('dispose',()=>disposed++)}});assert.ok(meshes>=7&&meshes<15);model.animate(1,true,.5);let faded=false;model.root.traverse(o=>{if(o.material){assert.equal(o.material.opacity,o.name==='night-road-glow'?.16:.5);faded=true}});assert.ok(faded);model.animate(2,false,1);model.dispose();assert.equal(disposed,meshes);assert.equal(model.root.children.length,0)}
 });
+
+test('expanded town fleet has distinct sports cars, pickups and lorries within road and density budgets',()=>{
+ const actors=selectTownActors(paths,anchor,'balanced'),modes=new Set(actors.map(a=>a.mode));for(const mode of ['car','sport','pickup','truck','motor','bus','taxi','walk'])assert.ok(modes.has(mode),mode);
+ assert.ok(actors.filter(a=>a.mode==='walk').length>=10);assert.ok(actors.length<=LIFE_LIMITS.balanced);
+ for(const a of actors.filter(a=>['truck','bus'].includes(a.mode))){assert.ok(a.path.width>=7);assert.ok(a.path.length>=70)}
+ const models=['sport','pickup','truck','taxi'].map(mode=>buildTownActor(mode));
+ try{assert.ok(models[0].root.userData.vehicle.length<models[1].root.userData.vehicle.length);assert.ok(models[2].root.userData.vehicle.length>models[1].root.userData.vehicle.length);for(const m of models){m.setMood('night');assert.equal(m.root.getObjectByName('night-road-glow').visible,true);let n=0;m.root.traverse(o=>{if(o.isMesh){n++;assert.ok([...o.geometry.attributes.position.array].every(Number.isFinite))}});assert.ok(n<32);m.animate(1,true,.5)}}finally{for(const m of models)m.dispose()}
+});

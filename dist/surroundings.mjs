@@ -1,6 +1,6 @@
-import {depthShadows} from './depth-scene.mjs?v=carlights-20261127';
-import {decorateEnvironment} from './world-palette.mjs?v=carlights-20261127';
-import {scenicDetails} from './scenery.mjs?v=carlights-20261127';
+import {depthShadows} from './depth-scene.mjs?v=townlife-20261128';
+import {decorateEnvironment} from './world-palette.mjs?v=townlife-20261128';
+import {scenicDetails} from './scenery.mjs?v=townlife-20261128';
 export const SURROUNDING_LAYERS=['game-building-shadows','labuan-green','labuan-buildings','labuan-trunks','labuan-canopies','labuan-roofs','labuan-crown-tops','labuan-palm-fronds','labuan-sea','labuan-shore','labuan-waves','labuan-mission-beacons'];
 export function addSurroundingLayers(map,data){
   map.addSource('labuan-surroundings',{type:'geojson',data:decorateEnvironment(data),attribution:'Environment © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL)'});
